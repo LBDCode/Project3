@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const userController = require("../../controllers/userController");
 
-// Matches with "/api/books"
-router.post("/", userController.create);
+// Matches with "/api/dbrecipes"
+router.get("/dbrecipes", userController.findAll);
 // .post(booksController.create)
 
 // Matches with "/api/books/:id"
