@@ -5,11 +5,13 @@ import Landing from "./pages/Landing";
 import NoMatch from "./pages/NoMatch";
 import Recipe from "./pages/Recipe";
 import Search from "./pages/Search";
+import Navbar from "./components/Navbar/index";
 
 function App() {
   return (
     <Router>
       <div>
+        <Navbar />
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route exact path="/search" component={Search} />
