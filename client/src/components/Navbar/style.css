@@ -1,11 +1,41 @@
-.MuiButton-text-6 {
-  padding: 0 !important;
-}
-
 .navcons {
   color: white;
 }
 
-.navtext {
-  color: white;
+.navText {
+  color: white !important;
+  text-decoration: none;
+}
+
+.navButton {
+  padding: 0 !important;
+}
+
+.navFlex {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.sidebarLoginButtons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.sidebarLoginText {
+  display: block;
+  text-align: center;
+  padding: 15px 0 5px 0 !important;
+}
+
+.sidebarSaveButton {
+  margin: 0px !important;
+  background: #63c387 !important;
+  color: white !important;
+}
+
+.sidebarSavePlacement {
+  margin-left: 24px;
+  margin-bottom: 20px;
 }

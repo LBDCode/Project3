@@ -5,22 +5,23 @@ import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import Tab from "@material-ui/core/Tab";
+import FormLabel from "@material-ui/core/FormLabel";
 import UserAccountIcon from "@material-ui/icons/AccountBox";
+import RadioUserOptions from "./DietOptions";
+import AllergyOptions from "./AllergyOptions";
 
-const styles = {
+const styles = theme => ({
   list: {
     width: 250
   },
-  fullList: {
-    width: "auto"
+  button: {
+    margin: theme.spacing.unit
+  },
+  input: {
+    display: "none"
   }
-};
+});
 
 class TemporaryDrawer extends React.Component {
   state = {
@@ -39,32 +40,49 @@ class TemporaryDrawer extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <RadioUserOptions />
         </List>
         <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <AllergyOptions />
         </List>
+        <div className={this.props.sidebarSavePlacement}>
+          <Button
+            variant="contained"
+            className={[classes.button, this.props.sidebarSaveButton].join(" ")}
+          >
+            Save Changes
+          </Button>
+        </div>
+        <Divider />
+        <FormLabel className={this.props.sidebarLoginText}>
+          Already a member?
+        </FormLabel>
+        <div className={this.props.sidebarLoginButtons}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Sign Up
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+          >
+            Log Out
+          </Button>
+        </div>
       </div>
     );
 
     return (
       <div>
-        <Button onClick={this.toggleDrawer("left", true)}>
+        <Button
+          className={this.props.navButton}
+          onClick={this.toggleDrawer("left", true)}
+        >
           {" "}
           <Tab
             className={this.props.navtext}
@@ -79,7 +97,7 @@ class TemporaryDrawer extends React.Component {
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer("left", false)}
+            // onClick={this.toggleDrawer("left", false)}
             onKeyDown={this.toggleDrawer("left", false)}
           >
             {sideList}
