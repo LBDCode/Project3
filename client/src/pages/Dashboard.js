@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import API from "../utils/API";
+import Navbar from "../components/Navbar/index";
+
 class Dashboard extends Component {
   state = {
     favorites: [],
@@ -36,6 +38,7 @@ class Dashboard extends Component {
   render() {
     return (
       <>
+        <Navbar />
         <h1>Prep info for a week</h1>
         <h3>Favorites:</h3>
         {this.state.favorites.map(item => (

@@ -7,6 +7,14 @@
   text-decoration: none;
 }
 
+.searchTab:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.dashboardTab:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
 .navButton {
   padding: 0 !important;
 }

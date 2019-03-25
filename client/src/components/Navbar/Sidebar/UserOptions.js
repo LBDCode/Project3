@@ -1,5 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
+import { withRouter } from "react-router";
 import PropTypes from "prop-types";
+import Firebase from "../../../config/Firebase";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -7,7 +9,7 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import Tab from "@material-ui/core/Tab";
 import FormLabel from "@material-ui/core/FormLabel";
-import UserAccountIcon from "@material-ui/icons/AccountBox";
+import UserSettings from "@material-ui/icons/SettingsApplications";
 import RadioUserOptions from "./DietOptions";
 import AllergyOptions from "./AllergyOptions";
 
@@ -18,20 +20,47 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit
   },
+  logoutBtn: {
+    margin: "15px 8px 8px 0"
+  },
   input: {
     display: "none"
   }
 });
 
-class TemporaryDrawer extends React.Component {
-  state = {
-    left: false
-  };
+class TemporaryDrawer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      left: false
+    };
+  }
 
   toggleDrawer = (side, open) => () => {
     this.setState({
-      [side]: open
+      [side]: open,
+      isAnonymous: Firebase.auth().currentUser.isAnonymous
     });
+  };
+
+  userLogout = () => {
+    Firebase.auth()
+      .signOut()
+      .then(user => {
+        console.log(
+          "I'm erasing your user info from Local Storage and taking you to /. Local Storage Data: " +
+            localStorage.getItem("user")
+        );
+        this.props.history.push("/");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  userSignup = () => {
+    this.props.history.push("/");
   };
 
   render() {
@@ -46,33 +75,53 @@ class TemporaryDrawer extends React.Component {
         <List>
           <AllergyOptions />
         </List>
-        <div className={this.props.sidebarSavePlacement}>
-          <Button
-            variant="contained"
-            className={[classes.button, this.props.sidebarSaveButton].join(" ")}
-          >
-            Save Changes
-          </Button>
-        </div>
-        <Divider />
-        <FormLabel className={this.props.sidebarLoginText}>
-          Already a member?
-        </FormLabel>
+        {!this.state.isAnonymous ? (
+          <div className={this.props.sidebarSavePlacement}>
+            <Button
+              variant="contained"
+              className={[classes.button, this.props.sidebarSaveButton].join(
+                " "
+              )}
+            >
+              Save Changes
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={[classes.button, classes.logoutBtn].join(" ")}
+              onClick={this.userLogout}
+            >
+              Log Out
+            </Button>
+          </div>
+        ) : (
+          false
+        )}
+        {this.state.isAnonymous ? (
+          <>
+            <Divider />
+            <FormLabel className={this.props.sidebarLoginText}>
+              Register Today
+            </FormLabel>
+          </>
+        ) : (
+          false
+        )}
         <div className={this.props.sidebarLoginButtons}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-          >
-            Sign Up
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.button}
-          >
-            Log Out
-          </Button>
+          {this.state.isAnonymous ? (
+            <>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={this.userSignup}
+              >
+                Sign Up
+              </Button>
+            </>
+          ) : (
+            false
+          )}
         </div>
       </div>
     );
@@ -86,8 +135,8 @@ class TemporaryDrawer extends React.Component {
           {" "}
           <Tab
             className={this.props.navtext}
-            label="User Account"
-            icon={<UserAccountIcon className={this.props.navcon} />}
+            label="Settings"
+            icon={<UserSettings className={this.props.navcon} />}
           />
         </Button>
         <Drawer
@@ -112,4 +161,4 @@ TemporaryDrawer.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(TemporaryDrawer);
+export default withRouter(withStyles(styles)(TemporaryDrawer));
