@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Login from "../components/Login/index";
+import AppBar from "../components/AppBar/index";
 import { withRouter } from "react-router";
 
 class Landing extends Component {
@@ -22,8 +23,8 @@ class Landing extends Component {
   render() {
     return (
       <>
-        <h1>Landing Page</h1>
-        <h1>Content for landing pages</h1>
+        <AppBar />
+
         <br />
         <Login />
       </>
