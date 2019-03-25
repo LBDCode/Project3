@@ -11,7 +11,7 @@ const userSeed = [
     favorites: [
       {
         uri:
-          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f01bc",
         calories: "456",
         protein: "2",
         fat: "4",
@@ -25,7 +25,7 @@ const userSeed = [
       },
       {
         uri:
-          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f02bc",
         calories: "584",
         protein: "23",
         fat: "5",
@@ -43,7 +43,7 @@ const userSeed = [
       monday: {
         breakfast: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f03bc",
           calories: "584",
           protein: "23",
           fat: "5",
@@ -57,7 +57,7 @@ const userSeed = [
         },
         lunch: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f04bc",
           calories: "584",
           protein: "23",
           fat: "5",
@@ -71,7 +71,7 @@ const userSeed = [
         },
         dinner: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f05bc",
           calories: "584",
           protein: "23",
           fat: "5",
@@ -87,7 +87,7 @@ const userSeed = [
       tuesday: {
         breakfast: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f06bc",
           calories: "584",
           protein: "23",
           fat: "5",
@@ -101,7 +101,7 @@ const userSeed = [
         },
         lunch: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f07bc",
           calories: "584",
           protein: "23",
           fat: "5",
@@ -115,7 +115,7 @@ const userSeed = [
         },
         dinner: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f08bc",
           calories: "584",
           protein: "23",
           fat: "5",

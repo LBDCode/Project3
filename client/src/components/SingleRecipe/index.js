@@ -1,15 +1,13 @@
-import React from "react";
-//import API from "../../utils/API";
+import React, { Component } from "react";
 import "./style.css";
 
-class SingleRecipe extends React.Component {
+class SingleRecipe extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
-    console.log(this.props.meal);
     return (
       <>
         {this.props.meal.label ? (

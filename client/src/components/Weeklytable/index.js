@@ -1,28 +1,86 @@
-import React from "react";
-//import API from "../../utils/API";
+import React, { Component } from "react";
 import "./style.css";
 
-class WeeklyTable extends React.Component {
+class WeeklyTable extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.weekDays = [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday"
+    ];
+    this.meals = ["breakfast", "lunch", "dinner"];
   }
 
+  onDragEnd(event) {
+    let data = event.dataTransfer.getData("item_id");
+    let from = event.dataTransfer.getData("from");
+    let day = event.dataTransfer.getData("day");
+    let meal = event.dataTransfer.getData("meal");
+    let dayTo = event.target.dataset.day;
+    let mealTo = event.target.dataset.meal;
+    let to = event.target.dataset.to;
+    // console.log(data);
+    // console.log(from);
+    // console.log(day);
+    // console.log(meal);
+    // console.log(dayTo);
+    // console.log(mealTo);
+    if (from === "favorites") {
+      let item = this.props.favorites.find(item => item.uri === data);
+      this.props.updateState(null, "favorites", item, to, dayTo, mealTo);
+    } else {
+      this.props.updateState(
+        day,
+        meal,
+        this.props[day][meal],
+        to,
+        dayTo,
+        mealTo
+      );
+    }
+  }
+  allowDrop(event) {
+    event.preventDefault();
+  }
+  drag(event) {
+    event.dataTransfer.setData("item_id", event.target.id);
+    event.dataTransfer.setData("from", event.target.dataset.from);
+    event.dataTransfer.setData("day", event.target.dataset.day);
+    event.dataTransfer.setData("meal", event.target.dataset.meal);
+  }
   render() {
     return (
       <>
         <h3>Favorites:</h3>
-        {this.props.favorites.map(item => (
-          <span
-            onClick={() => this.props.clickedMeal(item)}
-            className="drag-drop"
-            id={item.uri}
-            key={item.uri}
-          >
-            {item.label}{" "}
-          </span>
-        ))}
+        <div
+          className="favoirites"
+          onDrop={this.onDragEnd.bind(this)}
+          onDragOver={this.allowDrop}
+          data-to="favorites"
+        >
+          {this.props.favorites.map(item => (
+            <span
+              onClick={() => this.props.clickedMeal(item)}
+              className="drag-drop"
+              id={item.uri}
+              key={item.uri}
+              draggable="true"
+              onDragStart={this.drag}
+              data-from="favorites"
+            >
+              {item.label}{" "}
+            </span>
+          ))}
+        </div>
+
         <br />
+
         <table>
           <tr>
             <th />
@@ -34,121 +92,37 @@ class WeeklyTable extends React.Component {
             <th>Saturday</th>
             <th>Sunday</th>
           </tr>
-          <tr>
-            <td>Breakfast</td>
-            <td>
-              {this.props.monday.breakfast ? (
-                <span
-                  onClick={() =>
-                    this.props.clickedMeal(this.props.monday.breakfast)
-                  }
-                  className="drag-drop"
-                  id={this.props.monday.breakfast.uri}
+          {this.meals.map(meal => (
+            <tr>
+              <td>{meal}</td>
+              {this.weekDays.map(day => (
+                <td
+                  onDrop={this.onDragEnd.bind(this)}
+                  onDragOver={this.allowDrop}
+                  data-day={day}
+                  data-meal={meal}
                 >
-                  {this.props.monday.breakfast.label}
-                </span>
-              ) : (
-                ""
-              )}
-            </td>
-            <td>
-              {this.props.tuesday.breakfast ? (
-                <span
-                  onClick={() =>
-                    this.props.clickedMeal(this.props.tuesday.breakfast)
-                  }
-                  className="drag-drop"
-                  id={this.props.tuesday.breakfast.uri}
-                >
-                  {this.props.tuesday.breakfast.label}
-                </span>
-              ) : (
-                ""
-              )}
-            </td>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
-          <tr>
-            <td>Lunch</td>
-            <td>
-              {this.props.monday.lunch ? (
-                <span
-                  onClick={() =>
-                    this.props.clickedMeal(this.props.monday.lunch)
-                  }
-                  className="drag-drop"
-                  id={this.props.monday.lunch.uri}
-                >
-                  {this.props.monday.lunch.label}
-                </span>
-              ) : (
-                ""
-              )}
-            </td>
-            <td>
-              {this.props.tuesday.lunch ? (
-                <span
-                  onClick={() =>
-                    this.props.clickedMeal(this.props.tuesday.lunch)
-                  }
-                  className="drag-drop"
-                  id={this.props.tuesday.lunch.uri}
-                >
-                  {this.props.tuesday.lunch.label}
-                </span>
-              ) : (
-                ""
-              )}
-            </td>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
-          <tr>
-            <td>Dinner</td>
-            <td>
-              {this.props.monday.dinner ? (
-                <span
-                  onClick={() =>
-                    this.props.clickedMeal(this.props.monday.dinner)
-                  }
-                  className="drag-drop"
-                  id={this.props.monday.dinner.uri}
-                >
-                  {this.props.monday.dinner.label}
-                </span>
-              ) : (
-                ""
-              )}
-            </td>
-            <td>
-              {this.props.tuesday.dinner ? (
-                <span
-                  onClick={() =>
-                    this.props.clickedMeal(this.props.tuesday.dinner)
-                  }
-                  className="drag-drop"
-                  id={this.props.tuesday.dinner.uri}
-                >
-                  {this.props.tuesday.dinner.label}
-                </span>
-              ) : (
-                ""
-              )}
-            </td>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
+                  {this.props[day] && this.props[day][meal] ? (
+                    <span
+                      onClick={() =>
+                        this.props.clickedMeal(this.props[day][meal])
+                      }
+                      className="drag-drop"
+                      id={this.props[day][meal].uri}
+                      draggable="true"
+                      onDragStart={this.drag}
+                      data-day={day}
+                      data-meal={meal}
+                    >
+                      {this.props[day][meal].label}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
         </table>
       </>
     );

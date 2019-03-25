@@ -53,7 +53,6 @@ class Dashboard extends Component {
         });
       }
     }
-    console.log(list);
     return list;
   }
   getAll() {
@@ -80,6 +79,30 @@ class Dashboard extends Component {
       clicked: meal
     });
   }
+  updateState(day, meal, obj, fav, dayTo, mealTo) {
+    if (!fav && meal) {
+      var searchDay = { ...this.state[dayTo] };
+      var removed = { ...this.state[day] };
+      removed[meal] = {};
+      searchDay[mealTo] = obj;
+      this.setState({
+        [dayTo]: searchDay,
+        [day]: removed
+      });
+    } else if (meal !== "favorites") {
+      var removed = { ...this.state[day] };
+      removed[meal] = {};
+      this.setState({
+        [day]: removed
+      });
+    } else {
+      var searchDay = { ...this.state[dayTo] };
+      searchDay[mealTo] = obj;
+      this.setState({
+        [dayTo]: searchDay
+      });
+    }
+  }
   render() {
     return (
       <>
@@ -94,6 +117,7 @@ class Dashboard extends Component {
           saturday={this.state.saturday}
           sunday={this.state.sunday}
           clickedMeal={this.clicked.bind(this)}
+          updateState={this.updateState.bind(this)}
         />
         <h4>
           Exprected total prep time for the week <span>{this.state.time}</span>
