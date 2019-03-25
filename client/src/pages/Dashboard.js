@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import API from "../utils/API";
 import WeeklyTable from "../components/Weeklytable";
 import SingleRecipe from "../components/SingleRecipe";
+import Navbar from "../components/Navbar/index";
+
 class Dashboard extends Component {
   state = {
     favorites: [],
@@ -106,6 +108,7 @@ class Dashboard extends Component {
   render() {
     return (
       <>
+        <Navbar />
         <h1>Prep info for a week</h1>
         <WeeklyTable
           favorites={this.state.favorites}
