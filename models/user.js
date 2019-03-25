@@ -8,7 +8,7 @@ const recipe = new Schema({
   carb: String,
   label: String,
   url: String,
-  time: String,
+  time: Number,
   ingredients: [String],
   image: String
 });

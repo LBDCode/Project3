@@ -1,0 +1,13 @@
+.drag-drop {
+  background-color: rosybrown;
+  margin-left: 5px;
+}
+td {
+  border-right: 1px solid black;
+  border-top: 1px solid black;
+  height: 15px;
+  width: 100px;
+}
+.drag-drop:hover {
+  cursor: pointer;
+}
