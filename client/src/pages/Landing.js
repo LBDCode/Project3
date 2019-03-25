@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Login from "../components/Login/index";
 import AppBar from "../components/AppBar/index";
 import { withRouter } from "react-router";
+import Grid from "../components/Landing/index";
 
 class Landing extends Component {
   // componentDidMount() {
@@ -24,9 +24,7 @@ class Landing extends Component {
     return (
       <>
         <AppBar />
-
-        <br />
-        <Login />
+        <Grid />
       </>
     );
   }
