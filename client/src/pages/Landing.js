@@ -1,14 +1,34 @@
-import React from "react";
+import React, { Component } from "react";
+import Login from "../components/Login/index";
+import { withRouter } from "react-router";
 
-function Landing() {
-  return (
-        <>
-            <h1>Landing Page</h1>
-            <h1>
-              Content for landing pages
-            </h1>
-        </>
-  );
+class Landing extends Component {
+  // componentDidMount() {
+  //   if (localStorage.getItem("user") !== null) {
+  //     console.log(
+  //       "You are logged in. I am redirecting you to /search. Local Storage Data: " +
+  //         localStorage.getItem("user")
+  //     );
+  //     this.props.history.push("/search");
+  //   } else {
+  //     console.log(
+  //       "You are not logged in anymore. I am redirecting you to /. Local Storage Data: " +
+  //         localStorage.getItem("user")
+  //     );
+  //     this.props.history.push("/");
+  //   }
+  // }
+
+  render() {
+    return (
+      <>
+        <h1>Landing Page</h1>
+        <h1>Content for landing pages</h1>
+        <br />
+        <Login />
+      </>
+    );
+  }
 }
 
-export default Landing;
+export default withRouter(Landing);
