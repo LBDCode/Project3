@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Login from "../components/Login/index";
 import { withRouter } from "react-router";
+import Firebase from "../config/Firebase";
 
 class Landing extends Component {
   // componentDidMount() {
@@ -18,6 +19,20 @@ class Landing extends Component {
   //     this.props.history.push("/");
   //   }
   // }
+
+  componentWillMount() {
+    this.authListener();
+  }
+
+  authListener() {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.props.history.push("/search");
+      } else {
+        this.props.history.push("/");
+      }
+    });
+  }
 
   render() {
     return (

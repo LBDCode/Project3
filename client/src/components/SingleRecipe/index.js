@@ -17,7 +17,7 @@ class SingleRecipe extends Component {
             </h1>
             <img src={this.props.meal.image} alt={this.props.meal.label} />
             <a href={this.props.meal.url} target="_blank">
-              Link to the recepie website
+              Link to the recipe website
             </a>
             <h5>
               Prep time:<span>{this.props.meal.time} min</span>

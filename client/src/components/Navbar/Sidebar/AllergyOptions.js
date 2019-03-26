@@ -11,6 +11,9 @@ const styles = theme => ({
   root: {
     display: "flex"
   },
+  labelSpacing: {
+    "letter-spacing": "2px"
+  },
   formControl: {
     margin: theme.spacing.unit * 3
   }
@@ -35,9 +38,12 @@ class CheckboxesGroup extends React.Component {
     return (
       <div className={classes.root}>
         <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Food Allergies</FormLabel>
+          <FormLabel component="legend" className={classes.labelSpacing}>
+            Food Allergies
+          </FormLabel>
           <FormGroup>
             <FormControlLabel
+              className={classes.labelSpacing}
               control={
                 <Checkbox
                   checked={dairy_free}
@@ -48,6 +54,7 @@ class CheckboxesGroup extends React.Component {
               label="Dairy-free"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               control={
                 <Checkbox
                   checked={gluten_free}
@@ -58,6 +65,7 @@ class CheckboxesGroup extends React.Component {
               label="Gluten-free"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               control={
                 <Checkbox
                   checked={peanut_free}
@@ -68,6 +76,7 @@ class CheckboxesGroup extends React.Component {
               label="Peanut-free"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               control={
                 <Checkbox
                   checked={shellfish_free}

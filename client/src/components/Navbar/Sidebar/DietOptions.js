@@ -11,6 +11,9 @@ const styles = theme => ({
   root: {
     display: "flex"
   },
+  labelSpacing: {
+    "letter-spacing": "2px"
+  },
   formControl: {
     margin: theme.spacing.unit * 3
   },
@@ -34,7 +37,9 @@ class RadioButtonsGroup extends React.Component {
     return (
       <div className={classes.root}>
         <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Diet Types</FormLabel>
+          <FormLabel className={classes.labelSpacing} component="legend">
+            Diet Types
+          </FormLabel>
           <RadioGroup
             aria-label="Diet Types"
             name="dietType"
@@ -43,31 +48,37 @@ class RadioButtonsGroup extends React.Component {
             onChange={this.handleChange}
           >
             <FormControlLabel
+              className={classes.labelSpacing}
               value="Balanced"
               control={<Radio />}
               label="Balanced"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               value="High-Fiber"
               control={<Radio />}
               label="High-Fiber"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               value="High-Protein"
               control={<Radio />}
               label="High-Protein"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               value="Low-Carb"
               control={<Radio />}
               label="Low-Carb"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               value="Low-Fat"
               control={<Radio />}
               label="Low-Fat"
             />
             <FormControlLabel
+              className={classes.labelSpacing}
               value="Low-Sodium	"
               control={<Radio />}
               label="Low-Sodium	"
