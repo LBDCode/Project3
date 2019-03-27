@@ -1,7 +1,7 @@
 .menuBtn {
   position: absolute !important;
   top: 0;
-  right: 0;
+  right: 4px;
   background: black;
   border-radius: 50% !important;
 }

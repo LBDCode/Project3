@@ -1,40 +1,19 @@
-.main {
+.logo {
   position: absolute;
-  width: 25%;
-  height: 45%;
-  top: -5%;
-  left: 0%;
+  /*height: 200px;
+  width: auto; */
+  height: 225px;
+  width: 500px;
 }
 
-.root {
-  height: 100vh;
-  min-height: 700px;
-  background-color: white;
-}
-
-.gridOne {
-  /*background-color: #97f5af; */
+.header {
   background-color: #a8d0e6;
-  height: 40% !important;
+  height: 200px;
 }
 
-.title {
-  font-family: "Dancing Script", cursive;
-  font-size: 65pt;
-  color: white;
-}
-.main {
-  text-decoration: underline;
-  color: white;
-}
-.subSearch {
-  font-size: 25pt;
-  font-family: "Yanone Kaffeesatz", sans-serif;
-}
-
-.wrapper {
-  height: 100vh;
-  min-height: 500px;
+.grid-wrapper {
+  height: calc(100vh - 200px);
+  min-height: 600px;
   width: 100vw;
 }
 
@@ -42,8 +21,19 @@
   height: 100%;
 }
 
+.image-space-left {
+  box-sizing: border-box;
+  padding: 0 3px 0 6px;
+}
+
+.image-space-right {
+  box-sizing: border-box;
+  padding: 0 6px 0 3px;
+}
+
 img {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  margin: auto;
 }

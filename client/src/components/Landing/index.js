@@ -10,20 +10,20 @@ import "./style.css";
 
 function CenteredGrid(props) {
   return (
-    <Grid className="root" container>
-      <Grid className="gridItem gridOne" item xs={12}>
-        <img className="main" alt="logo" src={logoImg} />
+    <>
+      <Grid className="header" item xs={12}>
+        <img className="logo" alt="logo" src={logoImg} />
       </Grid>
-      <Grid container className="wrapper">
+      <Grid container className="grid-wrapper">
         <Grid className="gridItem" xs={3}>
           <img alt="pastaIngredients" src={img} />
         </Grid>
 
-        <Grid className="gridItem" xs={3} spacing={10}>
+        <Grid className="gridItem image-space-left" xs={3}>
           <img alt="salad" src={img2} />
         </Grid>
 
-        <Grid className="gridItem" xs={3} spacing={10}>
+        <Grid className="gridItem image-space-right" xs={3}>
           <img alt="cookies" src={img3} />
         </Grid>
 
@@ -31,7 +31,7 @@ function CenteredGrid(props) {
           <img alt="pizza" src={img4} />
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
 
