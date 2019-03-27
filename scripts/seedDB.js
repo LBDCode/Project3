@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/mealprepdb");
 
 const userSeed = [
   {
-    email: "test.com",
+    email: "ksemal@gmail.com",
     favorites: [
       {
         uri:
