@@ -14,15 +14,22 @@ function CenteredGrid(props) {
       <Grid className="gridItem gridOne" item xs={12}>
         <img className="main" alt="logo" src={logoImg} />
       </Grid>
-      <Grid item className="gridItem " xs={12}>
-        <div className="subGrid">
-          <div className="gridItem gridTwo">
-            <img alt="pastaIngredients" src={img} />
-            <img alt="salad" src={img2} />
-            <img alt="cookies" src={img3} />
-            <img alt="pizza" src={img4} />
-          </div>
-        </div>
+      <Grid container className="wrapper">
+        <Grid className="gridItem" xs={3}>
+          <img alt="pastaIngredients" src={img} />
+        </Grid>
+
+        <Grid className="gridItem" xs={3} spacing={10}>
+          <img alt="salad" src={img2} />
+        </Grid>
+
+        <Grid className="gridItem" xs={3} spacing={10}>
+          <img alt="cookies" src={img3} />
+        </Grid>
+
+        <Grid className="gridItem" xs={3}>
+          <img alt="pizza" src={img4} />
+        </Grid>
       </Grid>
     </Grid>
   );
