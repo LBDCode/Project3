@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Login from "../components/Login/index";
 import { withRouter } from "react-router";
+import Grid from "../components/Landing/index";
+import Modal from "../components/Modal-Login/index";
 import Firebase from "../config/Firebase";
 import API from "../utils/API";
 
@@ -44,10 +45,8 @@ class Landing extends Component {
   render() {
     return (
       <>
-        <h1>Landing Page</h1>
-        <h1>Content for landing pages</h1>
-        <br />
-        <Login />
+        <Grid />
+        <Modal />
       </>
     );
   }
