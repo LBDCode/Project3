@@ -36,8 +36,6 @@ class Landing extends Component {
       if (user && !Firebase.auth().currentUser.isAnonymous) {
         this.saveUser(user.email);
         this.props.history.push("/search");
-      } else {
-        this.props.history.push("/");
       }
     });
   }

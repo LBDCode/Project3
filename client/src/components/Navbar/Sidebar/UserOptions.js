@@ -49,10 +49,6 @@ class TemporaryDrawer extends Component {
     Firebase.auth()
       .signOut()
       .then(user => {
-        console.log(
-          "I'm erasing your user info from Local Storage and taking you to /. Local Storage Data: " +
-            localStorage.getItem("user")
-        );
         this.props.history.push("/");
       })
       .catch(error => {
@@ -61,7 +57,14 @@ class TemporaryDrawer extends Component {
   };
 
   userSignup = () => {
-    this.props.history.push("/");
+    Firebase.auth()
+      .currentUser.delete()
+      .then(user => {
+        this.props.history.push("/");
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   render() {
