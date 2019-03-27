@@ -3,6 +3,7 @@ import API from "../utils/API";
 import WeeklyTable from "../components/Weeklytable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
+import Firebase from "../config/Firebase";
 
 class Dashboard extends Component {
   state = {
@@ -17,11 +18,18 @@ class Dashboard extends Component {
     time: 0,
     meals: 0,
     ingredients: [],
-    clicked: {}
+    clicked: {},
+    currentUser: ""
   };
 
   componentDidMount() {
-    this.getAll();
+    var user = Firebase.auth().currentUser;
+    if (user) {
+      this.setState({
+        currentUser: user.email
+      });
+    }
+    this.getAll(user.email);
   }
   getTime(data) {
     let time = 0;
@@ -57,8 +65,8 @@ class Dashboard extends Component {
     }
     return list;
   }
-  getAll() {
-    API.getDBRecipes()
+  getAll(user) {
+    API.getDBRecipes(user)
       .then(res => {
         this.setState({
           favorites: res.data.favorites,

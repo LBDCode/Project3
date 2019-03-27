@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Login from "../components/Login/index";
 import { withRouter } from "react-router";
 import Firebase from "../config/Firebase";
+import API from "../utils/API";
 
 class Landing extends Component {
   // componentDidMount() {
@@ -23,10 +24,16 @@ class Landing extends Component {
   componentWillMount() {
     this.authListener();
   }
+  saveUser(user) {
+    API.saveUser(user)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
 
   authListener() {
     Firebase.auth().onAuthStateChanged(user => {
       if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.saveUser(user.email);
         this.props.history.push("/search");
       } else {
         this.props.history.push("/");
