@@ -37,7 +37,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          {this.state.user ? (
+          {this.state.user || localStorage.getItem("user") ? (
             <Switch>
               <Route exact path="/" component={Landing} />
               <Route exact path="/search" component={Recipedia} />
