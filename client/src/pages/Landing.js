@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import AppBar from "../components/AppBar/index";
 import { withRouter } from "react-router";
 import Grid from "../components/Landing/index";
+import Modal from "../components/Modal-Login/index";
 
 class Landing extends Component {
   // componentDidMount() {
@@ -23,8 +23,8 @@ class Landing extends Component {
   render() {
     return (
       <>
-        <AppBar />
         <Grid />
+        <Modal />
       </>
     );
   }

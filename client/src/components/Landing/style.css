@@ -1,0 +1,52 @@
+img {
+  margin: auto;
+  display: block;
+  height: 200px;
+  width: 200px;
+}
+.main {
+  position: absolute;
+  width: 25%;
+  height: 45%;
+  top: -5%;
+  left: 0%;
+}
+.subGrid {
+  height: 100%;
+  width: 100%;
+}
+.root {
+  height: 100vh;
+  min-height: 700px;
+  background-color: white;
+}
+.gridItem {
+  height: 30%;
+  width: 100%;
+}
+
+.gridOne {
+  /*background-color: #97f5af; */
+  background-color: #a8d0e6;
+}
+.gridTwo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+}
+
+.title {
+  font-family: "Dancing Script", cursive;
+  font-size: 65pt;
+  color: white;
+}
+.main {
+  text-decoration: underline;
+  color: white;
+}
+.subSearch {
+  font-size: 25pt;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+}
