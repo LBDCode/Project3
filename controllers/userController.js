@@ -3,8 +3,22 @@ const db = require("../models");
 // Defining methods for the booksController
 module.exports = {
   findAll: function(req, res) {
-    db.User.findOne({ email: "test.com" })
-      .then(dbModel => res.json(dbModel))
+    db.User.findOne({ email: req.params.user })
+      .then(dbModel => {
+        res.json(dbModel);
+      })
+      .catch(err => res.status(422).json(err));
+  },
+  createUser: function(req, res) {
+    db.User.findOne({ email: req.body.email })
+      .then(dbUser => {
+        if (!dbUser) {
+          db.User.create({ email: req.body.email });
+          res.json("new user was added");
+        } else {
+          res.json("existing user");
+        }
+      })
       .catch(err => res.status(422).json(err));
   }
   // },

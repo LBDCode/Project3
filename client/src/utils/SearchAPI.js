@@ -20,10 +20,7 @@ export default {
       "&r=http%3A%2F%2Fwww.edamam.com%2Fontologies%2Fedamam.owl%23recipe_" + id;
     return axios.get(apiURL + r + apiID + apiKey);
   },
-  getDBRecipes: function(user) {
-    return axios.get("api/" + user);
-  },
-  saveUser: function(user) {
-    return axios.post("api/user", { email: user });
+  getDBRecipes: function() {
+    return axios.get("api/dbrecipes");
   }
 };

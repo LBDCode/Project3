@@ -5,13 +5,13 @@ import Dashboard from "./pages/Dashboard";
 import Landing from "./pages/Landing";
 import NoMatch from "./pages/NoMatch";
 import Recipe from "./pages/Recipe";
-import Search from "./pages/Search";
+import Recipedia from "./pages/Recipedia";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: "David"
+      user: ""
     };
   }
 
@@ -40,7 +40,7 @@ class App extends Component {
           {this.state.user ? (
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route exact path="/search" component={Search} />
+              <Route exact path="/search" component={Recipedia} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/recipe/:id" component={Recipe} />
               <Route component={NoMatch} />

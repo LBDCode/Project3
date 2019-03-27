@@ -21,7 +21,8 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   logoutBtn: {
-    margin: "15px 8px 8px 0"
+    margin: "15px 8px 8px 0",
+    background: "linear-gradient(to right, #2a5298, #1e3c72)"
   },
   input: {
     display: "none"

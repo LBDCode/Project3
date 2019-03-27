@@ -14,7 +14,7 @@ class ButtonAppBar extends Component {
   render() {
     return (
       <div>
-        <AppBar position="static">
+        <AppBar position="static" className="navbarBG">
           <Toolbar className="navFlex">
             <Tabs
               className="navText"
@@ -25,7 +25,7 @@ class ButtonAppBar extends Component {
             >
               <Link to={"/search"} className="navText searchTab">
                 <Tab
-                  label="Search"
+                  label="Recipedia"
                   icon={<RecipeSearchIcon className="navcons" />}
                 />
               </Link>

@@ -7,11 +7,11 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/mealprepdb");
 
 const userSeed = [
   {
-    email: "test.com",
+    email: "ksemal@gmail.com",
     favorites: [
       {
         uri:
-          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f01bc",
         calories: "456",
         protein: "2",
         fat: "4",
@@ -20,19 +20,22 @@ const userSeed = [
         url: "http://www.marthastewart.com/353269/baked-potato-snack",
         time: "34",
         ingredients: ["salt"],
-        image: "image"
+        image:
+          "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
       },
       {
         uri:
-          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+          "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f02bc",
         calories: "584",
         protein: "23",
         fat: "5",
         carb: "46",
         label: "potato",
-        url: "test",
-        time: "test",
-        ingredients: ["pepper", "potato"]
+        url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
+        time: "10",
+        ingredients: ["pepper", "potato"],
+        image:
+          "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
       }
     ],
     userPreference: ["veg", "keto"],
@@ -40,77 +43,89 @@ const userSeed = [
       monday: {
         breakfast: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f03bc",
           calories: "584",
           protein: "23",
           fat: "5",
           carb: "46",
           label: "potato",
-          url: "test",
-          time: "test",
-          ingredients: ["pepper", "potato"]
+          url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
+          time: "36",
+          ingredients: ["pepper", "potato"],
+          image:
+            "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
         lunch: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f04bc",
           calories: "584",
           protein: "23",
           fat: "5",
           carb: "46",
           label: "protein",
-          url: "test",
-          time: "test",
-          ingredients: ["pepper", "potato"]
+          url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
+          time: "28",
+          ingredients: ["pepper", "potato"],
+          image:
+            "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
         dinner: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f05bc",
           calories: "584",
           protein: "23",
           fat: "5",
           carb: "46",
           label: "pepperoni",
-          url: "test",
-          time: "test",
-          ingredients: ["pepper", "potato"]
+          url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
+          time: "59",
+          ingredients: ["pepper", "potato"],
+          image:
+            "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         }
       },
       tuesday: {
         breakfast: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f06bc",
           calories: "584",
           protein: "23",
           fat: "5",
           carb: "46",
           label: "pizza",
-          url: "test",
-          time: "test",
-          ingredients: ["pepper", "potato"]
+          url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
+          time: "78",
+          ingredients: ["pepper", "potato"],
+          image:
+            "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
         lunch: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f07bc",
           calories: "584",
           protein: "23",
           fat: "5",
           carb: "46",
           label: "meshed potato",
-          url: "test",
-          time: "test",
-          ingredients: ["pepper", "potato"]
+          url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
+          time: "34",
+          ingredients: ["pepper", "potato"],
+          image:
+            "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
         dinner: {
           uri:
-            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f0bc",
+            "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f08bc",
           calories: "584",
           protein: "23",
           fat: "5",
           carb: "46",
           label: "pie",
-          url: "test",
-          time: "test",
-          ingredients: ["pepper", "potato"]
+          url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
+          time: "12",
+          ingredients: ["pepper", "potato"],
+          image:
+            "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         }
       }
     },
