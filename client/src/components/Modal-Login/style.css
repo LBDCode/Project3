@@ -5,3 +5,8 @@
   background: black;
   border-radius: 50% !important;
 }
+.escapebtn {
+  position: absolute !important;
+  top: 0;
+  right: 2px;
+}
