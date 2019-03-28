@@ -24,7 +24,7 @@ const styles = theme => ({
 
 class RadioButtonsGroup extends React.Component {
   state = {
-    value: "female"
+    value: ""
   };
 
   handleChange = event => {
@@ -55,12 +55,6 @@ class RadioButtonsGroup extends React.Component {
             />
             <FormControlLabel
               className={classes.labelSpacing}
-              value="High-Fiber"
-              control={<Radio />}
-              label="High-Fiber"
-            />
-            <FormControlLabel
-              className={classes.labelSpacing}
               value="High-Protein"
               control={<Radio />}
               label="High-Protein"
@@ -76,12 +70,6 @@ class RadioButtonsGroup extends React.Component {
               value="Low-Fat"
               control={<Radio />}
               label="Low-Fat"
-            />
-            <FormControlLabel
-              className={classes.labelSpacing}
-              value="Low-Sodium	"
-              control={<Radio />}
-              label="Low-Sodium	"
             />
           </RadioGroup>
         </FormControl>

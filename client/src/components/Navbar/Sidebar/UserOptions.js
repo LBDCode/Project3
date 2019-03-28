@@ -26,6 +26,9 @@ const styles = theme => ({
   },
   input: {
     display: "none"
+  },
+  drawerFix: {
+    outline: "none !important"
   }
 });
 
@@ -149,6 +152,7 @@ class TemporaryDrawer extends Component {
         >
           <div
             tabIndex={0}
+            className={classes.drawerFix}
             role="button"
             // onClick={this.toggleDrawer("left", false)}
             onKeyDown={this.toggleDrawer("left", false)}

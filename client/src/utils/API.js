@@ -25,5 +25,8 @@ export default {
   },
   saveUser: function(user) {
     return axios.post("api/user", { email: user });
+  },
+  postRecipediaValues: function(searchCriteria) {
+    return axios.post("api/searching", searchCriteria);
   }
 };
