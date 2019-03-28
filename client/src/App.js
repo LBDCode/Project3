@@ -7,12 +7,13 @@ import NoMatch from "./pages/NoMatch";
 import Recipe from "./pages/Recipe";
 import Recipedia from "./pages/Recipedia";
 import Modal from "./pages/Modal";
+import PrivateRoute from "./components/PrivateRoute/index";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: ""
+      user: Firebase.auth().currentUser
     };
   }
 
@@ -22,7 +23,7 @@ class App extends Component {
 
   authListener() {
     Firebase.auth().onAuthStateChanged(user => {
-      // console.log(user);
+      console.log("AuthChange", user);
 
       if (user) {
         this.setState({ user });
@@ -35,24 +36,33 @@ class App extends Component {
   }
 
   render() {
+    const { user } = this.state;
     return (
       <Router>
         <div>
-          {this.state.user || localStorage.getItem("user") ? (
-            <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/search" component={Recipedia} />
-              <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/recipe/:id" component={Recipe} />
-              <Route exact path="/modal" component={Modal} />
-              <Route component={NoMatch} />
-            </Switch>
-          ) : (
-            <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route component={NoMatch} />
-            </Switch>
-          )}
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <PrivateRoute
+              exact
+              user={user}
+              path="/search"
+              component={Recipedia}
+            />
+            <PrivateRoute
+              exact
+              user={user}
+              path="/dashboard"
+              component={Dashboard}
+            />
+            <PrivateRoute
+              exact
+              user={user}
+              path="/recipe/:id"
+              component={Recipe}
+            />
+            <PrivateRoute exact user={user} path="/modal" component={Modal} />
+            <Route component={NoMatch} />
+          </Switch>
         </div>
       </Router>
     );

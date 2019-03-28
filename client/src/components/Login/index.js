@@ -101,7 +101,10 @@ class Login extends Component {
     Firebase.auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
+        console.log("Logging in", this.props);
+
         this.props.history.push("/search");
+
         // Checks to see if user is anonymously signed in.
         // console.log(Firebase.auth().currentUser.isAnonymous);
       })
@@ -120,6 +123,8 @@ class Login extends Component {
       .signInAnonymously()
       .then(user => {
         this.props.history.push("/search");
+
+        console.log("Logging in anon");
         // Checks to see if user is anonymously signed in.
         // console.log(Firebase.auth().currentUser.isAnonymous);
       })

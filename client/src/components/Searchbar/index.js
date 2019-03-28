@@ -101,9 +101,9 @@ class SearchAppBar extends Component {
       dietType: this.state.dietType,
       searchQuery: this.state.searchQuery
     };
-    API.postRecipediaValues(values);
-    // .then(res => console.log(res))
-    // .catch(err => console.log(err));
+    API.postRecipediaValues(values)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   };
 
   render() {

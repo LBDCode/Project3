@@ -22,9 +22,10 @@ class Landing extends Component {
   //   }
   // }
 
-  componentWillMount() {
+  componentDidMount() {
     this.authListener();
   }
+
   saveUser(user) {
     API.saveUser(user)
       .then(res => console.log(res))
@@ -32,12 +33,10 @@ class Landing extends Component {
   }
 
   authListener() {
-    Firebase.auth().onAuthStateChanged(user => {
-      if (user && !Firebase.auth().currentUser.isAnonymous) {
-        this.saveUser(user.email);
-        this.props.history.push("/search");
-      }
-    });
+    if (this.props.user) {
+      this.saveUser(this.props.user.email);
+      this.props.history.push("/search");
+    }
   }
 
   render() {
