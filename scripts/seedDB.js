@@ -51,7 +51,7 @@ const userSeed = [
           label: "potato",
           url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
           time: "36",
-          ingredients: ["pepper", "potato"],
+          ingredients: ["banana", "apple"],
           image:
             "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
@@ -65,7 +65,7 @@ const userSeed = [
           label: "protein",
           url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
           time: "28",
-          ingredients: ["pepper", "potato"],
+          ingredients: ["beans", "tomatos"],
           image:
             "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
@@ -79,7 +79,7 @@ const userSeed = [
           label: "pepperoni",
           url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
           time: "59",
-          ingredients: ["pepper", "potato"],
+          ingredients: ["cheese", "milk"],
           image:
             "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         }
@@ -95,7 +95,7 @@ const userSeed = [
           label: "pizza",
           url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
           time: "78",
-          ingredients: ["pepper", "potato"],
+          ingredients: ["sugar", "chips"],
           image:
             "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
@@ -109,7 +109,7 @@ const userSeed = [
           label: "meshed potato",
           url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
           time: "34",
-          ingredients: ["pepper", "potato"],
+          ingredients: ["jam", "sugar"],
           image:
             "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         },
@@ -123,7 +123,7 @@ const userSeed = [
           label: "pie",
           url: "http://www.simplyrecipes.com/recipes/homemade_potato_bread/",
           time: "12",
-          ingredients: ["pepper", "potato"],
+          ingredients: ["cream", "lettuce"],
           image:
             "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
         }

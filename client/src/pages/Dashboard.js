@@ -1,6 +1,10 @@
 import React, { Component } from "react";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import Checkbox from "@material-ui/core/Checkbox";
 import API from "../utils/API";
-import WeeklyTable from "../components/Weeklytable";
+//import WeeklyTable from "../components/Weeklytable";
+import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
@@ -17,7 +21,7 @@ class Dashboard extends Component {
     sunday: {},
     time: 0,
     meals: 0,
-    ingredients: [],
+    ingredients: {},
     clicked: {},
     currentUser: ""
   };
@@ -55,15 +59,18 @@ class Dashboard extends Component {
     return count;
   }
   getIngredients(data) {
-    let list = [];
+    let obj = {};
     for (let day in data) {
       for (let meal in data[day]) {
         data[day][meal].ingredients.forEach(item => {
-          list.push(item);
+          if (item in obj) {
+            item += " (x2)";
+          }
+          obj[item] = false;
         });
       }
     }
-    return list;
+    return obj;
   }
   getAll(user) {
     API.getDBRecipes(user)
@@ -114,11 +121,22 @@ class Dashboard extends Component {
     }
   }
   render() {
+    console.log(this.state.ingredients);
     return (
       <>
         <Navbar />
         <h1>Prep info for a week</h1>
-        <WeeklyTable
+        <DashboardTable
+          monday={this.state.monday}
+          tuesday={this.state.tuesday}
+          wednesday={this.state.wednesday}
+          thursday={this.state.thursday}
+          friday={this.state.friday}
+          saturday={this.state.saturday}
+          sunday={this.state.sunday}
+          clickedMeal={this.clicked.bind(this)}
+        />
+        {/* <WeeklyTable
           favorites={this.state.favorites}
           monday={this.state.monday}
           tuesday={this.state.tuesday}
@@ -129,7 +147,7 @@ class Dashboard extends Component {
           sunday={this.state.sunday}
           clickedMeal={this.clicked.bind(this)}
           updateState={this.updateState.bind(this)}
-        />
+        /> */}
         <h4>
           Exprected total prep time for the week <span>{this.state.time}</span>
         </h4>
@@ -138,8 +156,19 @@ class Dashboard extends Component {
         </h4>
         <h4>Ingredient list</h4>
         <ul>
-          {this.state.ingredients.map(item => {
-            return <li key={item}>{item}</li>;
+          {Object.keys(this.state.ingredients).map(item => {
+            return (
+              <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    key={item}
+                    checked={this.state.ingredients[item]}
+                    //onChange={}
+                  />
+                  {item}
+                </TableCell>
+              </TableRow>
+            );
           })}
         </ul>
         <SingleRecipe meal={this.state.clicked} />
