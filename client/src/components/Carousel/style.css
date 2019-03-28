@@ -1,0 +1,17 @@
+.slick-list {
+    margin: 0 5px;
+    max-height: 110px;
+}
+
+.slick-slider {
+    margin: 30px;
+}
+.slick-slide>div {
+    padding: 0 5px;
+    max-height: 150px;
+    max-width: 180px;
+}
+
+.slick-prev:before, .slick-next:before{
+    color:black;
+}
