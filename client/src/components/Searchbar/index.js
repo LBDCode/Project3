@@ -13,6 +13,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
+import API from "../../utils/API";
 import "./style.css";
 
 const styles = theme => ({
@@ -68,23 +69,53 @@ const styles = theme => ({
 
 class SearchAppBar extends Component {
   state = {
-    dairy_free: true,
-    gluten_free: false,
+    vegan: false,
+    vegetarian: false,
+    sugar_conscious: false,
     peanut_free: false,
-    shellfish_free: false
+    tree_nut_free: false,
+    alcohol_free: false
+  };
+
+  handleSearchQuery = event => {
+    this.setState({ searchQuery: event.target.value });
   };
 
   handleDietTypes = event => {
-    this.setState({ value: event.target.value });
+    this.setState({ dietType: event.target.value });
   };
 
   handleAllergies = name => event => {
     this.setState({ [name]: event.target.checked });
   };
 
+  handleSearchValues = event => {
+    event.preventDefault();
+    const values = {
+      vegan: this.state.vegan,
+      vegetarian: this.state.vegetarian,
+      sugar_conscious: this.state.sugar_conscious,
+      peanut_free: this.state.peanut_free,
+      tree_nut_free: this.state.tree_nut_free,
+      alcohol_free: this.state.alcohol_free,
+      dietType: this.state.dietType,
+      searchQuery: this.state.searchQuery
+    };
+    API.postRecipediaValues(values);
+    // .then(res => console.log(res))
+    // .catch(err => console.log(err));
+  };
+
   render() {
     const { classes } = this.props;
-    const { dairy_free, gluten_free, peanut_free, shellfish_free } = this.state;
+    const {
+      vegan,
+      vegetarian,
+      sugar_conscious,
+      peanut_free,
+      tree_nut_free,
+      alcohol_free
+    } = this.state;
 
     return (
       <div className={classes.root}>
@@ -97,6 +128,7 @@ class SearchAppBar extends Component {
                   variant="contained"
                   color="secondary"
                   className="searchBtn"
+                  onClick={this.handleSearchValues}
                 >
                   Search
                 </Button>
@@ -106,6 +138,8 @@ class SearchAppBar extends Component {
                   </div>
                   <InputBase
                     placeholder="Search…"
+                    name="searchTerm"
+                    onChange={this.handleSearchQuery}
                     classes={{
                       root: classes.inputRoot,
                       input: classes.inputInput
@@ -130,11 +164,6 @@ class SearchAppBar extends Component {
                     label="Balanced"
                   />
                   <FormControlLabel
-                    value="High-Fiber"
-                    control={<Radio />}
-                    label="High-Fiber"
-                  />
-                  <FormControlLabel
                     value="High-Protein"
                     control={<Radio />}
                     label="High-Protein"
@@ -149,11 +178,6 @@ class SearchAppBar extends Component {
                     control={<Radio />}
                     label="Low-Fat"
                   />
-                  <FormControlLabel
-                    value="Low-Sodium	"
-                    control={<Radio />}
-                    label="Low-Sodium	"
-                  />
                 </RadioGroup>
               </Grid>
               <Grid item xs={12}>
@@ -164,29 +188,35 @@ class SearchAppBar extends Component {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={dairy_free}
-                        onChange={this.handleAllergies("dairy_free")}
-                        value="dairy_free"
+                        checked={vegan}
+                        onChange={this.handleAllergies("vegan")}
                       />
                     }
-                    label="Dairy-free"
+                    label="Vegan"
                   />
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={gluten_free}
-                        onChange={this.handleAllergies("gluten_free")}
-                        value="gluten_free"
+                        checked={vegetarian}
+                        onChange={this.handleAllergies("vegetarian")}
                       />
                     }
-                    label="Gluten-free"
+                    label="Vegetarian"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={sugar_conscious}
+                        onChange={this.handleAllergies("sugar_conscious")}
+                      />
+                    }
+                    label="Sugar-conscious"
                   />
                   <FormControlLabel
                     control={
                       <Checkbox
                         checked={peanut_free}
                         onChange={this.handleAllergies("peanut_free")}
-                        value="peanut_free"
                       />
                     }
                     label="Peanut-free"
@@ -194,12 +224,20 @@ class SearchAppBar extends Component {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={shellfish_free}
-                        onChange={this.handleAllergies("shellfish_free")}
-                        value="shellfish_free"
+                        checked={tree_nut_free}
+                        onChange={this.handleAllergies("tree_nut_free")}
                       />
                     }
-                    label="Shellfish-free"
+                    label="Tree Nut-free"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={alcohol_free}
+                        onChange={this.handleAllergies("alcohol_free")}
+                      />
+                    }
+                    label="Alcohol-free"
                   />
                 </FormGroup>
               </Grid>

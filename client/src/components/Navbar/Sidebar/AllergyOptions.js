@@ -21,10 +21,12 @@ const styles = theme => ({
 
 class CheckboxesGroup extends React.Component {
   state = {
-    dairy_free: true,
-    gluten_free: false,
+    vegan: false,
+    vegetarian: false,
+    sugar_conscious: false,
     peanut_free: false,
-    shellfish_free: false
+    tree_nut_free: false,
+    alcohol_free: false
   };
 
   handleChange = name => event => {
@@ -33,7 +35,14 @@ class CheckboxesGroup extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { dairy_free, gluten_free, peanut_free, shellfish_free } = this.state;
+    const {
+      vegan,
+      vegetarian,
+      sugar_conscious,
+      peanut_free,
+      tree_nut_free,
+      alcohol_free
+    } = this.state;
 
     return (
       <div className={classes.root}>
@@ -46,23 +55,31 @@ class CheckboxesGroup extends React.Component {
               className={classes.labelSpacing}
               control={
                 <Checkbox
-                  checked={dairy_free}
-                  onChange={this.handleChange("dairy_free")}
-                  value="dairy_free"
+                  checked={vegan}
+                  onChange={this.handleChange("vegan")}
                 />
               }
-              label="Dairy-free"
+              label="Vegan"
             />
             <FormControlLabel
               className={classes.labelSpacing}
               control={
                 <Checkbox
-                  checked={gluten_free}
-                  onChange={this.handleChange("gluten_free")}
-                  value="gluten_free"
+                  checked={vegetarian}
+                  onChange={this.handleChange("vegetarian")}
                 />
               }
-              label="Gluten-free"
+              label="Vegetarian"
+            />
+            <FormControlLabel
+              className={classes.labelSpacing}
+              control={
+                <Checkbox
+                  checked={sugar_conscious}
+                  onChange={this.handleChange("sugar_conscious")}
+                />
+              }
+              label="Sugar-conscious"
             />
             <FormControlLabel
               className={classes.labelSpacing}
@@ -70,7 +87,6 @@ class CheckboxesGroup extends React.Component {
                 <Checkbox
                   checked={peanut_free}
                   onChange={this.handleChange("peanut_free")}
-                  value="peanut_free"
                 />
               }
               label="Peanut-free"
@@ -79,12 +95,21 @@ class CheckboxesGroup extends React.Component {
               className={classes.labelSpacing}
               control={
                 <Checkbox
-                  checked={shellfish_free}
-                  onChange={this.handleChange("shellfish_free")}
-                  value="shellfish_free"
+                  checked={tree_nut_free}
+                  onChange={this.handleChange("tree_nut_free")}
                 />
               }
-              label="Shellfish-free"
+              label="Tree Nut-free"
+            />
+            <FormControlLabel
+              className={classes.labelSpacing}
+              control={
+                <Checkbox
+                  checked={alcohol_free}
+                  onChange={this.handleChange("alcohol_free")}
+                />
+              }
+              label="Alcohol-free"
             />
           </FormGroup>
         </FormControl>
