@@ -24,7 +24,7 @@ const styles = theme => ({
   },
   avatar: {
     background: "linear-gradient( to right, #a8e063, #56ab2f )",
-    fontFamily: "Roboto",
+    fontFamily: "Norican, cursive",
     fontSize: "25px",
     fontWeight: 900
   },
