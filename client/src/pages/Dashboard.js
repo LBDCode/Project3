@@ -8,6 +8,8 @@ import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
+import QuickplannerWrapped from "../components/Modal";
+
 
 class Dashboard extends Component {
   state = {
@@ -125,6 +127,7 @@ class Dashboard extends Component {
     return (
       <>
         <Navbar />
+        <QuickplannerWrapped></QuickplannerWrapped>
         <h1>Prep info for a week</h1>
         <DashboardTable
           monday={this.state.monday}
