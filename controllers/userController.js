@@ -63,10 +63,10 @@ module.exports = {
       });
   },
   updateFavorites: function(req, res) {
-    console.log(req.params.user, req.body.fav);
     db.User.findOneAndUpdate({ email: req.params.user },
-      { $push: { favorites: req.body.fav } 
-     })
+      { $addToSet: { favorites: req.body.fav  }
+   
+    })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
