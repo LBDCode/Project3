@@ -8,6 +8,8 @@ import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
+import QuickplannerWrapped from "../components/Modal";
+
 
 class Dashboard extends Component {
   state = {
@@ -27,13 +29,14 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    var user = Firebase.auth().currentUser;
-    if (user) {
-      this.setState({
-        currentUser: user.email
-      });
-    }
-    this.getAll(user.email);
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.setState({
+          currentUser: user.email
+        });
+        this.getAll(user.email);
+      }
+    });
   }
   getTime(data) {
     let time = 0;
@@ -88,6 +91,7 @@ class Dashboard extends Component {
           meals: this.getMeals(res.data.weeklymenu),
           ingredients: this.getIngredients(res.data.weeklymenu)
         });
+        console.log(this.state);
       })
       .catch(err => console.log(err));
   }
@@ -96,35 +100,44 @@ class Dashboard extends Component {
       clicked: meal
     });
   }
-  updateState(day, meal, obj, fav, dayTo, mealTo) {
-    if (!fav && meal) {
-      var searchDay = { ...this.state[dayTo] };
-      var removed = { ...this.state[day] };
-      removed[meal] = {};
-      searchDay[mealTo] = obj;
-      this.setState({
-        [dayTo]: searchDay,
-        [day]: removed
-      });
-    } else if (meal !== "favorites") {
-      var removed = { ...this.state[day] };
-      removed[meal] = {};
-      this.setState({
-        [day]: removed
-      });
+  ingredientChecked(item) {
+    let ingredientProperty = { ...this.state.ingredients };
+    if (ingredientProperty[item]) {
+      ingredientProperty[item] = false;
     } else {
-      var searchDay = { ...this.state[dayTo] };
-      searchDay[mealTo] = obj;
-      this.setState({
-        [dayTo]: searchDay
-      });
+      ingredientProperty[item] = true;
     }
+    this.setState({ ingredients: ingredientProperty });
   }
+  // updateState(day, meal, obj, fav, dayTo, mealTo) {
+  //   if (!fav && meal) {
+  //     var searchDay = { ...this.state[dayTo] };
+  //     var removed = { ...this.state[day] };
+  //     removed[meal] = {};
+  //     searchDay[mealTo] = obj;
+  //     this.setState({
+  //       [dayTo]: searchDay,
+  //       [day]: removed
+  //     });
+  //   } else if (meal !== "favorites") {
+  //     var removed = { ...this.state[day] };
+  //     removed[meal] = {};
+  //     this.setState({
+  //       [day]: removed
+  //     });
+  //   } else {
+  //     var searchDay = { ...this.state[dayTo] };
+  //     searchDay[mealTo] = obj;
+  //     this.setState({
+  //       [dayTo]: searchDay
+  //     });
+  //   }
+  // }
   render() {
-    console.log(this.state.ingredients);
     return (
       <>
         <Navbar />
+        <QuickplannerWrapped></QuickplannerWrapped>
         <h1>Prep info for a week</h1>
         <DashboardTable
           monday={this.state.monday}
@@ -163,7 +176,7 @@ class Dashboard extends Component {
                   <Checkbox
                     key={item}
                     checked={this.state.ingredients[item]}
-                    //onChange={}
+                    onChange={() => this.ingredientChecked(item)}
                   />
                   {item}
                 </TableCell>

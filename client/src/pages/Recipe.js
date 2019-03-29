@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar/index";
+import SingleRecipe from "../components/SingleRecipe";
 
 function Recipe() {
   return (
