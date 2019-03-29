@@ -23,7 +23,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   retrieveRecipes: function(req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     let allergy = "";
     let diet = "";
 
@@ -55,13 +55,26 @@ module.exports = {
     let to = "&to=48";
     let query = "q=" + req.body.searchQuery;
 
-    console.log(apiURL + query + apiID + apiKey + to + diet + allergy);
+    // console.log(apiURL + query + apiID + apiKey + to + diet + allergy);
     axios
       .get(apiURL + query + apiID + apiKey + to + diet + allergy)
       .then(response => {
         res.json(response.data);
       });
-  }
+  },
+  updateFavorites: function(req, res) {
+    console.log(req.params.user, req.body.fav);
+    db.User.findOneAndUpdate({ email: req.params.user },
+      { $push: { favorites: req.body.fav } 
+     })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  // updateWeekMealsFavorites: function(req, res) {
+  //   db.Book.findOneAndUpdate({ email: req.body.email })
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // },
   // },
   // findById: function(req, res) {
   //   db.Book.findById(req.params.id)

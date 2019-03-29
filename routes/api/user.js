@@ -14,4 +14,6 @@ router.post("/user", userController.createUser);
 
 router.post("/searching", userController.retrieveRecipes);
 
+router.put("/:user", userController.updateFavorites);
+
 module.exports = router;
