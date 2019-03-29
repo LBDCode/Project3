@@ -14,6 +14,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 import API from "../../utils/API";
+import RecipeCard from "../RecipeCard/index";
 import "./style.css";
 
 const styles = theme => ({
@@ -101,9 +102,10 @@ class SearchAppBar extends Component {
       dietType: this.state.dietType,
       searchQuery: this.state.searchQuery
     };
-    API.postRecipediaValues(values);
-    // .then(res => console.log(res))
-    // .catch(err => console.log(err));
+    API.postRecipediaValues(values)
+      .then(response => this.setState({ recipes: response.data.hits }))
+      .then(response => console.log(this.state.recipes))
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -159,22 +161,22 @@ class SearchAppBar extends Component {
                   onChange={this.handleDietTypes}
                 >
                   <FormControlLabel
-                    value="Balanced"
+                    value="balanced"
                     control={<Radio />}
                     label="Balanced"
                   />
                   <FormControlLabel
-                    value="High-Protein"
+                    value="high-protein"
                     control={<Radio />}
                     label="High-Protein"
                   />
                   <FormControlLabel
-                    value="Low-Carb"
+                    value="low-carb"
                     control={<Radio />}
                     label="Low-Carb"
                   />
                   <FormControlLabel
-                    value="Low-Fat"
+                    value="low-fat"
                     control={<Radio />}
                     label="Low-Fat"
                   />
@@ -244,6 +246,19 @@ class SearchAppBar extends Component {
             </Grid>
           </Toolbar>
         </AppBar>
+        <Grid container spacing={24} className="gridFormatting">
+          {this.state.recipes && this.state.recipes.length !== 0 ? (
+            this.state.recipes.map(recipe => {
+              return (
+                <Grid item lg={3} className="gridCard">
+                  <RecipeCard recipeInfo={recipe} />
+                </Grid>
+              );
+            })
+          ) : (
+            <h1 className="noResultsFound">No Recipes To Display</h1>
+          )}
+        </Grid>
       </div>
     );
   }
@@ -254,3 +269,5 @@ SearchAppBar.propTypes = {
 };
 
 export default withStyles(styles)(SearchAppBar);
+
+// THIS IS A TEST
