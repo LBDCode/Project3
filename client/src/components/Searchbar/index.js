@@ -149,43 +149,25 @@ class SearchAppBar extends Component {
   };
   
   formatFavorite = favObj => {
-    // let formFav= {
-    //   uri: favObj.recipe.uri,
-    //   calories: favObj.recipe.calories,
-    //   protein: favObj.recipe.digest[2].total,
-    //   fat: favObj.recipe.digest[0].total,
-    //   carb: favObj.recipe.digest[1].total,
-    //   label: favObj.recipe.label,
-    //   url: favObj.recipe.url,
-    //   time: favObj.recipe.totalTime,
-    //   ingredients: ["one", "two"],
-    //   image: favObj.recipe.image
-    // };
-
     let formFav= {
-        uri:
-        "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f01bc",
-        calories: "456",
-        protein: "2",
-        fat: "4",
-        carb: "356",
-        label: "pizza",
-        url: "http://www.marthastewart.com/353269/baked-potato-snack",
-        time: "34",
-        ingredients: ["salt"],
-        image:
-          "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
-     }; 
+      uri: favObj.recipe.uri,
+      calories: favObj.recipe.calories,
+      protein: favObj.recipe.digest[2].total,
+      fat: favObj.recipe.digest[0].total,
+      carb: favObj.recipe.digest[1].total,
+      label: favObj.recipe.label,
+      url: favObj.recipe.url,
+      time: favObj.recipe.totalTime,
+      ingredients: favObj.recipe.ingredientLines,
+      image: favObj.recipe.image
+    };
+
       return formFav;
   };
 
   handleFavorite = fav => {
     let newFav = this.formatFavorite(fav);
-    console.log(newFav);
-    // let favorites = [];
-    // (this.state.favorites === null) ? favorites = [this.state.favorites] : favorites = [...this.state.favorites];
-    // favorites.push({ value: newFav });
-    // console.log(this.state.favorites);
+
     API.updateFavs(this.state.currentUser, newFav)
       .then( this.getAll(this.state.currentUser)
       ).catch(err => console.log(err));
