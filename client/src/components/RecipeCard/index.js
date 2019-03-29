@@ -106,6 +106,22 @@ class RecipeReviewCard extends Component {
     this.setState({ anchorEl: null });
   };
 
+  constructFavObj = () => {
+    let newFav = {
+      uri: String,
+      calories: String,
+      protein: String,
+      fat: String,
+      carb: String,
+      label: String,
+      url: String,
+      time: Number,
+      ingredients: [String],
+      image: String
+    }
+    console.log(newFav);
+  };
+
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
@@ -167,6 +183,7 @@ class RecipeReviewCard extends Component {
             <IconButton
               aria-label="Add to favorites"
               className={classes.recipeIcons}
+              onClick={() => this.props.handleFavorite(this.props.recipeInfo)}
             >
               <FavoriteIcon />
             </IconButton>

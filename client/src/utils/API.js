@@ -23,6 +23,9 @@ export default {
   getDBRecipes: function(user) {
     return axios.get("api/" + user);
   },
+  updateFavs: function(user, newFav) {
+    return axios.put("api/" + user, {fav: newFav});
+  },
   saveUser: function(user) {
     return axios.post("api/user", { email: user });
   },

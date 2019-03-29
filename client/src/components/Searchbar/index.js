@@ -15,7 +15,10 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 import API from "../../utils/API";
 import RecipeCard from "../RecipeCard/index";
+import Firebase from "../../config/Firebase";
 import "./style.css";
+
+
 
 const styles = theme => ({
   root: {
@@ -75,8 +78,22 @@ class SearchAppBar extends Component {
     sugar_conscious: false,
     peanut_free: false,
     tree_nut_free: false,
-    alcohol_free: false
+    alcohol_free: false,
+    favorites: [],
+    currentUser: ""
   };
+
+  //Checking Auth state and getting current user and info
+  componentDidMount() {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.setState({
+          currentUser: user.email
+        });
+        this.getAll(user.email);
+      }
+    });
+  }
 
   handleSearchQuery = event => {
     this.setState({ searchQuery: event.target.value });
@@ -107,6 +124,73 @@ class SearchAppBar extends Component {
       .then(response => console.log(this.state.recipes))
       .catch(err => console.log(err));
   };
+
+  //this is the code to add recipes to favorites
+
+  getAll(user) {
+    API.getDBRecipes(user)
+      .then(res => {
+        this.setState({
+          favorites: res.data.favorites,
+          // monday: res.data.weeklymenu.monday,
+          // tuesday: res.data.weeklymenu.tuesday,
+          // wednesday: res.data.weeklymenu.wednesday,
+          // thursday: res.data.weeklymenu.thursday,
+          // friday: res.data.weeklymenu.friday,
+          // saturday: res.data.weeklymenu.saturday,
+          // sunday: res.data.weeklymenu.sunday,
+          // time: this.getTime(res.data.weeklymenu),
+          // meals: this.getMeals(res.data.weeklymenu),
+          // ingredients: this.getIngredients(res.data.weeklymenu)
+        });
+        console.log(this.state);
+      })
+      .catch(err => console.log(err));
+  };
+  
+  formatFavorite = favObj => {
+    // let formFav= {
+    //   uri: favObj.recipe.uri,
+    //   calories: favObj.recipe.calories,
+    //   protein: favObj.recipe.digest[2].total,
+    //   fat: favObj.recipe.digest[0].total,
+    //   carb: favObj.recipe.digest[1].total,
+    //   label: favObj.recipe.label,
+    //   url: favObj.recipe.url,
+    //   time: favObj.recipe.totalTime,
+    //   ingredients: ["one", "two"],
+    //   image: favObj.recipe.image
+    // };
+
+    let formFav= {
+        uri:
+        "http://www.edamam.com/ontologies/edamam.owl#recipe_b65931a130aed7b1f69b553111f4f01bc",
+        calories: "456",
+        protein: "2",
+        fat: "4",
+        carb: "356",
+        label: "pizza",
+        url: "http://www.marthastewart.com/353269/baked-potato-snack",
+        time: "34",
+        ingredients: ["salt"],
+        image:
+          "https://www.edamam.com/web-img/d9e/d9eeea65936abc325933c38a400ea6a6.jpg"
+     }; 
+      return formFav;
+  };
+
+  handleFavorite = fav => {
+    let newFav = this.formatFavorite(fav);
+    console.log(newFav);
+    // let favorites = [];
+    // (this.state.favorites === null) ? favorites = [this.state.favorites] : favorites = [...this.state.favorites];
+    // favorites.push({ value: newFav });
+    // console.log(this.state.favorites);
+    API.updateFavs(this.state.currentUser, newFav)
+      .then( this.getAll(this.state.currentUser)
+      ).catch(err => console.log(err));
+  };
+
 
   render() {
     const { classes } = this.props;
@@ -251,7 +335,7 @@ class SearchAppBar extends Component {
             this.state.recipes.map(recipe => {
               return (
                 <Grid item lg={3} className="gridCard">
-                  <RecipeCard recipeInfo={recipe} />
+                  <RecipeCard recipeInfo={recipe} handleFavorite={this.handleFavorite} />
                 </Grid>
               );
             })
