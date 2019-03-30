@@ -1,4 +1,7 @@
 const db = require("../models");
+const axios = require("axios");
+const config = require("../config");
+const client = require("twilio")(config.accountSid, config.authToken);
 
 // Defining methods for the booksController
 module.exports = {
@@ -20,7 +23,104 @@ module.exports = {
         }
       })
       .catch(err => res.status(422).json(err));
+  },
+  retrieveRecipes: function(req, res) {
+    // console.log(req.body);
+    let allergy = "";
+    let diet = "";
+
+    if (req.body.vegan === true) {
+      allergy += "&health=vegan";
+    }
+    if (req.body.vegetarian === true) {
+      allergy += "&health=vegetarian";
+    }
+    if (req.body.sugar_conscious === true) {
+      allergy += "&health=sugar-conscious";
+    }
+    if (req.body.peanut_free === true) {
+      allergy += "&health=peanut-free";
+    }
+    if (req.body.tree_nut_free === true) {
+      allergy += "&health=tree-nut-free";
+    }
+    if (req.body.alcohol_free === true) {
+      allergy += "&health=alcohol-free";
+    }
+    if (req.body.dietType) {
+      diet += "&diet=" + req.body.dietType;
+    }
+
+    const apiURL = "https://api.edamam.com/search?";
+    const apiKey = "&app_key=f6179a854d5788d08869b56fcda3ecc2";
+    const apiID = "&app_id=726e9cff";
+    let to = "&to=48";
+    let query = "q=" + req.body.searchQuery;
+
+    // console.log(apiURL + query + apiID + apiKey + to + diet + allergy);
+    axios
+      .get(apiURL + query + apiID + apiKey + to + diet + allergy)
+      .then(response => {
+        res.json(response.data);
+      });
+  },
+  updateFavorites: function(req, res) {
+    db.User.findOneAndUpdate(
+      { email: req.params.user },
+      { $addToSet: { favorites: req.body.fav } }
+    )
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  createPreferences: function(req, res) {
+    console.log("Request Received: ", req.body);
+
+    let preferenceArray = [req.body.dietType];
+    if (req.body.vegan === true) {
+      preferenceArray.push("vegan");
+    }
+    if (req.body.vegetarian === true) {
+      preferenceArray.push("vegetarian");
+    }
+    if (req.body.sugar_conscious === true) {
+      preferenceArray.push("sugar-conscious");
+    }
+    if (req.body.peanut_free === true) {
+      preferenceArray.push("peanut-free");
+    }
+    if (req.body.tree_nut_free === true) {
+      preferenceArray.push("tree-nut-free");
+    }
+    if (req.body.alcohol_free === true) {
+      preferenceArray.push("alcohol-free");
+    }
+    console.log("Forumalated Array: ", preferenceArray);
+
+    db.User.findOneAndUpdate(
+      { email: req.body.email },
+      { userPreference: preferenceArray }
+    ).then(function() {
+      db.User.findOne({ email: req.body.email }, function(err, docs) {
+        console.log(docs);
+      });
+    });
+},
+
+  sendSMS: function(req, res) {
+    client.messages
+      .create({
+        body: req.body.text,
+        from: config.twilioNumber,
+        to: req.body.phone
+      })
+      .then(message => console.log(message.sid));
+
   }
+  // updateWeekMealsFavorites: function(req, res) {
+  //   db.Book.findOneAndUpdate({ email: req.body.email })
+  //     .then(dbModel => res.json(dbModel))
+  //     .catch(err => res.status(422).json(err));
+  // },
   // },
   // findById: function(req, res) {
   //   db.Book.findById(req.params.id)

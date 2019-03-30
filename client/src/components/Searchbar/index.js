@@ -14,6 +14,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormLabel from "@material-ui/core/FormLabel";
 import Button from "@material-ui/core/Button";
 import API from "../../utils/API";
+import RecipeCard from "../RecipeCard/index";
+import Firebase from "../../config/Firebase";
 import "./style.css";
 
 const styles = theme => ({
@@ -74,8 +76,22 @@ class SearchAppBar extends Component {
     sugar_conscious: false,
     peanut_free: false,
     tree_nut_free: false,
-    alcohol_free: false
+    alcohol_free: false,
+    favorites: [],
+    currentUser: ""
   };
+
+  //Checking Auth state and getting current user and info
+  componentDidMount() {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.setState({
+          currentUser: user.email
+        });
+        this.getAll(user.email);
+      }
+    });
+  }
 
   handleSearchQuery = event => {
     this.setState({ searchQuery: event.target.value });
@@ -101,9 +117,58 @@ class SearchAppBar extends Component {
       dietType: this.state.dietType,
       searchQuery: this.state.searchQuery
     };
-    API.postRecipediaValues(values);
-    // .then(res => console.log(res))
-    // .catch(err => console.log(err));
+    API.postRecipediaValues(values)
+      .then(response => this.setState({ recipes: response.data.hits }))
+      .then(response => console.log(this.state.recipes))
+      .catch(err => console.log(err));
+  };
+
+  //this is the code to add recipes to favorites
+
+  getAll(user) {
+    API.getDBRecipes(user)
+      .then(res => {
+        this.setState({
+          favorites: res.data.favorites
+          // monday: res.data.weeklymenu.monday,
+          // tuesday: res.data.weeklymenu.tuesday,
+          // wednesday: res.data.weeklymenu.wednesday,
+          // thursday: res.data.weeklymenu.thursday,
+          // friday: res.data.weeklymenu.friday,
+          // saturday: res.data.weeklymenu.saturday,
+          // sunday: res.data.weeklymenu.sunday,
+          // time: this.getTime(res.data.weeklymenu),
+          // meals: this.getMeals(res.data.weeklymenu),
+          // ingredients: this.getIngredients(res.data.weeklymenu)
+        });
+        console.log(this.state);
+      })
+      .catch(err => console.log(err));
+  }
+
+  formatFavorite = favObj => {
+    let formFav = {
+      uri: favObj.recipe.uri,
+      calories: favObj.recipe.calories,
+      protein: favObj.recipe.digest[2].total,
+      fat: favObj.recipe.digest[0].total,
+      carb: favObj.recipe.digest[1].total,
+      label: favObj.recipe.label,
+      url: favObj.recipe.url,
+      time: favObj.recipe.totalTime,
+      ingredients: favObj.recipe.ingredientLines,
+      image: favObj.recipe.image
+    };
+
+    return formFav;
+  };
+
+  handleFavorite = fav => {
+    let newFav = this.formatFavorite(fav);
+
+    API.updateFavs(this.state.currentUser, newFav)
+      .then(this.getAll(this.state.currentUser))
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -159,22 +224,22 @@ class SearchAppBar extends Component {
                   onChange={this.handleDietTypes}
                 >
                   <FormControlLabel
-                    value="Balanced"
+                    value="balanced"
                     control={<Radio />}
                     label="Balanced"
                   />
                   <FormControlLabel
-                    value="High-Protein"
+                    value="high-protein"
                     control={<Radio />}
                     label="High-Protein"
                   />
                   <FormControlLabel
-                    value="Low-Carb"
+                    value="low-carb"
                     control={<Radio />}
                     label="Low-Carb"
                   />
                   <FormControlLabel
-                    value="Low-Fat"
+                    value="low-fat"
                     control={<Radio />}
                     label="Low-Fat"
                   />
@@ -244,6 +309,22 @@ class SearchAppBar extends Component {
             </Grid>
           </Toolbar>
         </AppBar>
+        <Grid container spacing={24} className="gridFormatting">
+          {this.state.recipes && this.state.recipes.length !== 0 ? (
+            this.state.recipes.map(recipe => {
+              return (
+                <Grid item lg={3} className="gridCard">
+                  <RecipeCard
+                    recipeInfo={recipe}
+                    handleFavorite={this.handleFavorite}
+                  />
+                </Grid>
+              );
+            })
+          ) : (
+            <h1 className="noResultsFound">No Recipes To Display</h1>
+          )}
+        </Grid>
       </div>
     );
   }
@@ -254,3 +335,5 @@ SearchAppBar.propTypes = {
 };
 
 export default withStyles(styles)(SearchAppBar);
+
+// THIS IS A TEST

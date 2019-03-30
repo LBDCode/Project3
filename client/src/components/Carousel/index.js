@@ -1,16 +1,47 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
-
+import API from "../../utils/API";
+import Firebase from "../../config/Firebase";
+import Typography from '@material-ui/core/Typography';
 
 
 
 export default class Carousel extends Component {
+
+  state = {
+    favorites: [],
+    
+  };
+
+  componentDidMount() {
+    var user = Firebase.auth().currentUser;
+    if (user) {
+      this.setState({
+        currentUser: user.email
+      });
+    }
+    this.getAll(user.email);
+  };
+
+  getAll(user) {
+    API.getDBRecipes(user)
+      .then(res => {
+        this.setState({
+          favorites: res.data.favorites
+        });
+        console.log(this.state.favorites);
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
+
+    
     var settings = {
       dots: true,
       infinite: true,
@@ -55,30 +86,13 @@ export default class Carousel extends Component {
     return (
       <div>
         <Slider {...settings}>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
-          <div>
-            <img src="https://www.fillmurray.com/200/200" />
-          </div>
+          {this.state.favorites.map(item => {
+            return (
+              <div data-obj={item}>
+                <img src={item.image} alt="recipe"/>
+              </div>
+            )
+          })}
         </Slider>
       </div>
     );

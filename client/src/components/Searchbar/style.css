@@ -18,6 +18,19 @@
   letter-spacing: 2px;
 }
 
+.gridFormatting {
+  width: 100% !important;
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  padding: 20px 0;
+}
+
+.gridCard {
+  display: flex;
+  justify-content: center;
+}
+
 .searchbarPlacing {
   display: flex;
   flex-direction: row-reverse;
@@ -39,14 +52,14 @@
   height: 35px;
   margin-top: 20px !important;
   margin-left: 15px !important;
-  /* background: #e1ffc4 !important; */
-}
-
-.searchBtn:hover {
-  /* background: #a6d37b !important; */
 }
 
 .searchMenuBg {
   background-image: url("./healthy.jpg");
   background-size: cover;
+}
+
+.noResultsFound {
+  text-align: center;
+  color: rgb(205, 205, 205);
 }

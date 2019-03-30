@@ -10,7 +10,8 @@ const recipe = new Schema({
   url: String,
   time: Number,
   ingredients: [String],
-  image: String
+  image: String,
+  _id: false
 });
 const userSchema = new Schema({
   email: String,

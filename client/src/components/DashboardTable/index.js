@@ -33,19 +33,38 @@ class DashboardTable extends Component {
             <TableHead>
               <TableRow>
                 <TableCell />
-                <TableCell align="left">Monday</TableCell>
-                <TableCell align="left">Tuesday</TableCell>
-                <TableCell align="left">Wednesday</TableCell>
-                <TableCell align="left">Thursday</TableCell>
-                <TableCell align="left">Friday</TableCell>
-                <TableCell align="left">Saturday</TableCell>
-                <TableCell align="left">Sunday</TableCell>
+                <TableCell className="meal" align="left">
+                  Monday
+                </TableCell>
+                <TableCell className="meal" align="left">
+                  Tuesday
+                </TableCell>
+                <TableCell className="meal" align="left">
+                  Wednesday
+                </TableCell>
+                <TableCell className="meal" align="left">
+                  Thursday
+                </TableCell>
+                <TableCell className="meal" align="left">
+                  Friday
+                </TableCell>
+                <TableCell className="meal" align="left">
+                  Saturday
+                </TableCell>
+                <TableCell className="meal" align="left">
+                  Sunday
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {this.meals.map((meal, i) => (
                 <TableRow key={i}>
-                  <TableCell component="th" scope="row">
+                  <TableCell
+                    className="meal"
+                    component="th"
+                    scope="row"
+                    align="center"
+                  >
                     {meal}
                   </TableCell>
                   {this.weekDays.map(day => (
@@ -60,9 +79,18 @@ class DashboardTable extends Component {
                           : ""
                       }
                     >
-                      {this.props[day] && this.props[day][meal]
-                        ? this.props[day][meal].label
-                        : ""}
+                      {this.props[day] && this.props[day][meal] ? (
+                        <>
+                          <img
+                            className="image-recepie"
+                            alt="recepie"
+                            src={this.props[day][meal].image}
+                          />
+                          <p className="lable">{this.props[day][meal].label}</p>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
