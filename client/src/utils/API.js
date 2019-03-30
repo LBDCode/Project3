@@ -34,5 +34,8 @@ export default {
   },
   postUserPreferences: function(preferenceValues) {
     return axios.post("api/preferences", preferenceValues);
+  },
+  sendSMS: function(phone, text) {
+    return axios.post("api/sms", { phone: phone, text: text });
   }
 };
