@@ -12,6 +12,7 @@ import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
 import QuickplannerWrapped from "../components/Modal";
+
 const crossout = {
   textDecoration: "line-through",
   display: "inline"

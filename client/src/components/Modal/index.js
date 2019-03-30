@@ -8,6 +8,7 @@ import ControlledExpansionPanels from "../Accordian";
 import Carousel from "../Carousel";
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
+import DropTarget from '../Droptarget'
 import "./style.css";
 
 
@@ -77,8 +78,11 @@ class Quickplanner extends React.Component {
             <Typography className={this.props.classes.styledHeader} align="center" variant="title" id="modal-title">
               plan your menu
             </Typography>
+            
           <Carousel></Carousel>
-          <ControlledExpansionPanels></ControlledExpansionPanels>
+          <DropTarget></DropTarget>
+
+          {/* <ControlledExpansionPanels></ControlledExpansionPanels> */}
           </div>
         </Modal>
       </div>

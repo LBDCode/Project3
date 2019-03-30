@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import DropTarget from '../Droptarget';
 
 
 
@@ -54,7 +55,8 @@ class ControlledExpansionPanels extends React.Component {
             <Typography className={classes.heading}>Monday</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Grid container spacing={24}>
+          <DropTarget></DropTarget>
+            {/* <Grid container spacing={24}>
               <Grid item xs={4}>
                 <Paper className={classes.paper}>Breakfast</Paper>
               </Grid>
@@ -64,7 +66,7 @@ class ControlledExpansionPanels extends React.Component {
               <Grid item xs={4}>
                 <Paper className={classes.paper}>Dinner</Paper>
               </Grid>
-            </Grid>
+            </Grid> */}
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
