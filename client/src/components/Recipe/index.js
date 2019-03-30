@@ -36,6 +36,7 @@ function Recipe(props) {
           <ul>
             {props.meal.ingredients.map((item, i) => {
               return <li key={i}>{item.text}</li>;
+              /* Comment */
             })}
           </ul>
         </>
