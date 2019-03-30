@@ -4,7 +4,7 @@ import Firebase from "./config/Firebase";
 import Dashboard from "./pages/Dashboard";
 import Landing from "./pages/Landing";
 import NoMatch from "./pages/NoMatch";
-import Recipe from "./pages/Recipe";
+import RecipePage from "./pages/RecipePage";
 import Recipedia from "./pages/Recipedia";
 import Modal from "./pages/Modal";
 
@@ -43,7 +43,7 @@ class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route exact path="/search" component={Recipedia} />
               <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/recipe/:id" component={Recipe} />
+              <Route exact path="/recipe/:id" component={RecipePage} />
               <Route exact path="/modal" component={Modal} />
               <Route component={NoMatch} />
             </Switch>
