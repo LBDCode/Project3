@@ -49,25 +49,25 @@ class RadioButtonsGroup extends React.Component {
           >
             <FormControlLabel
               className={classes.labelSpacing}
-              value="Balanced"
+              value="balanced"
               control={<Radio />}
               label="Balanced"
             />
             <FormControlLabel
               className={classes.labelSpacing}
-              value="High-Protein"
+              value="high-protein"
               control={<Radio />}
               label="High-Protein"
             />
             <FormControlLabel
               className={classes.labelSpacing}
-              value="Low-Carb"
+              value="low-carb"
               control={<Radio />}
               label="Low-Carb"
             />
             <FormControlLabel
               className={classes.labelSpacing}
-              value="Low-Fat"
+              value="low-fat"
               control={<Radio />}
               label="Low-Fat"
             />

@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+.innerHoverRemovedAlt {
+  background: rgba(55, 55, 55, 0.8) !important;
+}
+
 .innerHoverRemoved:hover {
   background-color: transparent !important;
 }
@@ -14,6 +18,10 @@
   position: absolute !important;
   right: 0;
   z-index: 3;
+}
+
+.menuIconWhite {
+  color: white !important;
 }
 
 #custom-css-outlined-input-helper-text {

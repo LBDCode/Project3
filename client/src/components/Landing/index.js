@@ -16,19 +16,19 @@ function CenteredGrid(props) {
       </Grid>
       <Grid container className="grid-wrapper">
         <Grid className="gridItem" xs={3}>
-          <img alt="pastaIngredients" src={img} />
+          <img alt="pastaIngredients" className="gridPics" src={img} />
         </Grid>
 
         <Grid className="gridItem image-space-left" xs={3}>
-          <img alt="salad" src={img2} />
+          <img alt="salad" src={img2} className="gridPics" />
         </Grid>
 
         <Grid className="gridItem image-space-right" xs={3}>
-          <img alt="cookies" src={img3} />
+          <img alt="cookies" src={img3} className="gridPics" />
         </Grid>
 
         <Grid className="gridItem" xs={3}>
-          <img alt="pizza" src={img4} />
+          <img alt="pizza" src={img4} className="gridPics" />
         </Grid>
       </Grid>
     </>

@@ -16,7 +16,7 @@ const recipe = new Schema({
 const userSchema = new Schema({
   email: String,
   favorites: [recipe],
-  userPreference: [String],
+  preferences: Object,
   weeklymenu: {
     monday: {
       breakfast: recipe,
