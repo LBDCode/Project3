@@ -1,14 +1,16 @@
-import React from "react";
+import React, { Component } from "react";
 import Navbar from "../components/Navbar/index";
 import Searchbar from "../components/Searchbar/index";
 
-function Search() {
-  return (
-    <>
-      <Navbar />
-      <Searchbar />
-    </>
-  );
+class Search extends Component {
+  render() {
+    return (
+      <>
+        <Navbar />
+        <Searchbar />
+      </>
+    );
+  }
 }
 
 export default Search;

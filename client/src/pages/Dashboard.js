@@ -2,12 +2,32 @@ import React, { Component } from "react";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import Checkbox from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 import API from "../utils/API";
 //import WeeklyTable from "../components/Weeklytable";
 import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
+import QuickplannerWrapped from "../components/Modal";
+const crossout = {
+  textDecoration: "line-through",
+  display: "inline"
+};
+const none = {
+  display: "inline"
+};
+const textfield = {
+  marginRight: "10px"
+};
+const SubmitForm = {
+  display: "flex",
+  flexFlow: "column",
+  width: "200px",
+  padding: "20px"
+};
 
 class Dashboard extends Component {
   state = {
@@ -23,17 +43,20 @@ class Dashboard extends Component {
     meals: 0,
     ingredients: {},
     clicked: {},
-    currentUser: ""
+    currentUser: "",
+    phone: "",
+    notes: ""
   };
 
   componentDidMount() {
-    var user = Firebase.auth().currentUser;
-    if (user) {
-      this.setState({
-        currentUser: user.email
-      });
-    }
-    this.getAll(user.email);
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.setState({
+          currentUser: user.email
+        });
+        this.getAll(user.email);
+      }
+    });
   }
   getTime(data) {
     let time = 0;
@@ -96,35 +119,65 @@ class Dashboard extends Component {
       clicked: meal
     });
   }
-  updateState(day, meal, obj, fav, dayTo, mealTo) {
-    if (!fav && meal) {
-      var searchDay = { ...this.state[dayTo] };
-      var removed = { ...this.state[day] };
-      removed[meal] = {};
-      searchDay[mealTo] = obj;
-      this.setState({
-        [dayTo]: searchDay,
-        [day]: removed
-      });
-    } else if (meal !== "favorites") {
-      var removed = { ...this.state[day] };
-      removed[meal] = {};
-      this.setState({
-        [day]: removed
-      });
+  ingredientChecked(item) {
+    let ingredientProperty = { ...this.state.ingredients };
+    if (ingredientProperty[item]) {
+      ingredientProperty[item] = false;
     } else {
-      var searchDay = { ...this.state[dayTo] };
-      searchDay[mealTo] = obj;
-      this.setState({
-        [dayTo]: searchDay
-      });
+      ingredientProperty[item] = true;
     }
+    this.setState({ ingredients: ingredientProperty });
   }
+
+  handleInputChange = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+    // const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    let listArr = Object.keys(this.state.ingredients).filter(item => {
+      if (!this.state.ingredients[item]) {
+        return item;
+      }
+    });
+    let text = "\n" + listArr.join("\n") + "\n" + this.state.notes;
+    API.sendSMS(this.state.phone, text);
+  };
+
+  // updateState(day, meal, obj, fav, dayTo, mealTo) {
+  //   if (!fav && meal) {
+  //     var searchDay = { ...this.state[dayTo] };
+  //     var removed = { ...this.state[day] };
+  //     removed[meal] = {};
+  //     searchDay[mealTo] = obj;
+  //     this.setState({
+  //       [dayTo]: searchDay,
+  //       [day]: removed
+  //     });
+  //   } else if (meal !== "favorites") {
+  //     var removed = { ...this.state[day] };
+  //     removed[meal] = {};
+  //     this.setState({
+  //       [day]: removed
+  //     });
+  //   } else {
+  //     var searchDay = { ...this.state[dayTo] };
+  //     searchDay[mealTo] = obj;
+  //     this.setState({
+  //       [dayTo]: searchDay
+  //     });
+  //   }
+  // }
   render() {
-    console.log(this.state.ingredients);
     return (
       <>
         <Navbar />
+        <QuickplannerWrapped />
         <h1>Prep info for a week</h1>
         <DashboardTable
           monday={this.state.monday}
@@ -163,14 +216,45 @@ class Dashboard extends Component {
                   <Checkbox
                     key={item}
                     checked={this.state.ingredients[item]}
-                    //onChange={}
+                    onChange={() => this.ingredientChecked(item)}
                   />
-                  {item}
+                  <p style={this.state.ingredients[item] ? crossout : none}>
+                    {item}
+                  </p>
                 </TableCell>
               </TableRow>
             );
           })}
         </ul>
+        <Paper style={SubmitForm}>
+          <TextField
+            style={textfield}
+            id="outlined-uncontrolled"
+            label="Phone Number"
+            placeholder="(000)-000-00-00"
+            margin="normal"
+            variant="outlined"
+            name="phone"
+            value={this.state.phone}
+            onChange={this.handleInputChange}
+          />
+          <TextField
+            style={textfield}
+            id="outlined-multiline-flexible"
+            label="Notes"
+            multiline
+            rowsMax="4"
+            value={this.state.notes}
+            name="notes"
+            onChange={this.handleInputChange}
+            margin="normal"
+            variant="outlined"
+          />
+          <Button variant="outlined" onClick={this.handleFormSubmit}>
+            Send my list
+          </Button>
+        </Paper>
+
         <SingleRecipe meal={this.state.clicked} />
       </>
     );

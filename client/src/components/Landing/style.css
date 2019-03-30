@@ -3,7 +3,7 @@
   /*height: 200px;
   width: auto; */
   height: 225px;
-  width: 500px;
+  max-width: 500px;
 }
 
 .header {

@@ -6,6 +6,9 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import ControlledExpansionPanels from "../Accordian";
 import Carousel from "../Carousel";
+import "./style.css";
+
+
 
 function getModalStyle() {
   const top = 20;
@@ -24,8 +27,17 @@ const styles = theme => ({
     width: '80%',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4
-  }
+    padding: theme.spacing.unit * 4,
+  },
+  styledModal: {
+    overflow: 'auto'    
+  },
+  styledHeader: {
+    // background: '#56ab2f',
+    color: 'black',
+    padding: '2px',
+    fontSize:'40px'
+  }  
 });
 
 class Quickplanner extends React.Component {
@@ -53,19 +65,18 @@ class Quickplanner extends React.Component {
         </Typography>
         <Button onClick={this.handleOpen}>Open Modal</Button>
         <Modal
+          className={this.props.classes.styledModal}
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
           open={this.state.open}
           onClose={this.handleClose}
         >
           <div style={getModalStyle()} className={classes.paper}>
-            <Typography align="center" variant="title" id="modal-title">
-              Plan your menu
+            <Typography className={this.props.classes.styledHeader} align="center" variant="title" id="modal-title">
+              plan your menu
             </Typography>
           <Carousel></Carousel>
           <ControlledExpansionPanels></ControlledExpansionPanels>
-
-
           </div>
         </Modal>
       </div>

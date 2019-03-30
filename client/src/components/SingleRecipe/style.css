@@ -1,0 +1,13 @@
+.dashboard-recepie {
+  width: 100%;
+  display: flex;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+.card-img {
+  max-width: 350px;
+  height: 350px;
+}
+.dashboard-recepie > div {
+  margin-right: 50px;
+}

@@ -6,3 +6,22 @@
 .table {
   min-width: 700px;
 }
+.meal {
+  background-color: #66745a63;
+}
+.lable {
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 5px 0;
+  margin-top: 5px;
+  max-width: 100px;
+  border-top: 1px solid rgba(128, 128, 128, 0.507);
+  margin-bottom: 0;
+}
+.image-recepie {
+  max-height: 100px;
+  max-width: 100px;
+  cursor: pointer;
+  border-radius: 12px;
+  margin-top: 10px;
+}
