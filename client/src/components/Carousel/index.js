@@ -7,7 +7,10 @@ import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
 import API from "../../utils/API";
 import Firebase from "../../config/Firebase";
+<<<<<<< Updated upstream
 import { DragSource } from 'react-dnd'
+=======
+>>>>>>> Stashed changes
 // import Typography from '@material-ui/core/Typography';
 
 
