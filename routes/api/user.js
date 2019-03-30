@@ -16,4 +16,6 @@ router.post("/searching", userController.retrieveRecipes);
 
 router.put("/:user", userController.updateFavorites);
 
+router.post("/sms", userController.sendSMS);
+
 module.exports = router;

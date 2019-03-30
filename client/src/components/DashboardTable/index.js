@@ -26,7 +26,6 @@ class DashboardTable extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <>
         <Paper className="root">

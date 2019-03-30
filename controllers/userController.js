@@ -1,5 +1,7 @@
 const db = require("../models");
 const axios = require("axios");
+const config = require("../config");
+const client = require("twilio")(config.accountSid, config.authToken);
 
 // Defining methods for the booksController
 module.exports = {
@@ -63,13 +65,22 @@ module.exports = {
       });
   },
   updateFavorites: function(req, res) {
-    db.User.findOneAndUpdate({ email: req.params.user },
-      { $addToSet: { favorites: req.body.fav  }
-   
-    })
+    db.User.findOneAndUpdate(
+      { email: req.params.user },
+      { $addToSet: { favorites: req.body.fav } }
+    )
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  sendSMS: function(req, res) {
+    client.messages
+      .create({
+        body: req.body.text,
+        from: config.twilioNumber,
+        to: req.body.phone
+      })
+      .then(message => console.log(message.sid));
+  }
   // updateWeekMealsFavorites: function(req, res) {
   //   db.Book.findOneAndUpdate({ email: req.body.email })
   //     .then(dbModel => res.json(dbModel))
