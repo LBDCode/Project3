@@ -32,7 +32,7 @@ class DashboardTable extends Component {
           <Table className="table">
             <TableHead>
               <TableRow>
-                <TableCell />
+                <TableCell className="meal" />
                 <TableCell className="meal" align="left">
                   Monday
                 </TableCell>
@@ -80,14 +80,14 @@ class DashboardTable extends Component {
                       }
                     >
                       {this.props[day] && this.props[day][meal] ? (
-                        <>
+                        <div className="img-container">
                           <img
                             className="image-recepie"
                             alt="recepie"
                             src={this.props[day][meal].image}
                           />
                           <p className="lable">{this.props[day][meal].label}</p>
-                        </>
+                        </div>
                       ) : (
                         ""
                       )}
