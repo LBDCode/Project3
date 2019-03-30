@@ -32,6 +32,9 @@ export default {
   postRecipediaValues: function(searchCriteria) {
     return axios.post("api/searching", searchCriteria);
   },
+  postUserPreferences: function(preferenceValues) {
+    return axios.post("api/preferences", preferenceValues);
+  },
   sendSMS: function(phone, text) {
     return axios.post("api/sms", { phone: phone, text: text });
   }

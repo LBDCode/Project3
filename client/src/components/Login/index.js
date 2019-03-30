@@ -1,17 +1,33 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router";
-import PropTypes from "prop-types";
 import {
   withStyles,
   MuiThemeProvider,
   createMuiTheme
 } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import { withRouter } from "react-router";
+import PropTypes from "prop-types";
 import blue from "@material-ui/core/colors/blue";
-import FormControl from "@material-ui/core/FormControl";
+import Button from "@material-ui/core/Button";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuIcon from "@material-ui/icons/Menu";
+import IconButton from "@material-ui/core/IconButton";
 import Firebase from "../../config/Firebase";
-import Swal from "sweetalert2";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import FormControl from "@material-ui/core/FormControl";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Switch from "@material-ui/core/Switch";
+import Grid from "@material-ui/core/Grid";
+import API from "../../utils/API";
+
+import "./style.css";
 
 const styles = theme => ({
   root: {
@@ -76,6 +92,19 @@ const styles = theme => ({
   },
   bootstrapFormLabel: {
     fontSize: 18
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  },
+  menu: {
+    width: 200
+  },
+  signUp: {
+    backgroundColor: "#7ac57b",
+    "&:hover": {
+      backgroundColor: "rgb(102, 177, 103)"
+    }
   }
 });
 
@@ -86,15 +115,55 @@ const theme = createMuiTheme({
   typography: { useNextVariants: true }
 });
 
-class Login extends Component {
+const dietTypes = [
+  {
+    value: "balanced",
+    label: "Balanced"
+  },
+  {
+    value: "low-carb",
+    label: "Low Carb"
+  },
+  {
+    value: "low-fat",
+    label: "Low Fat"
+  },
+  {
+    value: "high-protein",
+    label: "High Protein"
+  }
+];
+
+class SimpleMenu extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      anchorEl: null,
+      openLogIn: false,
+      openSignUp: false,
+      showPassword: false,
+      dietType: "balanced",
+      vegan: false,
+      vegetarian: false,
+      sugar_conscious: false,
+      peanut_free: false,
+      tree_nut_free: false,
+      alcohol_free: false,
+      logInError: "We'll never share your email with anyone else.",
+      signUpError: "We'll never share your email with anyone else."
     };
   }
+
+  openDropdown = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  closeDropdown = () => {
+    this.setState({ anchorEl: null });
+  };
 
   handleLogin = e => {
     e.preventDefault();
@@ -106,11 +175,7 @@ class Login extends Component {
         // console.log(Firebase.auth().currentUser.isAnonymous);
       })
       .catch(error => {
-        Swal.fire({
-          type: "error",
-          title: "Oops...",
-          text: error.message
-        });
+        this.setState({ logInError: error.message });
       });
   };
 
@@ -124,29 +189,47 @@ class Login extends Component {
         // console.log(Firebase.auth().currentUser.isAnonymous);
       })
       .catch(error => {
-        Swal.fire({
-          type: "error",
-          title: "Oops...",
-          text: error.message
-        });
+        this.setState({ logInError: error.message });
       });
   };
 
   handleSignUp = e => {
     e.preventDefault();
+
     Firebase.auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
+        const values = {
+          vegan: this.state.vegan,
+          vegetarian: this.state.vegetarian,
+          sugar_conscious: this.state.sugar_conscious,
+          peanut_free: this.state.peanut_free,
+          tree_nut_free: this.state.tree_nut_free,
+          alcohol_free: this.state.alcohol_free,
+          dietType: this.state.dietType,
+          email: this.state.email
+        };
+
+        // Making sure Sign Up values go through!
+        console.log("Sign Up Preferences: ", values);
+
+        API.postUserPreferences(values)
+          .then(response =>
+            console.log("User Preferences were saved to MongoDB")
+          )
+          .catch(err => console.log(err));
+
+        // API.postRecipediaValues(values)
+        // .then(response => this.setState({ recipes: response.data.hits }))
+        // .then(response => console.log(this.state.recipes))
+        // .catch(err => console.log(err));
+
         this.props.history.push("/search");
         // Checks to see if user is anonymously signed in.
         // console.log(Firebase.auth().currentUser.isAnonymous);
       })
       .catch(error => {
-        Swal.fire({
-          type: "error",
-          title: "Oops...",
-          text: error.message
-        });
+        this.setState({ signUpError: error.message });
       });
   };
 
@@ -154,100 +237,357 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // Desperate attempt to show "/search" to continuously
-  // logged in users who revisit Recipedia.
-  //
-  //   componentWillUpdate() {
-  //     if (localStorage.getItem("user") !== null) {
-  //       console.log(
-  //         "You are logged in. I am redirecting you to /search. Local Storage Data: " +
-  //           localStorage.getItem("user")
-  //       );
-  //       this.props.history.push("/search");
-  //     } else {
-  //       console.log(
-  //         "You are not logged in anymore. I am redirecting you to /. Local Storage Data: " +
-  //           localStorage.getItem("user")
-  //       );
-  //       this.props.history.push("/");
-  //     }
-  //   }
+  handleClickShowPassword = () => {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  };
+
+  openLogInTab = () => {
+    this.setState({ openLogIn: true });
+  };
+
+  closeLogInTab = () => {
+    this.setState({ openLogIn: false });
+  };
+
+  openSignUpTab = () => {
+    this.setState({ openSignUp: true });
+  };
+
+  closeSignUpTab = () => {
+    this.setState({ openSignUp: false });
+  };
+
+  handleDietType = name => event => {
+    this.setState({
+      [name]: event.target.value
+    });
+  };
+
+  handleAllergies = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
+  // handleSearchValues = event => {
+  //   event.preventDefault();
+  //   const values = {
+  //     vegan: this.state.vegan,
+  //     vegetarian: this.state.vegetarian,
+  //     sugar_conscious: this.state.sugar_conscious,
+  //     peanut_free: this.state.peanut_free,
+  //     tree_nut_free: this.state.tree_nut_free,
+  //     alcohol_free: this.state.alcohol_free,
+  //     dietType: this.state.dietType
+  //   };
+
+  //   console.log(values);
+  // };
 
   render() {
-    return (
-      <div className={this.props.classes.root}>
-        <FormControl>
-          <TextField
-            onChange={this.credentials}
-            className={this.props.classes.margin}
-            InputLabelProps={{
-              classes: {
-                root: this.props.classes.cssLabel,
-                focused: this.props.classes.cssFocused
-              }
-            }}
-            InputProps={{
-              classes: {
-                root: this.props.classes.cssOutlinedInput,
-                focused: this.props.classes.cssFocused,
-                notchedOutline: this.props.classes.notchedOutline
-              }
-            }}
-            label="Email"
-            type="email"
-            name="email"
-            value={this.state.email}
-            autoComplete="email"
-            helperText="We'll never share your email with anyone else."
-            variant="outlined"
-            id="custom-css-outlined-input"
-          />
+    const { classes } = this.props;
+    const { anchorEl } = this.state;
 
-          <MuiThemeProvider theme={theme}>
+    return (
+      <div>
+        <Button
+          aria-owns={anchorEl ? "simple-menu" : undefined}
+          aria-haspopup="true"
+          onClick={this.openDropdown}
+          className="innerHoverRemoved menuPlacement"
+        >
+          <IconButton color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+        </Button>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.closeDropdown}
+        >
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={this.openLogInTab}
+            className="menuList"
+          >
+            <MenuItem
+              onClick={this.closeDropdown}
+              className="innerHoverRemoved"
+            >
+              Log In
+            </MenuItem>
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={this.openSignUpTab}
+            className="menuList"
+          >
+            <MenuItem
+              onClick={this.closeDropdown}
+              className="innerHoverRemoved"
+            >
+              Sign Up
+            </MenuItem>
+          </Button>
+        </Menu>
+        <Dialog
+          open={this.state.openLogIn}
+          onClose={this.closeLogInTab}
+          aria-labelledby="form-dialog-title"
+        >
+          <FormControl className="popUpPrompt">
             <TextField
               onChange={this.credentials}
               className={this.props.classes.margin}
-              label="Password"
-              type="password"
-              name="password"
-              value={this.state.password}
-              autoComplete="password"
+              InputLabelProps={{
+                classes: {
+                  root: this.props.classes.cssLabel,
+                  focused: this.props.classes.cssFocused
+                }
+              }}
+              InputProps={{
+                classes: {
+                  root: this.props.classes.cssOutlinedInput,
+                  focused: this.props.classes.cssFocused,
+                  notchedOutline: this.props.classes.notchedOutline
+                }
+              }}
+              label="Email"
+              type="email"
+              name="email"
+              value={this.state.email}
+              autoComplete="email"
+              helperText={this.state.logInError}
               variant="outlined"
-              id="mui-theme-provider-outlined-input"
+              id="custom-css-outlined-input"
             />
-          </MuiThemeProvider>
-          <Button
-            onClick={this.handleLogin}
-            variant="contained"
-            color="primary"
-            className={this.props.classes.button}
-          >
-            Log In
-          </Button>
-          <Button
-            onClick={this.handleSignUp}
-            variant="contained"
-            color="secondary"
-            className={this.props.classes.button}
-          >
-            Sign Up
-          </Button>
-          <Button
-            onClick={this.handleGuest}
-            variant="contained"
-            color="default"
-            className={this.props.classes.button}
-          >
-            Continue As Guest
-          </Button>
-        </FormControl>
+
+            <MuiThemeProvider theme={theme}>
+              <TextField
+                onChange={this.credentials}
+                className={this.props.classes.margin}
+                label="Password"
+                type={this.state.showPassword ? "text" : "password"}
+                name="password"
+                value={this.state.password}
+                autoComplete="password"
+                variant="outlined"
+                id="mui-theme-provider-outlined-input"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="Toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                      >
+                        {this.state.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </MuiThemeProvider>
+            <Button
+              onClick={this.handleLogin}
+              variant="contained"
+              color="primary"
+              className={this.props.classes.button}
+            >
+              Log In
+            </Button>
+            <Button
+              onClick={this.handleGuest}
+              variant="contained"
+              color="default"
+              className={this.props.classes.button}
+            >
+              Continue As Guest
+            </Button>
+          </FormControl>
+        </Dialog>
+        <Dialog
+          open={this.state.openSignUp}
+          onClose={this.closeSignUpTab}
+          aria-labelledby="form-dialog-title"
+        >
+          <FormControl className="popUpPrompt">
+            <TextField
+              onChange={this.credentials}
+              className={this.props.classes.margin}
+              InputLabelProps={{
+                classes: {
+                  root: this.props.classes.cssLabel,
+                  focused: this.props.classes.cssFocused
+                }
+              }}
+              InputProps={{
+                classes: {
+                  root: this.props.classes.cssOutlinedInput,
+                  focused: this.props.classes.cssFocused,
+                  notchedOutline: this.props.classes.notchedOutline
+                }
+              }}
+              label="Email"
+              type="email"
+              name="email"
+              value={this.state.email}
+              autoComplete="email"
+              helperText={this.state.signUpError}
+              variant="outlined"
+              id="custom-css-outlined-input"
+            />
+
+            <MuiThemeProvider theme={theme}>
+              <TextField
+                onChange={this.credentials}
+                className={this.props.classes.margin}
+                label="Password"
+                type={this.state.showPassword ? "text" : "password"}
+                name="password"
+                value={this.state.password}
+                autoComplete="password"
+                variant="outlined"
+                id="mui-theme-provider-outlined-input"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="Toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                      >
+                        {this.state.showPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </MuiThemeProvider>
+            <TextField
+              id="filled-select-dietType"
+              select
+              label="Select"
+              className={classes.textField}
+              name="dietType"
+              value={this.state.dietType}
+              onChange={this.handleDietType("dietType")}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
+              helperText="What is your favorite diet plan?"
+              margin="normal"
+              variant="outlined"
+            >
+              {dietTypes.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <FormLabel component="legend" className="formLabelText">
+              Diet Restrictions?
+            </FormLabel>
+            <FormGroup className="formatPreferences">
+              <Grid container spacing={24}>
+                <Grid item sm={6} className="allergyFlexing allergyOptions1">
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.vegan}
+                        onChange={this.handleAllergies("vegan")}
+                        value="vegan"
+                      />
+                    }
+                    label="Vegan"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.vegetarian}
+                        onChange={this.handleAllergies("vegetarian")}
+                        value="vegetarian"
+                      />
+                    }
+                    label="Vegetarian"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.sugar_conscious}
+                        onChange={this.handleAllergies("sugar_conscious")}
+                        value="sugar-conscious"
+                      />
+                    }
+                    label="Sugar-conscious"
+                  />
+                </Grid>
+                <Grid item sm={6} className="allergyFlexing allergyOptions2">
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.peanut_free}
+                        onChange={this.handleAllergies("peanut_free")}
+                        value="peanut-free"
+                      />
+                    }
+                    label="Peanut-free"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.tree_nut_free}
+                        onChange={this.handleAllergies("tree_nut_free")}
+                        value="tree-nut-free"
+                      />
+                    }
+                    label="Tree Nut-free"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.alcohol_free}
+                        onChange={this.handleAllergies("alcohol_free")}
+                        value="alcohol-free"
+                      />
+                    }
+                    label="Alcohol-free"
+                  />
+                </Grid>
+              </Grid>
+            </FormGroup>
+            <FormHelperText className="formHelperText">
+              Select all that apply.
+            </FormHelperText>
+            <Button
+              onClick={this.handleSignUp}
+              variant="contained"
+              color="secondary"
+              className={[
+                this.props.classes.button,
+                this.props.classes.signUp
+              ].join(" ")}
+            >
+              Sign Up
+            </Button>
+          </FormControl>
+        </Dialog>
       </div>
     );
   }
 }
 
-Login.propTypes = {
+SimpleMenu.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withRouter(withStyles(styles)(Login));
+export default withRouter(withStyles(styles)(SimpleMenu));

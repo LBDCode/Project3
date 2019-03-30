@@ -18,8 +18,6 @@ import RecipeCard from "../RecipeCard/index";
 import Firebase from "../../config/Firebase";
 import "./style.css";
 
-
-
 const styles = theme => ({
   root: {
     width: "100%"
@@ -131,7 +129,7 @@ class SearchAppBar extends Component {
     API.getDBRecipes(user)
       .then(res => {
         this.setState({
-          favorites: res.data.favorites,
+          favorites: res.data.favorites
           // monday: res.data.weeklymenu.monday,
           // tuesday: res.data.weeklymenu.tuesday,
           // wednesday: res.data.weeklymenu.wednesday,
@@ -146,10 +144,10 @@ class SearchAppBar extends Component {
         console.log(this.state);
       })
       .catch(err => console.log(err));
-  };
-  
+  }
+
   formatFavorite = favObj => {
-    let formFav= {
+    let formFav = {
       uri: favObj.recipe.uri,
       calories: favObj.recipe.calories,
       protein: favObj.recipe.digest[2].total,
@@ -162,17 +160,16 @@ class SearchAppBar extends Component {
       image: favObj.recipe.image
     };
 
-      return formFav;
+    return formFav;
   };
 
   handleFavorite = fav => {
     let newFav = this.formatFavorite(fav);
 
     API.updateFavs(this.state.currentUser, newFav)
-      .then( this.getAll(this.state.currentUser)
-      ).catch(err => console.log(err));
+      .then(this.getAll(this.state.currentUser))
+      .catch(err => console.log(err));
   };
-
 
   render() {
     const { classes } = this.props;
@@ -317,7 +314,10 @@ class SearchAppBar extends Component {
             this.state.recipes.map(recipe => {
               return (
                 <Grid item lg={3} className="gridCard">
-                  <RecipeCard recipeInfo={recipe} handleFavorite={this.handleFavorite} />
+                  <RecipeCard
+                    recipeInfo={recipe}
+                    handleFavorite={this.handleFavorite}
+                  />
                 </Grid>
               );
             })
