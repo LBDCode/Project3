@@ -11,7 +11,7 @@ const recipe = new Schema({
   time: Number,
   ingredients: [String],
   image: String,
-  "_id": false
+  _id: false
 });
 const userSchema = new Schema({
   email: String,

@@ -24,12 +24,15 @@ export default {
     return axios.get("api/" + user);
   },
   updateFavs: function(user, newFav) {
-    return axios.put("api/" + user, {fav: newFav});
+    return axios.put("api/" + user, { fav: newFav });
   },
   saveUser: function(user) {
     return axios.post("api/user", { email: user });
   },
   postRecipediaValues: function(searchCriteria) {
     return axios.post("api/searching", searchCriteria);
+  },
+  postUserPreferences: function(preferenceValues) {
+    return axios.post("api/preferences", preferenceValues);
   }
 };
