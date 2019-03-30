@@ -12,21 +12,24 @@ import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
 import QuickplannerWrapped from "../components/Modal";
-const crossout = {
-  textDecoration: "line-through",
-  display: "inline"
-};
-const none = {
-  display: "inline"
-};
-const textfield = {
-  marginRight: "10px"
-};
-const SubmitForm = {
-  display: "flex",
-  flexFlow: "column",
-  width: "200px",
-  padding: "20px"
+import Swal from "sweetalert2";
+let styles = {
+  crossout: {
+    textDecoration: "line-through",
+    display: "inline"
+  },
+  none: {
+    display: "inline"
+  },
+  textfield: {
+    marginRight: "10px"
+  },
+  SubmitForm: {
+    display: "flex",
+    flexFlow: "column",
+    width: "200px",
+    padding: "20px"
+  }
 };
 
 class Dashboard extends Component {
@@ -42,7 +45,7 @@ class Dashboard extends Component {
     time: 0,
     meals: 0,
     ingredients: {},
-    clicked: {},
+    clicked: "",
     currentUser: "",
     phone: "",
     notes: ""
@@ -132,21 +135,48 @@ class Dashboard extends Component {
   handleInputChange = event => {
     const name = event.target.name;
     const value = event.target.value;
-    // const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+    var reg = new RegExp("^[0-9]+$");
+
+    if (name === "phone" && value.match(reg) && value.length < 11) {
+      this.setState({
+        [name]: value
+      });
+    }
+    if (name === "notes") {
+      this.setState({
+        [name]: value
+      });
+    }
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    let listArr = Object.keys(this.state.ingredients).filter(item => {
-      if (!this.state.ingredients[item]) {
-        return item;
-      }
-    });
-    let text = "\n" + listArr.join("\n") + "\n" + this.state.notes;
-    API.sendSMS(this.state.phone, text);
+    if (this.state.phone.length !== 10) {
+      Swal.fire({
+        type: "error",
+        title: "Oops...",
+        text: "Check your phone number"
+      });
+    } else {
+      let listArr = Object.keys(this.state.ingredients).filter(item => {
+        if (!this.state.ingredients[item]) {
+          return item;
+        }
+      });
+      let text =
+        "This is your shopping list: \n" +
+        listArr.join("\n") +
+        "\n" +
+        this.state.notes;
+      API.sendSMS(this.state.phone, text).then(res => {
+        if (res.data) {
+          Swal.fire({
+            type: "success",
+            title: "Your message has been sent!"
+          });
+        }
+      });
+    }
   };
 
   // updateState(day, meal, obj, fav, dayTo, mealTo) {
@@ -218,7 +248,13 @@ class Dashboard extends Component {
                     checked={this.state.ingredients[item]}
                     onChange={() => this.ingredientChecked(item)}
                   />
-                  <p style={this.state.ingredients[item] ? crossout : none}>
+                  <p
+                    style={
+                      this.state.ingredients[item]
+                        ? styles.crossout
+                        : styles.none
+                    }
+                  >
                     {item}
                   </p>
                 </TableCell>
@@ -226,9 +262,10 @@ class Dashboard extends Component {
             );
           })}
         </ul>
-        <Paper style={SubmitForm}>
+        <Paper style={styles.SubmitForm}>
+          <h4>Here you can customize and send your shopping list</h4>
           <TextField
-            style={textfield}
+            style={styles.textfield}
             id="outlined-uncontrolled"
             label="Phone Number"
             placeholder="(000)-000-00-00"
@@ -239,7 +276,7 @@ class Dashboard extends Component {
             onChange={this.handleInputChange}
           />
           <TextField
-            style={textfield}
+            style={styles.textfield}
             id="outlined-multiline-flexible"
             label="Notes"
             multiline
@@ -254,8 +291,7 @@ class Dashboard extends Component {
             Send my list
           </Button>
         </Paper>
-
-        <SingleRecipe meal={this.state.clicked} />
+        {this.state.clicked ? <SingleRecipe meal={this.state.clicked} /> : ""}
       </>
     );
   }

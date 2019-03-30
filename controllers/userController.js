@@ -85,7 +85,7 @@ module.exports = {
         from: config.twilioNumber,
         to: req.body.phone
       })
-      .then(message => console.log(message.sid));
+      .then(message => res.json(message.sid));
   }
 
   // updateWeekMealsFavorites: function(req, res) {
