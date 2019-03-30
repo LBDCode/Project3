@@ -6,6 +6,8 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import ControlledExpansionPanels from "../Accordian";
 import Carousel from "../Carousel";
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
 import "./style.css";
 
 
@@ -90,5 +92,5 @@ Quickplanner.propTypes = {
 
 const QuickplannerWrapped = withStyles(styles)(Quickplanner);
 
-export default QuickplannerWrapped;
+export default DragDropContext(HTML5Backend)(QuickplannerWrapped);
 

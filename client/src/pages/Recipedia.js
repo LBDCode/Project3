@@ -13,4 +13,4 @@ class Search extends Component {
   }
 }
 
-export default Recipedia;
+export default Search;
