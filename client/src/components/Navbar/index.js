@@ -43,6 +43,7 @@ class ButtonAppBar extends Component {
                 sidebarLoginText="sidebarLoginText"
                 sidebarSaveButton="sidebarSaveButton"
                 sidebarSavePlacement="sidebarSavePlacement"
+                triggerPrefUpdate={this.props.triggerPrefUpdate}
               />
             </Tabs>
           </Toolbar>

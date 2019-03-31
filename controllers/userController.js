@@ -74,6 +74,14 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  updateSettings: function(req, res) {
+    db.User.findOneAndUpdate(
+      { email: req.params.user },
+      { preferences: req.body.preferences }
+    )
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   createPreferences: function(req, res) {
     preferences = req.body.preferences;
     console.log("Forumalated Obj: ", preferences);
