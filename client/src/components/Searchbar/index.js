@@ -77,6 +77,7 @@ class SearchAppBar extends Component {
     peanut_free: false,
     tree_nut_free: false,
     alcohol_free: false,
+    dietType: "",
     favorites: [],
     currentUser: ""
   };
@@ -129,7 +130,15 @@ class SearchAppBar extends Component {
     API.getDBRecipes(user)
       .then(res => {
         this.setState({
-          favorites: res.data.favorites
+          favorites: res.data.favorites,
+          userPreferences: res.data.preferences,
+          vegan: res.data.preferences.vegan || false,
+          vegetarian: res.data.preferences.vegetarian || false,
+          sugar_conscious: res.data.preferences.sugar_conscious || false,
+          peanut_free: res.data.preferences.peanut_free || false,
+          tree_nut_free: res.data.preferences.tree_nut_free || false,
+          alcohol_free: res.data.preferences.alcohol_free || false,
+          dietType: res.data.preferences.dietType
           // monday: res.data.weeklymenu.monday,
           // tuesday: res.data.weeklymenu.tuesday,
           // wednesday: res.data.weeklymenu.wednesday,
@@ -179,7 +188,8 @@ class SearchAppBar extends Component {
       sugar_conscious,
       peanut_free,
       tree_nut_free,
-      alcohol_free
+      alcohol_free,
+      dietType
     } = this.state;
 
     return (
@@ -216,11 +226,14 @@ class SearchAppBar extends Component {
                 <FormLabel component="legend" className="optionLabels">
                   Diet Types
                 </FormLabel>
+                {/* setTimeout(function() {
+                    return this.state.dietType;
+                  }, 1000) */}
                 <RadioGroup
                   aria-label="Diet Types"
                   name="dietType"
                   className="dietOptions"
-                  value={this.state.value}
+                  value={dietType}
                   onChange={this.handleDietTypes}
                 >
                   <FormControlLabel

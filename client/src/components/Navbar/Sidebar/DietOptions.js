@@ -44,7 +44,7 @@ class RadioButtonsGroup extends React.Component {
             aria-label="Diet Types"
             name="dietType"
             className={classes.group}
-            value={this.state.value}
+            value={this.state.value || this.props.preferences.dietType}
             onChange={this.handleChange}
           >
             <FormControlLabel
