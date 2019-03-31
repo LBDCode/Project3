@@ -12,6 +12,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import UserSettings from "@material-ui/icons/SettingsApplications";
 import RadioUserOptions from "./DietOptions";
 import AllergyOptions from "./AllergyOptions";
+import API from "../../../utils/API";
 
 const styles = theme => ({
   list: {
@@ -33,12 +34,40 @@ const styles = theme => ({
 });
 
 class TemporaryDrawer extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    left: false,
+    vegan: false,
+    vegetarian: false,
+    sugar_conscious: false,
+    peanut_free: false,
+    tree_nut_free: false,
+    alcohol_free: false,
+    dietType: ""
+  };
 
-    this.state = {
-      left: false
-    };
+  componentDidMount() {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.getAll(user.email);
+      }
+    });
+  }
+
+  getAll(user) {
+    API.getDBRecipes(user)
+      .then(res => {
+        this.setState({
+          vegan: res.data.preferences.vegan || false,
+          vegetarian: res.data.preferences.vegetarian || false,
+          sugar_conscious: res.data.preferences.sugar_conscious || false,
+          peanut_free: res.data.preferences.peanut_free || false,
+          tree_nut_free: res.data.preferences.tree_nut_free || false,
+          alcohol_free: res.data.preferences.alcohol_free || false,
+          dietType: res.data.preferences.dietType
+        });
+        // console.log(this.state);
+      })
+      .catch(err => console.log(err));
   }
 
   toggleDrawer = (side, open) => () => {
@@ -76,11 +105,11 @@ class TemporaryDrawer extends Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-          <RadioUserOptions />
+          <RadioUserOptions preferences={this.state} />
         </List>
         <Divider />
         <List>
-          <AllergyOptions />
+          <AllergyOptions preferences={this.state} />
         </List>
         {!this.state.isAnonymous ? (
           <div className={this.props.sidebarSavePlacement}>

@@ -21,12 +21,12 @@ const styles = theme => ({
 
 class CheckboxesGroup extends React.Component {
   state = {
-    vegan: false,
-    vegetarian: false,
-    sugar_conscious: false,
-    peanut_free: false,
-    tree_nut_free: false,
-    alcohol_free: false
+    vegan: this.props.preferences.vegan,
+    vegetarian: this.props.preferences.vegetarian,
+    sugar_conscious: this.props.preferences.sugar_conscious,
+    peanut_free: this.props.preferences.peanut_free,
+    tree_nut_free: this.props.preferences.tree_nut_free,
+    alcohol_free: this.props.preferences.alcohol_free
   };
 
   handleChange = name => event => {
