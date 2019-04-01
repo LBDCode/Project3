@@ -3,11 +3,16 @@
 }
 
 .slick-slider {
-    margin: 30px;
+    /* margin: 30px; */
+}
+
+.slick-track {
+    max-height: 120px;
 }
 .slick-slide>div {
     padding: 0 5px;
-
+    /* max-height: 280px;
+    max-width: 280px; */
 }
 
 .slick-prev:before, .slick-next:before{

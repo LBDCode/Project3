@@ -1,66 +1,91 @@
-import { DropTarget } from 'react-dnd'
-import React, { useState, useImperativeHandle } from 'react'
-import ItemTypes from './ItemTypes.js';
+import React, { Component } from 'react';
+import update from 'immutability-helper';
+import Card from '../CarouselCard';
+import { DropTarget } from 'react-dnd';
 
-function getStyle(backgroundColor) {
-    return {
-      border: '1px solid rgba(0,0,0,0.2)',
-      minHeight: '8rem',
-      minWidth: '8rem',
-      color: 'white',
-      backgroundColor,
-      padding: '2rem',
-      paddingTop: '1rem',
-      margin: '1rem',
-      textAlign: 'center',
-      float: 'left',
-      fontSize: '1rem',
-    }
+class Container extends Component {
+
+	constructor(props) {
+		super(props);		
+		this.state = { cards: props.list };
+	}
+
+	pushCard(card) {
+		this.setState(update(this.state, {
+			cards: {
+				$push: [ card ]
+			}
+		}));
+	}
+
+	removeCard(index) {		
+		this.setState(update(this.state, {
+			cards: {
+				$splice: [
+					[index, 1]
+				]
+			}
+		}));
+	}
+
+	moveCard(dragIndex, hoverIndex) {
+		const { cards } = this.state;		
+		const dragCard = cards[dragIndex];
+
+		this.setState(update(this.state, {
+			cards: {
+				$splice: [
+					[dragIndex, 1],
+					[hoverIndex, 0, dragCard]
+				]
+			}
+		}));
+	}
+
+	render() {
+		const { cards } = this.state;
+		const { canDrop, isOver, connectDropTarget } = this.props;
+		const isActive = canDrop && isOver;
+		const style = {
+			width: "200px",
+			height: "404px",
+			border: '1px dashed gray'
+		};
+
+		const backgroundColor = isActive ? 'lightgreen' : '#FFF';
+
+		return connectDropTarget(
+			<div style={{...style, backgroundColor}}>
+        <h3>{this.props.id}</h3>
+				{cards.map((card, i) => {
+					return (
+						<Card 
+							key={card.id}
+							index={i}
+							listId={this.props.id}
+							card={card}														
+							removeCard={this.removeCard.bind(this)}
+							moveCard={this.moveCard.bind(this)} />
+					);
+				})}
+			</div>
+		);
   }
-  const Dustbin = React.forwardRef(
-    ({ isOver, isOverCurrent, connectDropTarget, children }, ref) => {
-      const [hasDropped, setHasDropped] = useState(false)
-      const [hasDroppedOnChild, setHasDroppedOnChild] = useState(false)
-      useImperativeHandle(
-        ref,
-        () => ({
-          onDrop: onChild => {
-            setHasDroppedOnChild(onChild)
-            setHasDropped(true)
-          },
-        }),
-        [],
-      )
-      let backgroundColor = 'rgba(0, 0, 0, .5)'
-      if (isOverCurrent ) {
-        backgroundColor = 'darkgreen'
-      }
-      return connectDropTarget(
-        <div style={getStyle(backgroundColor)}>
-          <br />
-          {hasDropped && <span>dropped {hasDroppedOnChild && ' on child'}</span>}
-          <div>{children}</div>
-        </div>,
-      )
-    },
-  )
-  export default DropTarget(
-    ItemTypes.BOX,
-    {
-      drop(props, monitor, component) {
-        if (!component) {
-          return
-        }
-        const hasDroppedOnChild = monitor.didDrop()
-        if (hasDroppedOnChild && !props.greedy) {
-          return
-        }
-        component.onDrop(hasDroppedOnChild)
-      },
-    },
-    (connect, monitor) => ({
-      connectDropTarget: connect.dropTarget(),
-      isOver: monitor.isOver(),
-      isOverCurrent: monitor.isOver({ shallow: true }),
-    }),
-  )(Dustbin)
+}
+
+const cardTarget = {
+	drop(props, monitor, component ) {
+		const { id } = props;
+		const sourceObj = monitor.getItem();		
+		if ( id !== sourceObj.listId ) component.pushCard(sourceObj.card);
+		return {
+			listId: id
+		};
+	}
+}
+
+export default DropTarget("CARD", cardTarget, (connect, monitor) => ({
+	connectDropTarget: connect.dropTarget(),
+	isOver: monitor.isOver(),
+	canDrop: monitor.canDrop()
+}))(Container);
