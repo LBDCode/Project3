@@ -6,11 +6,9 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import ControlledExpansionPanels from "../Accordian";
 import Carousel from "../Carousel";
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
+import HTML5Backend from "react-dnd-html5-backend";
+import { DragDropContext } from "react-dnd";
 import "./style.css";
-
-
 
 function getModalStyle() {
   const top = 20;
@@ -26,27 +24,26 @@ function getModalStyle() {
 const styles = theme => ({
   paper: {
     position: "absolute",
-    width: '80%',
+    width: "80%",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing.unit * 4
   },
   styledModal: {
-    overflow: 'auto'    
+    overflow: "auto"
   },
   styledHeader: {
     // background: '#56ab2f',
-    color: 'black',
-    padding: '2px',
-    fontSize:'40px'
-  }  
+    color: "black",
+    padding: "2px",
+    fontSize: "40px"
+  }
 });
 
 class Quickplanner extends React.Component {
   state = {
-    open: false,
+    open: false
   };
-
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -59,13 +56,12 @@ class Quickplanner extends React.Component {
   render() {
     const { classes } = this.props;
 
-
     return (
       <div>
-        <Typography gutterBottom>
+        {/* <Typography gutterBottom>
           Click to open modal
-        </Typography>
-        <Button onClick={this.handleOpen}>Open Modal</Button>
+        </Typography> */}
+        <Button onClick={this.handleOpen}>Manage meals</Button>
         <Modal
           className={this.props.classes.styledModal}
           aria-labelledby="simple-modal-title"
@@ -74,11 +70,16 @@ class Quickplanner extends React.Component {
           onClose={this.handleClose}
         >
           <div style={getModalStyle()} className={classes.paper}>
-            <Typography className={this.props.classes.styledHeader} align="center" variant="title" id="modal-title">
+            <Typography
+              className={this.props.classes.styledHeader}
+              align="center"
+              variant="title"
+              id="modal-title"
+            >
               plan your menu
             </Typography>
-          <Carousel></Carousel>
-          <ControlledExpansionPanels></ControlledExpansionPanels>
+            <Carousel />
+            <ControlledExpansionPanels />
           </div>
         </Modal>
       </div>
@@ -93,4 +94,3 @@ Quickplanner.propTypes = {
 const QuickplannerWrapped = withStyles(styles)(Quickplanner);
 
 export default DragDropContext(HTML5Backend)(QuickplannerWrapped);
-
