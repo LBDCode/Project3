@@ -7,21 +7,38 @@
   min-width: 700px;
 }
 .meal {
-  background-color: #66745a63;
+  background-image: url("../../images/textured-bg.jpg");
 }
 .lable {
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(105, 105, 105, 0.397);
   text-align: center;
   padding: 5px 0;
   margin-top: 5px;
-  max-width: 100px;
-  border-top: 1px solid rgba(128, 128, 128, 0.507);
+  max-width: 120px;
   margin-bottom: 0;
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  margin-left: 3px;
 }
 .image-recepie {
-  max-height: 100px;
-  max-width: 100px;
+  max-height: 120px;
+  width: 120px;
   cursor: pointer;
   border-radius: 12px;
   margin-top: 10px;
+  border: 3px white solid;
+}
+.img-container {
+  position: relative;
+  align-content: center;
+}
+.image-recepie:hover {
+  border: 3px #8fd053 solid;
+}
+.th {
+  text-align: center;
 }

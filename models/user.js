@@ -16,7 +16,15 @@ const recipe = new Schema({
 const userSchema = new Schema({
   email: String,
   favorites: [recipe],
-  userPreference: [String],
+  preferences: {
+    vegan: Boolean,
+    vegetarian: Boolean,
+    sugar_conscious: Boolean,
+    peanut_free: Boolean,
+    tree_nut_free: Boolean,
+    alcohol_free: Boolean,
+    dietType: String
+  },
   weeklymenu: {
     monday: {
       breakfast: recipe,
