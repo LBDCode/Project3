@@ -82,7 +82,7 @@ class SearchAppBar extends Component {
     currentUser: ""
   };
 
-  //Checking Auth state and getting current user and info
+  // Checking Auth state and getting current user and info
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(user => {
       if (user && !Firebase.auth().currentUser.isAnonymous) {
@@ -92,6 +92,13 @@ class SearchAppBar extends Component {
         this.getAll(user.email);
       }
     });
+  }
+
+  // Re-evaluates MongoDB for newly saved preferences.
+  componentWillReceiveProps() {
+    if (this.state.currentUser) {
+      this.refreshPreferences(this.state.currentUser);
+    }
   }
 
   handleSearchQuery = event => {
@@ -151,6 +158,22 @@ class SearchAppBar extends Component {
           // ingredients: this.getIngredients(res.data.weeklymenu)
         });
         console.log(this.state);
+      })
+      .catch(err => console.log(err));
+  }
+
+  refreshPreferences(user) {
+    API.getDBRecipes(user)
+      .then(res => {
+        this.setState({
+          vegan: res.data.preferences.vegan || false,
+          vegetarian: res.data.preferences.vegetarian || false,
+          sugar_conscious: res.data.preferences.sugar_conscious || false,
+          peanut_free: res.data.preferences.peanut_free || false,
+          tree_nut_free: res.data.preferences.tree_nut_free || false,
+          alcohol_free: res.data.preferences.alcohol_free || false,
+          dietType: res.data.preferences.dietType
+        });
       })
       .catch(err => console.log(err));
   }
@@ -244,17 +267,17 @@ class SearchAppBar extends Component {
                   <FormControlLabel
                     value="high-protein"
                     control={<Radio />}
-                    label="High-Protein"
+                    label="High Protein"
                   />
                   <FormControlLabel
                     value="low-carb"
                     control={<Radio />}
-                    label="Low-Carb"
+                    label="Low Carb"
                   />
                   <FormControlLabel
                     value="low-fat"
                     control={<Radio />}
-                    label="Low-Fat"
+                    label="Low Fat"
                   />
                 </RadioGroup>
               </Grid>

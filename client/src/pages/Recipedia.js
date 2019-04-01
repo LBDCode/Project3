@@ -3,11 +3,23 @@ import Navbar from "../components/Navbar/index";
 import Searchbar from "../components/Searchbar/index";
 
 class Search extends Component {
+  state = {
+    triggerPrefUpdate: false
+  };
+
+  triggerPrefUpdate = () => {
+    this.setState(prevState => {
+      return {
+        triggerPrefUpdate: !prevState.triggerPrefUpdate
+      };
+    });
+  };
+
   render() {
     return (
       <>
-        <Navbar />
-        <Searchbar />
+        <Navbar triggerPrefUpdate={this.triggerPrefUpdate} />
+        <Searchbar triggerPrefUpdate={this.state.triggerPrefUpdate} />
       </>
     );
   }

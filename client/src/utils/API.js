@@ -35,6 +35,9 @@ export default {
   postUserPreferences: function(preferenceValues) {
     return axios.post("api/preferences", preferenceValues);
   },
+  updatePref: function(user, preferences) {
+    return axios.put("api/settings/" + user, preferences);
+  },
   sendSMS: function(phone, text) {
     return axios.post("api/sms", { phone: phone, text: text });
   }
