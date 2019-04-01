@@ -56,8 +56,12 @@ class Quickplanner extends React.Component {
     this.setState({ open: false });
   };
 
+  
+
   render() {
     const { classes } = this.props;
+    const rowStyle = { overflow: 'hidden', clear: 'both' }
+
 
 
     return (
@@ -77,8 +81,20 @@ class Quickplanner extends React.Component {
             <Typography className={this.props.classes.styledHeader} align="center" variant="title" id="modal-title">
               plan your menu
             </Typography>
-          <Carousel></Carousel>
-          <ControlledExpansionPanels></ControlledExpansionPanels>
+            <div>
+              <div style={rowStyle}>
+                <Dustbin />
+              </div>
+              <div style={rowStyle}>
+                <Box name="Glass" />
+                <Box name="Banana" />
+                <Box name="Paper" />
+              </div>
+            </div>
+
+          
+          {/* <Carousel></Carousel>
+          <ControlledExpansionPanels></ControlledExpansionPanels> */}
           </div>
         </Modal>
       </div>
