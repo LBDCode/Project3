@@ -10,8 +10,15 @@
   background: rgba(55, 55, 55, 0.8) !important;
 }
 
-.innerHoverRemoved:hover {
+.menuItemLi:hover {
   background-color: transparent !important;
+}
+
+.menuItemLi {
+  color: rgb(55, 55, 55) !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  text-align: left;
 }
 
 .menuPlacement {

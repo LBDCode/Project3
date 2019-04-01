@@ -300,10 +300,7 @@ class SimpleMenu extends Component {
             onClick={this.openLogInTab}
             className="menuList"
           >
-            <MenuItem
-              onClick={this.closeDropdown}
-              className="innerHoverRemoved"
-            >
+            <MenuItem onClick={this.closeDropdown} className="menuItemLi">
               Log In
             </MenuItem>
           </Button>
@@ -313,10 +310,7 @@ class SimpleMenu extends Component {
             onClick={this.openSignUpTab}
             className="menuList"
           >
-            <MenuItem
-              onClick={this.closeDropdown}
-              className="innerHoverRemoved"
-            >
+            <MenuItem onClick={this.closeDropdown} className="menuItemLi">
               Sign Up
             </MenuItem>
           </Button>

@@ -16,13 +16,16 @@
 }
 
 .grid-wrapper {
-  height: calc(100vh - 200px);
-  min-height: 100%;
   width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(to top, #d3faa3, #234514);
+  z-index: -1;
+  position: relative;
 }
 
 .gridItem {
   min-height: 100%;
+  display: inline-grid;
 }
 
 .gridPics {

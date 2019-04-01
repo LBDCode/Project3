@@ -91,25 +91,13 @@ class TemporaryDrawer extends Component {
 
   toggleDrawer = (side, open) => () => {
     this.setState({
-      [side]: open,
-      isAnonymous: Firebase.auth().currentUser.isAnonymous
+      [side]: open
     });
   };
 
   userLogout = () => {
     Firebase.auth()
       .signOut()
-      .then(user => {
-        this.props.history.push("/");
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  userSignup = () => {
-    Firebase.auth()
-      .currentUser.delete()
       .then(user => {
         this.props.history.push("/");
       })
@@ -281,54 +269,22 @@ class TemporaryDrawer extends Component {
             </FormControl>
           </div>
         </List>
-        {!this.state.isAnonymous ? (
-          <div className={this.props.sidebarSavePlacement}>
-            <Button
-              onClick={this.saveChanges}
-              variant="contained"
-              className={[classes.button, this.props.sidebarSaveButton].join(
-                " "
-              )}
-            >
-              Save Changes
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={[classes.button, classes.logoutBtn].join(" ")}
-              onClick={this.userLogout}
-            >
-              Log Out
-            </Button>
-          </div>
-        ) : (
-          false
-        )}
-        {this.state.isAnonymous ? (
-          <>
-            <Divider />
-            <FormLabel className={this.props.sidebarLoginText}>
-              Register Today
-            </FormLabel>
-          </>
-        ) : (
-          false
-        )}
-        <div className={this.props.sidebarLoginButtons}>
-          {this.state.isAnonymous ? (
-            <>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={this.userSignup}
-              >
-                Sign Up
-              </Button>
-            </>
-          ) : (
-            false
-          )}
+        <div className={this.props.sidebarSavePlacement}>
+          <Button
+            onClick={this.saveChanges}
+            variant="contained"
+            className={[classes.button, this.props.sidebarSaveButton].join(" ")}
+          >
+            Save Changes
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={[classes.button, classes.logoutBtn].join(" ")}
+            onClick={this.userLogout}
+          >
+            Log Out
+          </Button>
         </div>
       </div>
     );
