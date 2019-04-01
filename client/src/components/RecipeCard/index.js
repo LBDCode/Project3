@@ -113,7 +113,12 @@ class RecipeReviewCard extends Component {
           <IconButton
             aria-label="Add to favorites"
             className={classes.recipeIcons}
-            onClick={() => this.props.handleFavorite(this.props.recipeInfo)}
+            onClick={() =>
+              this.props.handleFavorite(
+                this.props.recipeInfo,
+                this.props.recipeInfo.recipe.label
+              )
+            }
           >
             <FavoriteIcon />
           </IconButton>

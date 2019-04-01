@@ -16,6 +16,7 @@ import Button from "@material-ui/core/Button";
 import API from "../../utils/API";
 import RecipeCard from "../RecipeCard/index";
 import Firebase from "../../config/Firebase";
+import Swal from "sweetalert2";
 import "./style.css";
 
 const styles = theme => ({
@@ -66,6 +67,12 @@ const styles = theme => ({
         width: 200
       }
     }
+  },
+  recipeModalTitle: {
+    fontSize: "12px"
+  },
+  recipeModalText: {
+    fontSize: "10px"
   }
 });
 
@@ -195,11 +202,27 @@ class SearchAppBar extends Component {
     return formFav;
   };
 
-  handleFavorite = fav => {
+  handleFavorite = (fav, recipeName) => {
     let newFav = this.formatFavorite(fav);
 
     API.updateFavs(this.state.currentUser, newFav)
-      .then(this.getAll(this.state.currentUser))
+      .then(() => {
+        this.getAll(this.state.currentUser);
+      })
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          type: "success",
+          title: recipeName.toUpperCase(),
+          text: "This recipe has been added to your favorites.",
+          showConfirmButton: false,
+          timer: 4000,
+          customClass: {
+            header: this.props.classes.recipeModalTitle,
+            content: this.props.classes.recipeModalText
+          }
+        });
+      })
       .catch(err => console.log(err));
   };
 
