@@ -23,6 +23,7 @@
 
 .gridItem {
   min-height: 100%;
+  display: inline-grid;
 }
 
 .gridPics {
