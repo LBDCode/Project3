@@ -249,9 +249,6 @@ class SearchAppBar extends Component {
                 <FormLabel component="legend" className="optionLabels">
                   Diet Types
                 </FormLabel>
-                {/* setTimeout(function() {
-                    return this.state.dietType;
-                  }, 1000) */}
                 <RadioGroup
                   aria-label="Diet Types"
                   name="dietType"
