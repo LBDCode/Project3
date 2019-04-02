@@ -18,6 +18,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Swal from "sweetalert2";
+import "../style.css";
 
 const styles = theme => ({
   root: {
@@ -170,25 +171,33 @@ class TemporaryDrawer extends Component {
                 onChange={this.handleDietType}
               >
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[classes.labelSpacing, "formatDietOptions"].join(
+                    " "
+                  )}
                   value="balanced"
                   control={<Radio />}
                   label="Balanced"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[classes.labelSpacing, "formatDietOptions"].join(
+                    " "
+                  )}
                   value="high-protein"
                   control={<Radio />}
                   label="High Protein"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[classes.labelSpacing, "formatDietOptions"].join(
+                    " "
+                  )}
                   value="low-carb"
                   control={<Radio />}
                   label="Low Carb"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[classes.labelSpacing, "formatDietOptions"].join(
+                    " "
+                  )}
                   value="low-fat"
                   control={<Radio />}
                   label="Low Fat"
@@ -206,7 +215,10 @@ class TemporaryDrawer extends Component {
               </FormLabel>
               <FormGroup>
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[
+                    classes.labelSpacing,
+                    "formatAllergyOptions"
+                  ].join(" ")}
                   control={
                     <Checkbox
                       checked={vegan}
@@ -216,7 +228,10 @@ class TemporaryDrawer extends Component {
                   label="Vegan"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[
+                    classes.labelSpacing,
+                    "formatAllergyOptions"
+                  ].join(" ")}
                   control={
                     <Checkbox
                       checked={vegetarian}
@@ -226,7 +241,10 @@ class TemporaryDrawer extends Component {
                   label="Vegetarian"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[
+                    classes.labelSpacing,
+                    "formatAllergyOptions"
+                  ].join(" ")}
                   control={
                     <Checkbox
                       checked={sugar_conscious}
@@ -236,7 +254,10 @@ class TemporaryDrawer extends Component {
                   label="Sugar-conscious"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[
+                    classes.labelSpacing,
+                    "formatAllergyOptions"
+                  ].join(" ")}
                   control={
                     <Checkbox
                       checked={peanut_free}
@@ -246,7 +267,10 @@ class TemporaryDrawer extends Component {
                   label="Peanut-free"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[
+                    classes.labelSpacing,
+                    "formatAllergyOptions"
+                  ].join(" ")}
                   control={
                     <Checkbox
                       checked={tree_nut_free}
@@ -256,7 +280,10 @@ class TemporaryDrawer extends Component {
                   label="Tree Nut-free"
                 />
                 <FormControlLabel
-                  className={classes.labelSpacing}
+                  className={[
+                    classes.labelSpacing,
+                    "formatAllergyOptions"
+                  ].join(" ")}
                   control={
                     <Checkbox
                       checked={alcohol_free}

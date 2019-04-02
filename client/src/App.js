@@ -12,7 +12,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: ""
+      user: "",
+      isAnonymous: false
     };
   }
 
@@ -20,16 +21,29 @@ class App extends Component {
     this.authListener();
   }
 
+  componentWillMount() {
+    this.authListener();
+    this.anonymousCheck();
+  }
+
+  anonymousCheck() {
+    Firebase.auth().onIdTokenChanged(user => {
+      this.setState({ isAnonymous: user.isAnonymous });
+    });
+  }
+
   authListener() {
-    Firebase.auth().onAuthStateChanged(user => {
+    Firebase.auth().onIdTokenChanged(user => {
       // console.log(user);
 
       if (user) {
         this.setState({ user });
         localStorage.setItem("user", user.uid);
+        localStorage.setItem("isAnonymous", user.isAnonymous);
       } else {
         this.setState({ user: null });
         localStorage.removeItem("user");
+        localStorage.removeItem("isAnonymous");
       }
     });
   }
@@ -39,14 +53,26 @@ class App extends Component {
       <Router>
         <div>
           {this.state.user || localStorage.getItem("user") ? (
-            <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/search" component={Recipedia} />
-              <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/recipe/:id" component={RecipePage} />
-              <Route exact path="/modal" component={Modal} />
-              <Route component={NoMatch} />
-            </Switch>
+            <>
+              {this.state.isAnonymous ||
+              !localStorage.getItem("isAnonymous") ? (
+                <Switch>
+                  <Route exact path="/" component={Landing} />
+                  <Route exact path="/search" component={Recipedia} />
+                  <Route exact path="/recipe/:id" component={RecipePage} />
+                  <Route component={NoMatch} />
+                </Switch>
+              ) : (
+                <Switch>
+                  <Route exact path="/" component={Landing} />
+                  <Route exact path="/search" component={Recipedia} />
+                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/recipe/:id" component={RecipePage} />
+                  <Route exact path="/modal" component={Modal} />
+                  <Route component={NoMatch} />
+                </Switch>
+              )}
+            </>
           ) : (
             <Switch>
               <Route exact path="/" component={Landing} />

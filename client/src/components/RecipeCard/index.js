@@ -23,30 +23,27 @@ const styles = theme => ({
     filter: "opacity(.8)"
   },
   avatar: {
-    background: "linear-gradient( to right, #a8e063, #56ab2f )",
+    background: "rgb(150,150,150)",
     fontFamily: "Norican, cursive",
     fontSize: "25px",
     fontWeight: 900
   },
   recipeIcons: {
-    color: "#56ab2f"
+    color: "rgb(150,150,150)"
   },
   recipeTitle: {
     fontSize: "23px",
     fontFamily: "Roboto, cursive",
     "font-variant-caps": "all-petite-caps",
-    color: "#56ab2f",
+    color: "rgb(150,150,150)",
     height: "50px",
     width: "197px",
-    textOverflow: "ellipsis",
     overflow: "hidden",
-    display: "-webkit-box",
-    "-webkit-line-clamp": 2,
-    "-webkit-box-orient": "vertical"
+    display: "grid",
+    alignItems: "center"
   },
   header: {
-    padding: "5px 16px",
-    borderBottom: "solid white 5px"
+    padding: "5px 16px"
   },
   button: {
     borderRadius: "100%",
