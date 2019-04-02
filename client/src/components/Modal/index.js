@@ -61,6 +61,13 @@ class Quickplanner extends React.Component {
   state = {
     open: false,
     favorites: [],
+    monday: {},
+    tuesday: {},
+    wednesday: {},
+    thursday: {},
+    friday: {},
+    saturday: {},
+    sunday: {},
     currentUser: "",
     expanded: null,
   };
@@ -93,12 +100,27 @@ class Quickplanner extends React.Component {
     API.getDBRecipes(user)
       .then(res => {
         this.setState({
-          favorites: res.data.favorites
+          favorites: res.data.favorites,
+          mondayBreakfast: res.data.weeklymenu.monday.breakfast,
+          mondayLunch: res.data.weeklymenu.monday.lunch,
+          mondayDinner: res.data.weeklymenu.monday.dinner,
         });
-        console.log(this.state.favorites);
+        console.log(this.state.monday);
         this.mapFavs();
       })
       .catch(err => console.log(err));
+  };
+
+  saveMeal(user, day, meal, recipe) {
+    // const mealString = day + meal;
+    // const newMeal = {mealString: recipe};
+    console.log("hi");
+    // API.updateMenu(user, newMeal)
+    // .then(res =>  {
+    //   this.setState({
+
+    //   })
+    // })
   };
 
   componentDidMount() {
@@ -164,17 +186,17 @@ class Quickplanner extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div style={{...style}}>
-                <Container id="MondayBreakfast" list={listOne} />
+                <Container id="MondayBreakfast" list={listOne} saveMeal={this.saveMeal}/>
               </div>
               <div style={{...style}}>
-                <Container id="MondayLunch" list={listTwo} />
+                <Container id="MondayLunch" list={listTwo} saveMeal={this.saveMeal}/>
               </div>
               <div style={{...style}}>
-                <Container id="MondayDinner" list={listOne} />
+                <Container id="MondayDinner" list={listOne} saveMeal={this.saveMeal} />
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+          {/* <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Tuesday</Typography>
             </ExpansionPanelSummary>
@@ -270,7 +292,7 @@ class Quickplanner extends React.Component {
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-
+ */}
         </div>
       </Modal>
       </div>
