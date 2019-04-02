@@ -58,14 +58,14 @@ class CarouselTwo extends Component {
 		const style = {
 			// width: "200px",
 			// height: "404px",
-			border: '1px dashed gray'
+			// border: '1px dashed gray'
 		};
 
         const backgroundColor = isActive ? 'lightgreen' : '#FFF';
         
         var settings = {
             dots: true,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 4,
             slidesToScroll: 4,
@@ -112,9 +112,10 @@ class CarouselTwo extends Component {
 					return (
 						<Card 
 							key={card.id}
-                            index={i}
-                            image={card.image}
+              index={i}
+              image={card.image}
 							listId={this.props.id}
+							saveMeal={this.props.saveMeal}
 							card={card}														
 							removeCard={this.removeCard.bind(this)}
 							moveCard={this.moveCard.bind(this)} />

@@ -39,36 +39,46 @@ class ButtonAppBar extends Component {
               indicatorColor="primary"
               textColor="primary"
             >
-              <Link to={"/search"} className="navText searchTab">
-                <Tab
-                  label="Recipedia"
-                  icon={<RecipeSearchIcon className="navcons" />}
-                />
-              </Link>
-              <Link to={"/dashboard"} className="navText dashboardTab">
-                <Tab
-                  label="Dashboard"
-                  icon={<DashboardIcon className="navcons" />}
-                />
-              </Link>
               {this.state.isAnonymous ? (
-                <Link to={"/"} className="navText dashboardTab">
-                  <Tab
-                    label="Sign Up"
-                    icon={<SignUpIcon className="navcons" />}
-                  />
-                </Link>
+                <>
+                  <Link to={"/search"} className="navText searchTab">
+                    <Tab
+                      label="Recipedia"
+                      icon={<RecipeSearchIcon className="navcons" />}
+                    />
+                  </Link>
+                  <Link to={"/"} className="navText dashboardTab">
+                    <Tab
+                      label="Sign Up"
+                      icon={<SignUpIcon className="navcons" />}
+                    />
+                  </Link>
+                </>
               ) : (
-                <UserOptions
-                  navtext="navText"
-                  navButton="navButton"
-                  navcon="navcons"
-                  sidebarLoginButtons="sidebarLoginButtons"
-                  sidebarLoginText="sidebarLoginText"
-                  sidebarSaveButton="sidebarSaveButton"
-                  sidebarSavePlacement="sidebarSavePlacement"
-                  triggerPrefUpdate={this.props.triggerPrefUpdate}
-                />
+                <>
+                  <Link to={"/search"} className="navText searchTab">
+                    <Tab
+                      label="Recipedia"
+                      icon={<RecipeSearchIcon className="navcons" />}
+                    />
+                  </Link>
+                  <Link to={"/dashboard"} className="navText dashboardTab">
+                    <Tab
+                      label="Dashboard"
+                      icon={<DashboardIcon className="navcons" />}
+                    />
+                  </Link>
+                  <UserOptions
+                    navtext="navText"
+                    navButton="navButton"
+                    navcon="navcons"
+                    sidebarLoginButtons="sidebarLoginButtons"
+                    sidebarLoginText="sidebarLoginText"
+                    sidebarSaveButton="sidebarSaveButton"
+                    sidebarSavePlacement="sidebarSavePlacement"
+                    triggerPrefUpdate={this.props.triggerPrefUpdate}
+                  />
+                </>
               )}
             </Tabs>
           </Toolbar>

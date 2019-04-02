@@ -20,7 +20,7 @@ class RecipePage extends React.Component {
     return (
       <>
         <Navbar />
-        <h1>Recipe Page</h1>
+
         {this.state.meal && <Recipe meal={this.state.meal} />}
       </>
     );

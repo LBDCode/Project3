@@ -16,7 +16,7 @@ class Landing extends Component {
   }
 
   authListener() {
-    Firebase.auth().onAuthStateChanged(user => {
+    Firebase.auth().onIdTokenChanged(user => {
       if (user && !Firebase.auth().currentUser.isAnonymous) {
         this.saveUser(user.email);
         this.props.history.push("/search");

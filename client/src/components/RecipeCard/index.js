@@ -9,6 +9,18 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/ViewList";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const styles = theme => ({
   card: {
@@ -23,30 +35,27 @@ const styles = theme => ({
     filter: "opacity(.8)"
   },
   avatar: {
-    background: "linear-gradient( to right, #a8e063, #56ab2f )",
+    background: "rgb(150,150,150)",
     fontFamily: "Norican, cursive",
     fontSize: "25px",
     fontWeight: 900
   },
   recipeIcons: {
-    color: "#56ab2f"
+    color: "rgb(150,150,150)"
   },
   recipeTitle: {
     fontSize: "23px",
     fontFamily: "Roboto, cursive",
     "font-variant-caps": "all-petite-caps",
-    color: "#56ab2f",
+    color: "rgb(150,150,150)",
     height: "50px",
     width: "197px",
-    textOverflow: "ellipsis",
     overflow: "hidden",
-    display: "-webkit-box",
-    "-webkit-line-clamp": 2,
-    "-webkit-box-orient": "vertical"
+    display: "grid",
+    alignItems: "center"
   },
   header: {
-    padding: "5px 16px",
-    borderBottom: "solid white 5px"
+    padding: "5px 16px"
   },
   button: {
     borderRadius: "100%",
@@ -68,6 +77,8 @@ const styles = theme => ({
   }
 });
 
+
+
 class RecipeReviewCard extends Component {
   constructFavObj = () => {
     let newFav = {
@@ -85,10 +96,32 @@ class RecipeReviewCard extends Component {
     console.log(newFav);
   };
 
+
+  state = {
+    open: false,
+    day: '',
+    meal: ''
+  };
+
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+
   render() {
     const { classes } = this.props;
 
     return (
+
+
       <Card className={classes.card}>
         <CardHeader
           className={classes.header}
@@ -122,9 +155,71 @@ class RecipeReviewCard extends Component {
           >
             <FavoriteIcon />
           </IconButton>
-          <IconButton aria-label="Share" className={classes.recipeIcons}>
+          <>
+          <IconButton aria-label="Share" className={classes.recipeIcons}
+            onClick={
+              // this.props.saveMeal("friday", "dinner", this.props.recipeInfo)
+              this.handleClickOpen
+            }
+          >
             <ShareIcon />
           </IconButton>
+          <Dialog
+          disableBackdropClick
+          disableEscapeKeyDown
+          open={this.state.open}
+          onClose={this.handleClose}
+        >
+          <DialogTitle>Add this meal to your weekly menu</DialogTitle>
+          <DialogContent>
+            <form className={classes.container}>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="day-native-simple">Day</InputLabel>
+                <Select
+                  native
+                  value={this.state.day}
+                  onChange={this.handleChange('day')}
+                  input={<Input id="day-native-simple" />}
+                >
+                  <option value="" />
+                  <option value="monday">Monday</option>
+                  <option value="tuesday">Tuesday</option>
+                  <option value="wednesday">Wednesday</option>
+                  <option value="thursday">Thursday</option>
+                  <option value="friday">Friday</option>
+                  <option value="saturday">Saturday</option>
+                  <option value="sunday">Sunday</option>
+                </Select>
+              </FormControl>
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="meal-simple">Meal</InputLabel>
+                <Select
+                  value={this.state.meal}
+                  onChange={this.handleChange('meal')}
+                  input={<Input id="meal-simple" />}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="breakfast">Breakfast</MenuItem>
+                  <MenuItem value="lunch">Lunch</MenuItem>
+                  <MenuItem value="dinner">Dinner</MenuItem>
+                </Select>
+              </FormControl>
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={() => {this.props.saveMeal(this.state.day, this.state.meal, this.props.recipeInfo);
+            this.handleClose();}} color="primary">
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
+          
+          </>
         </CardActions>
       </Card>
     );

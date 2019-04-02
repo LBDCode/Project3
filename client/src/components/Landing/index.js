@@ -11,7 +11,7 @@ import "./style.css";
 function CenteredGrid(props) {
   return (
     <>
-      <Grid className="header" item xs={12}>
+      <Grid className="landing-header" item xs={12}>
         <img className="logo" alt="logo" src={logoImg} />
       </Grid>
       <Grid container className="grid-wrapper">

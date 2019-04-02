@@ -18,28 +18,26 @@ import RecipeCard from "../RecipeCard/index";
 import Firebase from "../../config/Firebase";
 import Swal from "sweetalert2";
 import "./style.css";
+import { constants } from "zlib";
 
 const styles = theme => ({
   root: {
     width: "100%"
   },
-  grow: {
-    flexGrow: 1
-  },
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: "rgba(55, 55, 55, 0.45)",
+    backgroundColor: "rgba(55, 55, 55, 0.65)",
     "&:hover": {
-      backgroundColor: "rgba(55, 55, 55, 0.65)"
+      backgroundColor: "rgba(55, 55, 55, 0.8)"
     },
     marginLeft: "0!important",
     width: "100%",
+    height: "48px",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing.unit,
       width: "auto"
-    },
-    marginTop: "20px"
+    }
   },
   searchIcon: {
     width: theme.spacing.unit * 9,
@@ -61,6 +59,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 10,
     transition: theme.transitions.create("width"),
     width: "100%",
+    height: "35px",
     [theme.breakpoints.up("sm")]: {
       width: 120,
       "&:focus": {
@@ -86,7 +85,8 @@ class SearchAppBar extends Component {
     alcohol_free: false,
     dietType: "",
     favorites: [],
-    currentUser: ""
+    currentUser: "",
+    menu:{},
   };
 
   // Checking Auth state and getting current user and info
@@ -134,7 +134,6 @@ class SearchAppBar extends Component {
     };
     API.postRecipediaValues(values)
       .then(response => this.setState({ recipes: response.data.hits }))
-      .then(response => console.log(this.state.recipes))
       .catch(err => console.log(err));
   };
 
@@ -152,7 +151,8 @@ class SearchAppBar extends Component {
           peanut_free: res.data.preferences.peanut_free || false,
           tree_nut_free: res.data.preferences.tree_nut_free || false,
           alcohol_free: res.data.preferences.alcohol_free || false,
-          dietType: res.data.preferences.dietType
+          dietType: res.data.preferences.dietType,
+          menu: res.data.weeklymenu,
           // monday: res.data.weeklymenu.monday,
           // tuesday: res.data.weeklymenu.tuesday,
           // wednesday: res.data.weeklymenu.wednesday,
@@ -185,8 +185,8 @@ class SearchAppBar extends Component {
       .catch(err => console.log(err));
   }
 
-  formatFavorite = favObj => {
-    let formFav = {
+  formatRecipe = favObj => {
+    let formRec = {
       uri: favObj.recipe.uri,
       calories: favObj.recipe.calories,
       protein: favObj.recipe.digest[2].total,
@@ -199,11 +199,11 @@ class SearchAppBar extends Component {
       image: favObj.recipe.image
     };
 
-    return formFav;
+    return formRec;
   };
 
   handleFavorite = (fav, recipeName) => {
-    let newFav = this.formatFavorite(fav);
+    let newFav = this.formatRecipe(fav);
 
     API.updateFavs(this.state.currentUser, newFav)
       .then(() => {
@@ -226,6 +226,20 @@ class SearchAppBar extends Component {
       .catch(err => console.log(err));
   };
 
+  handleMealSave = (day, meal, recipe)=> {
+    this.getAll(this.state.currentUser);
+    let newMeal = this.formatRecipe(recipe);
+    let curMenu = {...this.state.menu};
+
+    curMenu[day] = { [meal]: newMeal };
+    console.log(curMenu); 
+    console.log(this.state.menu);
+
+    API.updateMenu(this.state.currentUser, curMenu)
+    .then(res => this.getAll(this.state.currentUser))
+    .catch(err => console.log(err));
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -243,33 +257,42 @@ class SearchAppBar extends Component {
         <AppBar position="static">
           <Toolbar className="searchMenuBg">
             <Grid container spacing={24}>
-              <Grid className="searchbarPlacing" item xs={12}>
-                <div className={classes.grow} />
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className="searchBtn"
-                  onClick={this.handleSearchValues}
+              <Grid className="searchbarPlacing" item xs={12} md={5}>
+                <FormLabel
+                  component="legend"
+                  className="optionLabels searchbarMarginFix"
                 >
-                  Search
-                </Button>
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
+                  Find Recipes
+                </FormLabel>
+                <div className="searchbarFlexFix">
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    className="searchBtn"
+                    onClick={this.handleSearchValues}
+                  >
+                    Search
+                  </Button>
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      name="searchTerm"
+                      onChange={this.handleSearchQuery}
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput
+                      }}
+                    />
                   </div>
-                  <InputBase
-                    placeholder="Search…"
-                    name="searchTerm"
-                    onChange={this.handleSearchQuery}
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput
-                    }}
-                  />
                 </div>
               </Grid>
-              <Grid item xs={12}>
-                <FormLabel component="legend" className="optionLabels">
+              <Grid item xs={12} md={7}>
+                <FormLabel
+                  component="legend"
+                  className="optionLabels dietOptionsMarginFix searchbarMarginFix"
+                >
                   Diet Types
                 </FormLabel>
                 <RadioGroup
@@ -283,30 +306,35 @@ class SearchAppBar extends Component {
                     value="balanced"
                     control={<Radio />}
                     label="Balanced"
+                    className="formatDietOptions"
                   />
                   <FormControlLabel
                     value="high-protein"
                     control={<Radio />}
                     label="High Protein"
+                    className="formatDietOptions"
                   />
                   <FormControlLabel
                     value="low-carb"
                     control={<Radio />}
                     label="Low Carb"
+                    className="formatDietOptions"
                   />
                   <FormControlLabel
                     value="low-fat"
                     control={<Radio />}
                     label="Low Fat"
+                    className="formatDietOptions"
                   />
                 </RadioGroup>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} className="allergyMarginFix">
                 <FormLabel component="legend" className="optionLabels">
                   Food Allergies
                 </FormLabel>
                 <FormGroup className="allergyOptions">
                   <FormControlLabel
+                    className="formatAllergyOptions"
                     control={
                       <Checkbox
                         checked={vegan}
@@ -316,6 +344,7 @@ class SearchAppBar extends Component {
                     label="Vegan"
                   />
                   <FormControlLabel
+                    className="formatAllergyOptions"
                     control={
                       <Checkbox
                         checked={vegetarian}
@@ -325,6 +354,7 @@ class SearchAppBar extends Component {
                     label="Vegetarian"
                   />
                   <FormControlLabel
+                    className="formatAllergyOptions"
                     control={
                       <Checkbox
                         checked={sugar_conscious}
@@ -334,6 +364,7 @@ class SearchAppBar extends Component {
                     label="Sugar-conscious"
                   />
                   <FormControlLabel
+                    className="formatAllergyOptions"
                     control={
                       <Checkbox
                         checked={peanut_free}
@@ -343,6 +374,7 @@ class SearchAppBar extends Component {
                     label="Peanut-free"
                   />
                   <FormControlLabel
+                    className="formatAllergyOptions"
                     control={
                       <Checkbox
                         checked={tree_nut_free}
@@ -352,6 +384,7 @@ class SearchAppBar extends Component {
                     label="Tree Nut-free"
                   />
                   <FormControlLabel
+                    className="formatAllergyOptions"
                     control={
                       <Checkbox
                         checked={alcohol_free}
@@ -373,6 +406,8 @@ class SearchAppBar extends Component {
                   <RecipeCard
                     recipeInfo={recipe}
                     handleFavorite={this.handleFavorite}
+                    saveMeal={this.handleMealSave}  
+                    user={this.state.currentUser}
                   />
                 </Grid>
               );
