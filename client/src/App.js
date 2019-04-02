@@ -51,7 +51,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
+        <>
           {this.state.user || localStorage.getItem("user") ? (
             <>
               {this.state.isAnonymous ||
@@ -79,7 +79,7 @@ class App extends Component {
               <Route component={NoMatch} />
             </Switch>
           )}
-        </div>
+        </>
       </Router>
     );
   }
