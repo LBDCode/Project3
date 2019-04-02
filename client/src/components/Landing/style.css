@@ -10,15 +10,15 @@
   background: rgba(55, 55, 55, 0.8);
 }
 
-.header {
-  background: linear-gradient(to right, #a8e063, #56ab2f);
+.landing-header {
+  background: white;
   height: auto;
 }
 
 .grid-wrapper {
   width: 100vw;
   min-height: 100vh;
-  background: linear-gradient(to top, #d3faa3, #234514);
+  background: white;
   z-index: -1;
   position: relative;
 }

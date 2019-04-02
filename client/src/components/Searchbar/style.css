@@ -13,7 +13,7 @@
   overflow: auto;
   border-radius: 5px;
   padding: 0px 15px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   flex-wrap: wrap !important;
   letter-spacing: 2px;
 }
@@ -33,7 +33,7 @@
 
 .searchbarPlacing {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
 }
 
 .allergyOptions {
@@ -42,24 +42,54 @@
   overflow: auto;
   border-radius: 5px;
   padding: 0px 15px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   flex-wrap: wrap !important;
   margin-bottom: 20px;
   letter-spacing: 2px;
 }
 
 .searchBtn {
-  height: 35px;
-  margin-top: 20px !important;
+  height: 48px !important;
   margin-left: 15px !important;
+  background: rgb(100, 100, 100) !important;
+}
+
+.searchBtn:hover {
+  background: rgb(80, 80, 80) !important;
 }
 
 .searchMenuBg {
-  background-image: url("./healthy.jpg");
+  background-image: url("../../images/recipediaPage.jpg");
+  filter: contrast(0.8);
   background-size: cover;
 }
 
 .noResultsFound {
   text-align: center;
   color: rgb(205, 205, 205);
+}
+
+.formatDietOptions > span,
+.formatAllergyOptions > span {
+  color: rgb(100, 100, 100) !important;
+}
+
+.searchbarMarginFix {
+  margin-top: 20px;
+}
+
+.searchbarFlexFix {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.allergyMarginFix {
+  padding-top: 0 !important;
+}
+
+@media (max-width: 959px) {
+  .dietOptionsMarginFix {
+    margin-top: 0;
+  }
 }
