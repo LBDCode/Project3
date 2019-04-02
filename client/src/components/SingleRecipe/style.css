@@ -1,13 +1,86 @@
-.dashboard-recepie {
-  width: 100%;
-  display: flex;
-  margin-bottom: 20px;
-  padding: 20px;
+.dashboardRecepie {
+  width: 50%;
+  background-color: rgb(143, 208, 83) !important;
+  padding: 5px;
+  margin: 120px auto 20px auto;
+  font-family: "Dosis", sans-serif;
+}
+.dashboardRecepie > div {
+  align-items: center;
 }
 .card-img {
-  max-width: 350px;
-  height: 350px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 6px solid rgb(143, 208, 83);
+  position: absolute;
+  top: -250px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
 }
-.dashboard-recepie > div {
-  margin-right: 50px;
+
+.body-card {
+  background-color: white;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+.body-card > div {
+  width: 33%;
+  margin: 0 1px;
+  color: grey;
+  font-size: 20px;
+  text-align: left;
+}
+h3 > i {
+  color: white;
+}
+.bg-header {
+  position: relative;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.bg-header > h1 {
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.452);
+  width: 50%;
+  padding-bottom: 20px;
+  margin: 150px auto 30px auto;
+}
+.bg-header > h3 {
+  color: rgba(255, 255, 255, 0.582);
+}
+.bg-header > a {
+  color: rgba(255, 255, 255, 0.582);
+  font-size: 20px;
+  text-decoration: none;
+}
+i {
+  color: rgb(143, 208, 83);
+  margin-right: 10px;
+  font-size: 30px;
+}
+ul {
+  list-style-type: none;
+  padding-inline-start: 0;
+}
+.fa-dot-circle {
+  font-size: 15px;
+}
+.circle {
+  color: rgb(143, 208, 83);
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+@media screen and (max-width: 768px) {
+  .dashboardRecepie {
+    width: 90%;
+  }
+  .body-card > div {
+    width: 60%;
+    margin: 0 auto;
+  }
 }

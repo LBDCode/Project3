@@ -16,6 +16,8 @@ router.post("/searching", userController.retrieveRecipes);
 
 router.put("/:user", userController.updateFavorites);
 
+router.put("/settings/:user", userController.updateSettings);
+
 router.post("/preferences", userController.createPreferences);
 
 router.post("/sms", userController.sendSMS);

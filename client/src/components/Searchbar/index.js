@@ -16,6 +16,7 @@ import Button from "@material-ui/core/Button";
 import API from "../../utils/API";
 import RecipeCard from "../RecipeCard/index";
 import Firebase from "../../config/Firebase";
+import Swal from "sweetalert2";
 import "./style.css";
 
 const styles = theme => ({
@@ -66,6 +67,12 @@ const styles = theme => ({
         width: 200
       }
     }
+  },
+  recipeModalTitle: {
+    fontSize: "12px"
+  },
+  recipeModalText: {
+    fontSize: "10px"
   }
 });
 
@@ -77,11 +84,12 @@ class SearchAppBar extends Component {
     peanut_free: false,
     tree_nut_free: false,
     alcohol_free: false,
+    dietType: "",
     favorites: [],
     currentUser: ""
   };
 
-  //Checking Auth state and getting current user and info
+  // Checking Auth state and getting current user and info
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(user => {
       if (user && !Firebase.auth().currentUser.isAnonymous) {
@@ -91,6 +99,13 @@ class SearchAppBar extends Component {
         this.getAll(user.email);
       }
     });
+  }
+
+  // Re-evaluates MongoDB for newly saved preferences.
+  componentWillReceiveProps() {
+    if (this.state.currentUser) {
+      this.refreshPreferences(this.state.currentUser);
+    }
   }
 
   handleSearchQuery = event => {
@@ -129,7 +144,15 @@ class SearchAppBar extends Component {
     API.getDBRecipes(user)
       .then(res => {
         this.setState({
-          favorites: res.data.favorites
+          favorites: res.data.favorites,
+          userPreferences: res.data.preferences,
+          vegan: res.data.preferences.vegan || false,
+          vegetarian: res.data.preferences.vegetarian || false,
+          sugar_conscious: res.data.preferences.sugar_conscious || false,
+          peanut_free: res.data.preferences.peanut_free || false,
+          tree_nut_free: res.data.preferences.tree_nut_free || false,
+          alcohol_free: res.data.preferences.alcohol_free || false,
+          dietType: res.data.preferences.dietType
           // monday: res.data.weeklymenu.monday,
           // tuesday: res.data.weeklymenu.tuesday,
           // wednesday: res.data.weeklymenu.wednesday,
@@ -142,6 +165,22 @@ class SearchAppBar extends Component {
           // ingredients: this.getIngredients(res.data.weeklymenu)
         });
         console.log(this.state);
+      })
+      .catch(err => console.log(err));
+  }
+
+  refreshPreferences(user) {
+    API.getDBRecipes(user)
+      .then(res => {
+        this.setState({
+          vegan: res.data.preferences.vegan || false,
+          vegetarian: res.data.preferences.vegetarian || false,
+          sugar_conscious: res.data.preferences.sugar_conscious || false,
+          peanut_free: res.data.preferences.peanut_free || false,
+          tree_nut_free: res.data.preferences.tree_nut_free || false,
+          alcohol_free: res.data.preferences.alcohol_free || false,
+          dietType: res.data.preferences.dietType
+        });
       })
       .catch(err => console.log(err));
   }
@@ -163,11 +202,27 @@ class SearchAppBar extends Component {
     return formFav;
   };
 
-  handleFavorite = fav => {
+  handleFavorite = (fav, recipeName) => {
     let newFav = this.formatFavorite(fav);
 
     API.updateFavs(this.state.currentUser, newFav)
-      .then(this.getAll(this.state.currentUser))
+      .then(() => {
+        this.getAll(this.state.currentUser);
+      })
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          type: "success",
+          title: recipeName.toUpperCase(),
+          text: "This recipe has been added to your favorites.",
+          showConfirmButton: false,
+          timer: 4000,
+          customClass: {
+            header: this.props.classes.recipeModalTitle,
+            content: this.props.classes.recipeModalText
+          }
+        });
+      })
       .catch(err => console.log(err));
   };
 
@@ -179,7 +234,8 @@ class SearchAppBar extends Component {
       sugar_conscious,
       peanut_free,
       tree_nut_free,
-      alcohol_free
+      alcohol_free,
+      dietType
     } = this.state;
 
     return (
@@ -220,7 +276,7 @@ class SearchAppBar extends Component {
                   aria-label="Diet Types"
                   name="dietType"
                   className="dietOptions"
-                  value={this.state.value}
+                  value={dietType}
                   onChange={this.handleDietTypes}
                 >
                   <FormControlLabel
@@ -231,17 +287,17 @@ class SearchAppBar extends Component {
                   <FormControlLabel
                     value="high-protein"
                     control={<Radio />}
-                    label="High-Protein"
+                    label="High Protein"
                   />
                   <FormControlLabel
                     value="low-carb"
                     control={<Radio />}
-                    label="Low-Carb"
+                    label="Low Carb"
                   />
                   <FormControlLabel
                     value="low-fat"
                     control={<Radio />}
-                    label="Low-Fat"
+                    label="Low Fat"
                   />
                 </RadioGroup>
               </Grid>

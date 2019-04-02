@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+// import PropTypes from 'prop-types';
+// import { withStyles } from '@material-ui/core/styles';
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import "./style.css";
 import API from "../../utils/API";
 import Firebase from "../../config/Firebase";
-import Typography from '@material-ui/core/Typography';
+import { DragSource } from 'react-dnd'
+// import Typography from '@material-ui/core/Typography';
 
 
 
@@ -15,7 +16,7 @@ export default class Carousel extends Component {
 
   state = {
     favorites: [],
-    
+    currentUser: ""
   };
 
   componentDidMount() {
@@ -39,8 +40,53 @@ export default class Carousel extends Component {
       .catch(err => console.log(err));
   };
 
+
+  
+
   render() {
 
+    const style = {
+      border: '1px dashed gray',
+      padding: '0.5rem',
+      margin: '0.5rem',
+    };
+    const SourceBoxRaw = ({
+      children,
+      isDragging,
+      connectDragSource
+    }) => {
+      const opacity = isDragging ? 0.4 : 1
+      
+      return connectDragSource(
+        <div
+          style={Object.assign({}, style, {
+            opacity
+          })}
+        >
+          {children}
+        </div>,
+      )
+    };
+    const SourceBox = DragSource(
+      props => props.color + '',
+      {
+        beginDrag: () => ({}),
+      },
+      (connect, monitor) => ({
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging(),
+      }),
+    )(SourceBoxRaw);
+
+    const StatefulSourceBox = props => {
+      return (
+        <SourceBox
+          {...props}
+          >
+        <img src={props.image} data-obj={props.dataObj} alt="recipe"/>
+        </ SourceBox>
+      )
+    };
     
     var settings = {
       dots: true,
@@ -88,9 +134,11 @@ export default class Carousel extends Component {
         <Slider {...settings}>
           {this.state.favorites.map(item => {
             return (
-              <div data-obj={item}>
-                <img src={item.image} alt="recipe"/>
-              </div>
+              <StatefulSourceBox
+              image={item.image}
+              dataObj={item}
+            />
+        
             )
           })}
         </Slider>
@@ -98,3 +146,4 @@ export default class Carousel extends Component {
     );
   }
 }
+

@@ -6,14 +6,29 @@
   width: 100%;
 }
 
-.innerHoverRemoved:hover {
+.innerHoverRemovedAlt {
+  background: rgba(55, 55, 55, 0.8) !important;
+}
+
+.menuItemLi:hover {
   background-color: transparent !important;
+}
+
+.menuItemLi {
+  color: rgb(55, 55, 55) !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  text-align: left;
 }
 
 .menuPlacement {
   position: absolute !important;
   right: 0;
   z-index: 3;
+}
+
+.menuIconWhite {
+  color: white !important;
 }
 
 #custom-css-outlined-input-helper-text {

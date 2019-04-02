@@ -200,14 +200,15 @@ class SimpleMenu extends Component {
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
         const values = {
-          vegan: this.state.vegan,
-          vegetarian: this.state.vegetarian,
-          sugar_conscious: this.state.sugar_conscious,
-          peanut_free: this.state.peanut_free,
-          tree_nut_free: this.state.tree_nut_free,
-          alcohol_free: this.state.alcohol_free,
-          dietType: this.state.dietType,
-          email: this.state.email
+          preferences: {
+            vegan: this.state.vegan,
+            vegetarian: this.state.vegetarian,
+            sugar_conscious: this.state.sugar_conscious,
+            peanut_free: this.state.peanut_free,
+            tree_nut_free: this.state.tree_nut_free,
+            alcohol_free: this.state.alcohol_free,
+            dietType: this.state.dietType
+          }
         };
 
         // Making sure Sign Up values go through!
@@ -267,21 +268,6 @@ class SimpleMenu extends Component {
     this.setState({ [name]: event.target.checked });
   };
 
-  // handleSearchValues = event => {
-  //   event.preventDefault();
-  //   const values = {
-  //     vegan: this.state.vegan,
-  //     vegetarian: this.state.vegetarian,
-  //     sugar_conscious: this.state.sugar_conscious,
-  //     peanut_free: this.state.peanut_free,
-  //     tree_nut_free: this.state.tree_nut_free,
-  //     alcohol_free: this.state.alcohol_free,
-  //     dietType: this.state.dietType
-  //   };
-
-  //   console.log(values);
-  // };
-
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
@@ -292,9 +278,13 @@ class SimpleMenu extends Component {
           aria-owns={anchorEl ? "simple-menu" : undefined}
           aria-haspopup="true"
           onClick={this.openDropdown}
-          className="innerHoverRemoved menuPlacement"
+          className="innerHoverRemovedAlt menuPlacement"
         >
-          <IconButton color="inherit" aria-label="Menu">
+          <IconButton
+            color="inherit"
+            aria-label="Menu"
+            className="menuIconWhite"
+          >
             <MenuIcon />
           </IconButton>
         </Button>
@@ -310,10 +300,7 @@ class SimpleMenu extends Component {
             onClick={this.openLogInTab}
             className="menuList"
           >
-            <MenuItem
-              onClick={this.closeDropdown}
-              className="innerHoverRemoved"
-            >
+            <MenuItem onClick={this.closeDropdown} className="menuItemLi">
               Log In
             </MenuItem>
           </Button>
@@ -323,10 +310,7 @@ class SimpleMenu extends Component {
             onClick={this.openSignUpTab}
             className="menuList"
           >
-            <MenuItem
-              onClick={this.closeDropdown}
-              className="innerHoverRemoved"
-            >
+            <MenuItem onClick={this.closeDropdown} className="menuItemLi">
               Sign Up
             </MenuItem>
           </Button>
