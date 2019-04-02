@@ -22,16 +22,15 @@ class CarouselCard extends Component {
 		const opacity = isDragging ? 0 : 1;
 
 		return connectDragSource(connectDropTarget(
-			<div style={{ ...style, opacity }}>
-        <div className="img-container">
-          <img
-            className="image-recepie"
-            alt="recepie"
-            src={card.image} 
-            data-obj={card}
-          />
-          <p className="lable">{card.label}</p>
-        </div>
+			<div data-obj={card} style={{ ...style, opacity }}>
+				<div className="img-container">
+					<img
+						className="image-recepie"
+						alt="recepie"
+						src={card.image} 		
+					/>
+				<p className="lable">{card.label}</p>
+				</div>
 			</div>
 
 		));

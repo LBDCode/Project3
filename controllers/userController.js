@@ -74,6 +74,27 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  updateMeal: function(req, res) {
+    let day = req.body.dayUpdate;
+    let meal = req.body.mealUpdate;
+    db.User.findOneAndUpdate(
+      { email: req.params.user },
+      // { $Set: { weeklymenu.day.meal: req.body.fav } }
+      //TODO add update code
+      console.log(req.body)
+    )
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  updateMenu: function(req, res) {
+    console.log(req.body.weeklyMenu);
+    db.User.findOneAndUpdate(
+      { email: req.params.user },
+      { weeklymenu: req.body.weeklyMenu }
+    )
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   updateSettings: function(req, res) {
     db.User.findOneAndUpdate(
       { email: req.params.user },
