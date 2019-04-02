@@ -18,6 +18,7 @@ import RecipeCard from "../RecipeCard/index";
 import Firebase from "../../config/Firebase";
 import Swal from "sweetalert2";
 import "./style.css";
+import { constants } from "zlib";
 
 const styles = theme => ({
   root: {
@@ -84,7 +85,8 @@ class SearchAppBar extends Component {
     alcohol_free: false,
     dietType: "",
     favorites: [],
-    currentUser: ""
+    currentUser: "",
+    menu:{},
   };
 
   // Checking Auth state and getting current user and info
@@ -132,7 +134,6 @@ class SearchAppBar extends Component {
     };
     API.postRecipediaValues(values)
       .then(response => this.setState({ recipes: response.data.hits }))
-      .then(response => console.log(this.state.recipes))
       .catch(err => console.log(err));
   };
 
@@ -150,7 +151,8 @@ class SearchAppBar extends Component {
           peanut_free: res.data.preferences.peanut_free || false,
           tree_nut_free: res.data.preferences.tree_nut_free || false,
           alcohol_free: res.data.preferences.alcohol_free || false,
-          dietType: res.data.preferences.dietType
+          dietType: res.data.preferences.dietType,
+          menu: res.data.weeklymenu,
           // monday: res.data.weeklymenu.monday,
           // tuesday: res.data.weeklymenu.tuesday,
           // wednesday: res.data.weeklymenu.wednesday,
@@ -183,8 +185,8 @@ class SearchAppBar extends Component {
       .catch(err => console.log(err));
   }
 
-  formatFavorite = favObj => {
-    let formFav = {
+  formatRecipe = favObj => {
+    let formRec = {
       uri: favObj.recipe.uri,
       calories: favObj.recipe.calories,
       protein: favObj.recipe.digest[2].total,
@@ -197,11 +199,11 @@ class SearchAppBar extends Component {
       image: favObj.recipe.image
     };
 
-    return formFav;
+    return formRec;
   };
 
   handleFavorite = (fav, recipeName) => {
-    let newFav = this.formatFavorite(fav);
+    let newFav = this.formatRecipe(fav);
 
     API.updateFavs(this.state.currentUser, newFav)
       .then(() => {
@@ -222,6 +224,20 @@ class SearchAppBar extends Component {
         });
       })
       .catch(err => console.log(err));
+  };
+
+  handleMealSave = (day, meal, recipe)=> {
+    this.getAll(this.state.currentUser);
+    let newMeal = this.formatRecipe(recipe);
+    let curMenu = {...this.state.menu};
+
+    curMenu[day] = { [meal]: newMeal };
+    console.log(curMenu); 
+    console.log(this.state.menu);
+
+    API.updateMenu(this.state.currentUser, curMenu)
+    .then(res => this.getAll(this.state.currentUser))
+    .catch(err => console.log(err));
   };
 
   render() {
@@ -390,6 +406,8 @@ class SearchAppBar extends Component {
                   <RecipeCard
                     recipeInfo={recipe}
                     handleFavorite={this.handleFavorite}
+                    saveMeal={this.handleMealSave}  
+                    user={this.state.currentUser}
                   />
                 </Grid>
               );

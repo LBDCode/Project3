@@ -22,7 +22,7 @@ class CarouselCard extends Component {
 		const opacity = isDragging ? 0 : 1;
 
 		return connectDragSource(connectDropTarget(
-			<div data-obj={card} saveMeal={card.saveMeal} style={{ ...style, opacity }}>
+			<div data-obj={card} style={{ ...style, opacity }}>
 				<div className="img-container">
 					<img
 						className="image-recepie"
@@ -52,7 +52,6 @@ const cardSource = {
 		const dropResult = monitor.getDropResult();	
 
 		if ( dropResult && dropResult.listId !== item.listId ) {
-			props.saveMeal();
 			props.removeCard(item.index);
 		}
 	}

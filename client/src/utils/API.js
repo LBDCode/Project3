@@ -26,6 +26,12 @@ export default {
   updateFavs: function(user, newFav) {
     return axios.put("api/" + user, { fav: newFav });
   },
+  updateMenu: function(user, newMenu) {
+    return axios.post("api/menu/" + user, { weeklyMenu: newMenu });
+  },
+  updateMeal: function(user, day, meal, recipe) {
+    return axios.put("api/meal/" + user, {dayUpdate: day, mealUpdate: meal, recUpdate: recipe});
+  },
   saveUser: function(user) {
     return axios.post("api/user", { email: user });
   },

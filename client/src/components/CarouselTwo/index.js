@@ -112,9 +112,10 @@ class CarouselTwo extends Component {
 					return (
 						<Card 
 							key={card.id}
-                            index={i}
-                            image={card.image}
+              index={i}
+              image={card.image}
 							listId={this.props.id}
+							saveMeal={this.props.saveMeal}
 							card={card}														
 							removeCard={this.removeCard.bind(this)}
 							moveCard={this.moveCard.bind(this)} />

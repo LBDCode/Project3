@@ -15,6 +15,8 @@ router.post("/user", userController.createUser);
 router.post("/searching", userController.retrieveRecipes);
 
 router.put("/:user", userController.updateFavorites);
+// router.put("/meal/:user", userController.updateMeal);
+router.post("/menu/:user", userController.updateMenu);
 
 router.put("/settings/:user", userController.updateSettings);
 
