@@ -16,7 +16,7 @@ export default class Carousel extends Component {
 
   state = {
     favorites: [],
-    
+    currentUser: ""
   };
 
   componentDidMount() {

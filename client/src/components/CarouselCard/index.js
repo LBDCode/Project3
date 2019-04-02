@@ -1,59 +1,100 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
+import { DragSource, DropTarget } from 'react-dnd';
+import flow from 'lodash/flow';
+import "./style.css";
 
 
-const styles = {
-    card: {
-      maxWidth: 345
-    },
-    media: {
-      height: 140,
-    },
+const style = {
+  // width: '75px',
+  // height: '75px',
+	border: '1px dashed gray',
+	padding: '0.5rem 1rem',
+	margin: '.5rem',
+	backgroundColor: 'white',
+	cursor: 'move'
 };
 
-function CarouselCard(props) {
-    const { classes } = props;
-    return (
-      <Card className={classes.card}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="/static/images/cards/contemplative-reptile.jpg"
-            title="Contemplative Reptile"
+class CarouselCard extends Component {
+
+	render() {
+		const { card, isDragging, connectDragSource, connectDropTarget } = this.props;
+		const opacity = isDragging ? 0 : 1;
+
+		return connectDragSource(connectDropTarget(
+			<div style={{ ...style, opacity }}>
+        <div className="img-container">
+          <img
+            className="image-recepie"
+            alt="recepie"
+            src={card.image} 
+            data-obj={card}
           />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Lizard
-            </Typography>
-            <Typography component="p">
-              Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-              across all continents except Antarctica
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
-      </Card>
-    );
-  }
-  
-  CarouselCard.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
-  
-  export default withStyles(styles)(CarouselCard);
+          <p className="lable">{card.label}</p>
+        </div>
+			</div>
 
+		));
+	}
+}
 
+const cardSource = {
+
+	beginDrag(props) {		
+		return {			
+			index: props.index,
+			listId: props.listId,
+			card: props.card
+		};
+	},
+
+	endDrag(props, monitor) {
+		const item = monitor.getItem();
+		const dropResult = monitor.getDropResult();	
+
+		if ( dropResult && dropResult.listId !== item.listId ) {
+			props.removeCard(item.index);
+		}
+	}
+};
+
+const cardTarget = {
+
+	hover(props, monitor, component) {
+		const dragIndex = monitor.getItem().index;
+		const hoverIndex = props.index;
+		const sourceListId = monitor.getItem().listId;	
+
+		if (dragIndex === hoverIndex) {
+			return;
+		}
+
+		const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+		const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+		const clientOffset = monitor.getClientOffset();
+		const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+		if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+			return;
+		}
+
+		if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+			return;
+		}
+
+		if ( props.listId === sourceListId ) {
+			props.moveCard(dragIndex, hoverIndex);
+			monitor.getItem().index = hoverIndex;
+		}		
+	}
+};
+
+export default flow(
+	DropTarget("CARD", cardTarget, connect => ({
+		connectDropTarget: connect.dropTarget()
+	})),
+	DragSource("CARD", cardSource, (connect, monitor) => ({
+		connectDragSource: connect.dragSource(),
+		isDragging: monitor.isDragging()
+	}))
+)(CarouselCard);

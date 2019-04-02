@@ -10,7 +10,9 @@ import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
+import Modal from "../components/Modal";
 import Swal from "sweetalert2";
+
 let styles = function() {
   if (window.innerWidth < 768) {
     return midStyles;
@@ -320,6 +322,7 @@ class Dashboard extends Component {
     return (
       <>
         <Navbar />
+        <Modal />
         <h1 style={styles().header}>Prep info for a week</h1>
         <DashboardTable
           monday={this.state.monday}
