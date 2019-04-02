@@ -1,16 +1,8 @@
 import React from "react";
+import Error404 from "../components/404";
 
-function NoMatch() {
-  return (
-    <>
-      <h1>404 Page Not Found</h1>
-      <h1>
-        <span role="img" aria-label="Face With Rolling Eyes Emoji">
-          🙄
-        </span>
-      </h1>
-    </>
-  );
+function ErrorPage() {
+  return <Error404 />;
 }
 
-export default NoMatch;
+export default ErrorPage;
