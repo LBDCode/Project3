@@ -63,7 +63,7 @@ class Container extends Component {
 							key={card.id}
 							index={i}
 							listId={this.props.id}
-							card={card}														
+							card={card}	
 							removeCard={this.removeCard.bind(this)}
 							moveCard={this.moveCard.bind(this)} />
 					);
