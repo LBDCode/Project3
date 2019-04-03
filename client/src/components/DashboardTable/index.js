@@ -5,7 +5,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import QuickplannerWrapped from "../Modal";
 import "./style.css";
 
 class DashboardTable extends Component {
@@ -31,9 +30,7 @@ class DashboardTable extends Component {
           <Table className="table">
             <TableHead>
               <TableRow>
-                <TableCell className="meal">
-                  <QuickplannerWrapped />
-                </TableCell>
+                <TableCell className="meal" />
                 <TableCell className="meal" align="left">
                   Monday
                 </TableCell>
@@ -83,11 +80,13 @@ class DashboardTable extends Component {
                       {this.props[day] && this.props[day][meal] ? (
                         <div className="img-container">
                           <img
-                            className="image-recepie"
-                            alt="recepie"
+                            className="image-recepe"
+                            alt="recepe"
                             src={this.props[day][meal].image}
                           />
-                          <p className="lable">{this.props[day][meal].label}</p>
+                          <p className="lableImg">
+                            {this.props[day][meal].label}
+                          </p>
                         </div>
                       ) : (
                         ""

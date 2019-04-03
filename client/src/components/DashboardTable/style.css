@@ -9,8 +9,8 @@
 .meal {
   background-image: url("../../images/textured-bg.jpg");
 }
-.lable {
-  background-color: rgba(105, 105, 105, 0.397);
+.lableImg {
+  background-color: rgba(248, 248, 248, 0.87);
   text-align: center;
   padding: 5px 0;
   margin-top: 5px;
@@ -20,11 +20,12 @@
   bottom: 12px;
   left: 0;
   right: 0;
-  color: rgb(255, 255, 255);
+  color: rgb(62, 65, 64);
   font-weight: bold;
   margin-left: 3px;
+  width: 120px;
 }
-.image-recepie {
+.image-recepe {
   max-height: 120px;
   width: 120px;
   cursor: pointer;
@@ -35,9 +36,11 @@
 .img-container {
   position: relative;
   align-content: center;
+
+  width: 120px;
 }
-.image-recepie:hover {
-  border: 3px #8fd053 solid;
+.image-recepe:hover {
+  border: 3px rgb(62, 65, 64) solid;
 }
 .th {
   text-align: center;

@@ -10,6 +10,7 @@ import SignUpIcon from "@material-ui/icons/PersonAdd";
 import { Link } from "react-router-dom";
 import UserOptions from "./Sidebar/UserOptions";
 import Firebase from "../../config/Firebase";
+import QuickplannerWrapped from "../Modal";
 import "./style.css";
 
 class ButtonAppBar extends Component {
@@ -68,6 +69,9 @@ class ButtonAppBar extends Component {
                       icon={<DashboardIcon className="navcons" />}
                     />
                   </Link>
+
+                  <QuickplannerWrapped className="navText dashboardTab" />
+
                   <UserOptions
                     navtext="navText"
                     navButton="navButton"
