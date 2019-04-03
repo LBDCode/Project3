@@ -68,6 +68,7 @@ class Quickplanner extends React.Component {
     friday: {},
     saturday: {},
     sunday: {},
+    menu: {},
     currentUser: "",
     expanded: null,
   };
@@ -101,6 +102,7 @@ class Quickplanner extends React.Component {
       .then(res => {
         this.setState({
           favorites: res.data.favorites,
+          menu: res.data.weeklymenu,
           mondayBreakfast: res.data.weeklymenu.monday.breakfast,
           mondayLunch: res.data.weeklymenu.monday.lunch,
           mondayDinner: res.data.weeklymenu.monday.dinner,
@@ -111,17 +113,6 @@ class Quickplanner extends React.Component {
       .catch(err => console.log(err));
   };
 
-  saveMeal(user, day, meal, recipe) {
-    // const mealString = day + meal;
-    // const newMeal = {mealString: recipe};
-    console.log("hi");
-    // API.updateMenu(user, newMeal)
-    // .then(res =>  {
-    //   this.setState({
-
-    //   })
-    // })
-  };
 
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(user => {
@@ -196,7 +187,7 @@ class Quickplanner extends React.Component {
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          {/* <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+          <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Tuesday</Typography>
             </ExpansionPanelSummary>
@@ -292,7 +283,7 @@ class Quickplanner extends React.Component {
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
- */}
+
         </div>
       </Modal>
       </div>

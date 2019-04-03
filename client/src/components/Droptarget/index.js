@@ -56,7 +56,7 @@ class Container extends Component {
 
 		return connectDropTarget(
 			<div style={{...style, backgroundColor}}>
-        <h3>{this.props.id}</h3>
+        		<h3>{this.props.id}</h3>
 				{cards.map((card, i) => {
 					return (
 						<Card 

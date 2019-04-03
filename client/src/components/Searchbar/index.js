@@ -203,6 +203,7 @@ class SearchAppBar extends Component {
   };
 
   handleFavorite = (fav, recipeName) => {
+    console.log(fav)
     let newFav = this.formatRecipe(fav);
 
     API.updateFavs(this.state.currentUser, newFav)
