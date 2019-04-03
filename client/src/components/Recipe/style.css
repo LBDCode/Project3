@@ -1,8 +1,15 @@
+.bgrd-img {
+  background-image: url("../../images/eating.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding-top: 150px;
+}
 .recipePage {
   width: 50%;
   background-color: rgb(62, 65, 64) !important;
   padding: 5px;
-  margin: 120px auto 20px auto;
+  margin: 0 auto;
   font-family: "Amatic SC", cursive;
 }
 .recipePage > div {
@@ -27,8 +34,7 @@
   background-color: rgb(62, 65, 64);
 }
 .header > h1 {
-  color: black;
-  background-color: white;
+  text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.452);
   width: 50%;
   padding-bottom: 20px;
@@ -43,6 +49,7 @@
   text-decoration: none;
 }
 .body-card {
+  font-family: "Dosis", sans-serif;
   background-color: white;
   height: 100%;
   display: flex;
@@ -59,6 +66,15 @@
 h3 > i {
   color: black;
 }
+.link {
+  color: white;
+}
+h5 {
+  font-size: 20px;
+}
+li {
+  font-weight: bold;
+}
 i {
   color: black;
   margin-right: 10px;
@@ -68,8 +84,8 @@ ul {
   list-style-type: none;
   padding-inline-start: 0;
 }
-.fa-circle {
-  font-size: 15px;
+.fa-chevron-right {
+  font-size: 8px;
 }
 .circle {
   color: black;
@@ -77,7 +93,10 @@ ul {
   font-weight: bold;
   margin-left: 10px;
 }
-
+.fa-external-link-alt {
+  font-size: 15px;
+  color: white;
+}
 /* Media */
 
 @media screen and (max-width: 768px) {
