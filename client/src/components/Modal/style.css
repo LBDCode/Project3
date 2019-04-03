@@ -1,5 +1,25 @@
 .title-text {
   color: green;
-  font-size:24px;
+  font-size: 24px;
 }
-
+.nav-icon {
+  color: #c7c7c8;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  height: 100%;
+  padding-top: 12px;
+  max-width: 264px;
+  min-width: 160px;
+}
+.nav-icon > button {
+  color: #c7c7c8;
+  font-size: 0.8125rem;
+}
+.nav-icon > button:hover {
+  background-color: none;
+}
+.nav-icon:hover {
+  cursor: pointer;
+  background-color: rgba(58, 58, 58, 0.808);
+}

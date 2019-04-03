@@ -10,7 +10,6 @@ import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Firebase from "../config/Firebase";
-import Modal from "../components/Modal";
 import Swal from "sweetalert2";
 
 let styles = function() {
@@ -58,13 +57,12 @@ let midStyles = {
     fontFamily: "Dosis"
   },
   i: {
-    color: "#8fd053",
     fontSize: "30px",
     marginRight: "5px"
   },
   header: {
     textAlign: "center",
-    color: "#8fd053",
+    color: "rgb(62, 65, 64)",
     fontFamily: "Dosis"
   },
   textWr: {
@@ -97,7 +95,7 @@ let maxStyles = {
   },
   header: {
     textAlign: "center",
-    color: "#8fd053",
+    color: "rgb(62, 65, 64)",
     fontFamily: "Dosis"
   },
   card: {
@@ -127,7 +125,6 @@ let maxStyles = {
     width: "30%"
   },
   i: {
-    color: "#8fd053",
     fontSize: "30px",
     marginRight: "5px"
   },
@@ -293,36 +290,10 @@ class Dashboard extends Component {
       });
     }
   };
-
-  // updateState(day, meal, obj, fav, dayTo, mealTo) {
-  //   if (!fav && meal) {
-  //     var searchDay = { ...this.state[dayTo] };
-  //     var removed = { ...this.state[day] };
-  //     removed[meal] = {};
-  //     searchDay[mealTo] = obj;
-  //     this.setState({
-  //       [dayTo]: searchDay,
-  //       [day]: removed
-  //     });
-  //   } else if (meal !== "favorites") {
-  //     var removed = { ...this.state[day] };
-  //     removed[meal] = {};
-  //     this.setState({
-  //       [day]: removed
-  //     });
-  //   } else {
-  //     var searchDay = { ...this.state[dayTo] };
-  //     searchDay[mealTo] = obj;
-  //     this.setState({
-  //       [dayTo]: searchDay
-  //     });
-  //   }
-  // }
   render() {
     return (
       <>
         <Navbar />
-        <Modal />
         <h1 style={styles().header}>Prep info for a week</h1>
         <DashboardTable
           monday={this.state.monday}
@@ -334,18 +305,6 @@ class Dashboard extends Component {
           sunday={this.state.sunday}
           clickedMeal={this.clicked.bind(this)}
         />
-        {/* <WeeklyTable
-          favorites={this.state.favorites}
-          monday={this.state.monday}
-          tuesday={this.state.tuesday}
-          wednesday={this.state.wednesday}
-          thursday={this.state.thursday}
-          friday={this.state.friday}
-          saturday={this.state.saturday}
-          sunday={this.state.sunday}
-          clickedMeal={this.clicked.bind(this)}
-          updateState={this.updateState.bind(this)}
-        /> */}
         <div style={styles().wrapper}>
           <div style={styles().smallCardsWr}>
             <Paper style={styles().card}>

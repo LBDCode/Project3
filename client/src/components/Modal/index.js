@@ -4,24 +4,21 @@ import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Paper from '@material-ui/core/Paper';
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Paper from "@material-ui/core/Paper";
+import QuickPlannerIcon from "@material-ui/icons/Dashboard";
 
 import API from "../../utils/API";
 import Firebase from "../../config/Firebase";
-import Container from '../Droptarget'
+import Container from "../Droptarget";
 // import ControlledExpansionPanels from "../Accordian";
 import CarouselTwo from "../CarouselTwo";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
 import "./style.css";
-
-
-
-
 
 function getModalStyle() {
   const top = 20;
@@ -36,8 +33,8 @@ function getModalStyle() {
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    flexGrow: 1,
+    width: "100%",
+    flexGrow: 1
   },
   paper: {
     position: "absolute",
@@ -69,7 +66,7 @@ class Quickplanner extends React.Component {
     saturday: {},
     sunday: {},
     currentUser: "",
-    expanded: null,
+    expanded: null
   };
 
   handleOpen = () => {
@@ -82,19 +79,18 @@ class Quickplanner extends React.Component {
 
   handleChange = panel => (event, expanded) => {
     this.setState({
-      expanded: expanded ? panel : false,
+      expanded: expanded ? panel : false
     });
   };
-
 
   mapFavs() {
     let newFavs = [...this.state.favorites];
     newFavs.map((value, index) => {
       value.id = index + 1;
-    })
+    });
     console.log(newFavs);
-    return(newFavs);
-  };
+    return newFavs;
+  }
 
   getAll(user) {
     API.getDBRecipes(user)
@@ -103,13 +99,13 @@ class Quickplanner extends React.Component {
           favorites: res.data.favorites,
           mondayBreakfast: res.data.weeklymenu.monday.breakfast,
           mondayLunch: res.data.weeklymenu.monday.lunch,
-          mondayDinner: res.data.weeklymenu.monday.dinner,
+          mondayDinner: res.data.weeklymenu.monday.dinner
         });
         console.log(this.state.monday);
         this.mapFavs();
       })
       .catch(err => console.log(err));
-  };
+  }
 
   saveMeal(user, day, meal, recipe) {
     // const mealString = day + meal;
@@ -121,7 +117,7 @@ class Quickplanner extends React.Component {
 
     //   })
     // })
-  };
+  }
 
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(user => {
@@ -132,71 +128,88 @@ class Quickplanner extends React.Component {
         this.getAll(user.email);
       }
     });
-  };
-
- 
-
-
+  }
 
   render() {
     const { classes } = this.props;
     const { expanded } = this.state;
 
-		const style = {
-			display: "flex",
-			justifyContent: "space-around",
-			paddingTop: "20px"
-    }
-    
+    const style = {
+      display: "flex",
+      justifyContent: "space-around",
+      paddingTop: "20px"
+    };
 
-		const listOne = [];
+    const listOne = [];
 
-		const listTwo = [];
+    const listTwo = [];
 
-		const favorites = this.mapFavs();
-    
+    const favorites = this.mapFavs();
+
     const listFour = [
-			{ id: 7, text: "Test1" },
-			{ id: 8, text: "Test2" },
+      { id: 7, text: "Test1" },
+      { id: 8, text: "Test2" },
       { id: 9, text: "Test3" },
       { id: 9, text: "Test4" },
       { id: 9, text: "Test5" },
-      { id: 9, text: "Test6" } 
-		];
+      { id: 9, text: "Test6" }
+    ];
 
-		return (
+    return (
       <div>
-
-      <Button onClick={this.handleOpen}>Manage Meals</Button>
-      <Modal
-        className={this.props.classes.styledModal}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        open={this.state.open}
-        onClose={this.handleClose}
-      >
-        <div style={getModalStyle()} className={classes.paper}>
-          <Typography className={this.props.classes.styledHeader} align="center" variant="title" id="modal-title">
-            plan your menu
-          </Typography>
-          <CarouselTwo id="favorites" list={favorites}/>
-          <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Monday</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <div style={{...style}}>
-                <Container id="MondayBreakfast" list={listOne} saveMeal={this.saveMeal}/>
-              </div>
-              <div style={{...style}}>
-                <Container id="MondayLunch" list={listTwo} saveMeal={this.saveMeal}/>
-              </div>
-              <div style={{...style}}>
-                <Container id="MondayDinner" list={listOne} saveMeal={this.saveMeal} />
-              </div>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          {/* <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+        <div className="nav-icon">
+          <QuickPlannerIcon />
+          <Button onClick={this.handleOpen}>Manage Meals</Button>
+        </div>
+        <Modal
+          className={this.props.classes.styledModal}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.open}
+          onClose={this.handleClose}
+        >
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography
+              className={this.props.classes.styledHeader}
+              align="center"
+              variant="title"
+              id="modal-title"
+            >
+              plan your menu
+            </Typography>
+            <CarouselTwo id="favorites" list={favorites} />
+            <ExpansionPanel
+              expanded={expanded === "panel1"}
+              onChange={this.handleChange("panel1")}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Monday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div style={{ ...style }}>
+                  <Container
+                    id="MondayBreakfast"
+                    list={listOne}
+                    saveMeal={this.saveMeal}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container
+                    id="MondayLunch"
+                    list={listTwo}
+                    saveMeal={this.saveMeal}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container
+                    id="MondayDinner"
+                    list={listOne}
+                    saveMeal={this.saveMeal}
+                  />
+                </div>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            {/* <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Tuesday</Typography>
             </ExpansionPanelSummary>
@@ -293,12 +306,11 @@ class Quickplanner extends React.Component {
           </ExpansionPanelDetails>
         </ExpansionPanel>
  */}
-        </div>
-      </Modal>
+          </div>
+        </Modal>
       </div>
-
-		);
-	}
+    );
+  }
 }
 
 Quickplanner.propTypes = {
