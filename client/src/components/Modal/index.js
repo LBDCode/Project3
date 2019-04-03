@@ -59,13 +59,13 @@ class Quickplanner extends React.Component {
     open: false,
     favorites: [],
     menu: {},
-    monday: {},
-    tuesday: {},
-    wednesday: {},
-    thursday: {},
-    friday: {},
-    saturday: {},
-    sunday: {},
+    // monday: {},
+    // tuesday: {},
+    // wednesday: {},
+    // thursday: {},
+    // friday: {},
+    // saturday: {},
+    // sunday: {},
     currentUser: "",
     expanded: null
   };
@@ -91,6 +91,22 @@ class Quickplanner extends React.Component {
     });
     console.log(newFavs);
     return newFavs;
+  };
+
+  //list id
+  //meal id
+  //recipe for each meal
+
+  mapMenu() {
+    const curMenu = this.state.menu;
+    let newMenu = {
+      monday: {
+        breakfast: curMenu.monday.breakfast || {},
+        lunch: curMenu.monday.lunch || {},
+        dinner: curMenu.monday.dinner || {}
+      },
+    }
+    console.log(newMenu);
   }
 
   getAll(user) {
@@ -103,6 +119,7 @@ class Quickplanner extends React.Component {
           mondayLunch: res.data.weeklymenu.monday.lunch,
           mondayDinner: res.data.weeklymenu.monday.dinner
         });
+        this.mapMenu();
         console.log(this.state.favorites, this.state.weeklymenu);
       })
       .catch(err => console.log(err));

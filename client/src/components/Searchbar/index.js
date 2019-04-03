@@ -243,7 +243,11 @@ class SearchAppBar extends Component {
     let newMeal = this.formatRecipe(recipe);
     let curMenu = {...this.state.menu};
 
-    curMenu[day] = { [meal]: newMeal };
+    if (!curMenu[day]) {
+      curMenu[day] = { [meal]: newMeal };
+    } else {
+      curMenu[day][meal] = newMeal;
+    }
 
     API.updateMenu(this.state.currentUser, curMenu)
     .then(res => this.getAll(this.state.currentUser))
