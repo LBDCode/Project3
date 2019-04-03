@@ -144,6 +144,7 @@ class SearchAppBar extends Component {
       .then(res => {
         this.setState({
           favorites: res.data.favorites,
+          favURIs: [],
           userPreferences: res.data.preferences,
           vegan: res.data.preferences.vegan || false,
           vegetarian: res.data.preferences.vegetarian || false,
@@ -164,7 +165,8 @@ class SearchAppBar extends Component {
           // meals: this.getMeals(res.data.weeklymenu),
           // ingredients: this.getIngredients(res.data.weeklymenu)
         });
-        console.log(this.state);
+        this.formatFavURIs();
+        // console.log(this.state);
       })
       .catch(err => console.log(err));
   }
@@ -202,9 +204,19 @@ class SearchAppBar extends Component {
     return formRec;
   };
 
+  formatFavURIs = () => {
+    const curFavs = this.state.favorites;
+    const favURIs = [];
+    curFavs.map(item => favURIs.push(item.uri));
+    this.setState({ favURIs });
+  };
+
+  checkFav = uri => {
+    return this.state.favURIs.includes(uri)? true : false ;
+  };
+
   handleFavorite = (fav, recipeName) => {
     let newFav = this.formatRecipe(fav);
-
     API.updateFavs(this.state.currentUser, newFav)
       .then(() => {
         this.getAll(this.state.currentUser);
@@ -232,8 +244,6 @@ class SearchAppBar extends Component {
     let curMenu = {...this.state.menu};
 
     curMenu[day] = { [meal]: newMeal };
-    console.log(curMenu); 
-    console.log(this.state.menu);
 
     API.updateMenu(this.state.currentUser, curMenu)
     .then(res => this.getAll(this.state.currentUser))
@@ -404,6 +414,7 @@ class SearchAppBar extends Component {
               return (
                 <Grid item lg={3} className="gridCard">
                   <RecipeCard
+                    favorite={this.checkFav(recipe.recipe.uri)}
                     recipeInfo={recipe}
                     handleFavorite={this.handleFavorite}
                     saveMeal={this.handleMealSave}  

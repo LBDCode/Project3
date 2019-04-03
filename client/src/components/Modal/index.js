@@ -58,6 +58,7 @@ class Quickplanner extends React.Component {
   state = {
     open: false,
     favorites: [],
+    menu: {},
     monday: {},
     tuesday: {},
     wednesday: {},
@@ -97,12 +98,12 @@ class Quickplanner extends React.Component {
       .then(res => {
         this.setState({
           favorites: res.data.favorites,
+          menu: res.data.weeklymenu,
           mondayBreakfast: res.data.weeklymenu.monday.breakfast,
           mondayLunch: res.data.weeklymenu.monday.lunch,
           mondayDinner: res.data.weeklymenu.monday.dinner
         });
-        console.log(this.state.monday);
-        this.mapFavs();
+        console.log(this.state.favorites, this.state.weeklymenu);
       })
       .catch(err => console.log(err));
   }
