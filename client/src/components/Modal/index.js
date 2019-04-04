@@ -64,12 +64,28 @@ class Quickplanner extends React.Component {
     expanded: null
   };
 
+  componentDidMount() {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user && !Firebase.auth().currentUser.isAnonymous) {
+        this.setState({
+          currentUser: user.email
+        });
+        this.getAll(user.email);
+      }
+    });
+    window.onresize = function() {
+      this.forceUpdate();
+    }.bind(this);
+  };
+
   handleOpen = () => {
     this.setState({ open: true });
+    this.getAll(this.state.currentUser);
   };
 
   handleClose = () => {
     this.setState({ open: false });
+    this.getAll(this.state.currentUser);
   };
 
   handleChange = panel => (event, expanded) => {
@@ -78,8 +94,6 @@ class Quickplanner extends React.Component {
     });
   };
  
-
-
   getAll(user) {
     API.getDBRecipes(user)
       .then(res => {
@@ -96,22 +110,38 @@ class Quickplanner extends React.Component {
     let menu = this.state.menu;
     let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
     let meals = ["breakfast", "lunch", "dinner"];
-    
-    for (let i = 0; i < days.length; i++) {
-      let day = menu[days[i]];
 
-      if (!day) {
+    if(!menu) {
+      let menu = {};
+      for (let i = 0; i < days.length; i++) {
           menu[days[i]] = {};
-          day = menu[days[i]];
-      }
-
-      for (let j = 0; j < meals.length; j++) {
-        if (!day[meals[j]]) {
-          day[meals[j]] = {};
+          let day = menu[days[i]];
+        
+        for (let j = 0; j < meals.length; j++) {
+            day[meals[j]] = {};
+            day[meals[j]].id = days[i] + "-" + meals[j];
         }
-        day[meals[j]].id = days[i] + "-" + meals[j];
+      }    
+      console.log(menu);
+      return menu;
+    } else {
+      for (let i = 0; i < days.length; i++) {
+        let day = menu[days[i]];
+
+        if (!day) {
+            menu[days[i]] = {};
+            day = menu[days[i]];
+        }
+
+        for (let j = 0; j < meals.length; j++) {
+          if (!day[meals[j]]) {
+            day[meals[j]] = {};
+          }
+          day[meals[j]].id = days[i] + "-" + meals[j];
+        }
       }
     }
+    console.log(menu);
     // this.setState({ newMenu: menu });
     return menu;
 };
@@ -137,16 +167,6 @@ class Quickplanner extends React.Component {
     // })
   };
 
-  componentDidMount() {
-    Firebase.auth().onAuthStateChanged(user => {
-      if (user && !Firebase.auth().currentUser.isAnonymous) {
-        this.setState({
-          currentUser: user.email
-        });
-        this.getAll(user.email);
-      }
-    });
-  }
 
   render() {
     const { classes } = this.props;
