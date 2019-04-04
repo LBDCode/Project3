@@ -82,6 +82,7 @@
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
+  position: relative;
 }
 
 .allergyMarginFix {

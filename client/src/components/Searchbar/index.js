@@ -17,6 +17,10 @@ import API from "../../utils/API";
 import RecipeCard from "../RecipeCard/index";
 import Firebase from "../../config/Firebase";
 import Swal from "sweetalert2";
+import classNames from "classnames";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import green from "@material-ui/core/colors/green";
+
 import "./style.css";
 import { constants } from "zlib";
 
@@ -50,7 +54,8 @@ const styles = theme => ({
   },
   inputRoot: {
     color: "inherit",
-    width: "100%"
+    width: "100%",
+    position: "relative"
   },
   inputInput: {
     paddingTop: theme.spacing.unit,
@@ -72,6 +77,14 @@ const styles = theme => ({
   },
   recipeModalText: {
     fontSize: "10px"
+  },
+  buttonProgress: {
+    color: "white",
+    position: "absolute",
+    top: "50%",
+    right: "10%",
+    marginTop: -12,
+    marginLeft: -12
   }
 });
 
@@ -86,7 +99,9 @@ class SearchAppBar extends Component {
     dietType: "",
     favorites: [],
     currentUser: "",
-    menu:{},
+    menu: {},
+    loading: false,
+    success: false
   };
 
   // Checking Auth state and getting current user and info
@@ -99,6 +114,10 @@ class SearchAppBar extends Component {
         this.getAll(user.email);
       }
     });
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
   }
 
   // Re-evaluates MongoDB for newly saved preferences.
@@ -132,6 +151,24 @@ class SearchAppBar extends Component {
       dietType: this.state.dietType,
       searchQuery: this.state.searchQuery
     };
+
+    if (!this.state.loading) {
+      this.setState(
+        {
+          success: false,
+          loading: true
+        },
+        () => {
+          this.timer = setTimeout(() => {
+            this.setState({
+              loading: false,
+              success: true
+            });
+          }, 2000);
+        }
+      );
+    }
+
     API.postRecipediaValues(values)
       .then(response => this.setState({ recipes: response.data.hits }))
       .catch(err => console.log(err));
@@ -153,7 +190,7 @@ class SearchAppBar extends Component {
           tree_nut_free: res.data.preferences.tree_nut_free || false,
           alcohol_free: res.data.preferences.alcohol_free || false,
           dietType: res.data.preferences.dietType,
-          menu: res.data.weeklymenu,
+          menu: res.data.weeklymenu
           // monday: res.data.weeklymenu.monday,
           // tuesday: res.data.weeklymenu.tuesday,
           // wednesday: res.data.weeklymenu.wednesday,
@@ -212,7 +249,7 @@ class SearchAppBar extends Component {
   };
 
   checkFav = uri => {
-    return this.state.favURIs.includes(uri)? true : false ;
+    return this.state.favURIs.includes(uri) ? true : false;
   };
 
   handleFavorite = (fav, recipeName) => {
@@ -238,10 +275,10 @@ class SearchAppBar extends Component {
       .catch(err => console.log(err));
   };
 
-  handleMealSave = (day, meal, recipe)=> {
+  handleMealSave = (day, meal, recipe) => {
     this.getAll(this.state.currentUser);
     let newMeal = this.formatRecipe(recipe);
-    let curMenu = {...this.state.menu};
+    let curMenu = { ...this.state.menu };
 
     if (!curMenu[day]) {
       curMenu[day] = { [meal]: newMeal };
@@ -250,8 +287,8 @@ class SearchAppBar extends Component {
     }
 
     API.updateMenu(this.state.currentUser, curMenu)
-    .then(res => this.getAll(this.state.currentUser))
-    .catch(err => console.log(err));
+      .then(res => this.getAll(this.state.currentUser))
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -265,6 +302,7 @@ class SearchAppBar extends Component {
       alcohol_free,
       dietType
     } = this.state;
+    const { loading } = this.state;
 
     return (
       <div className={classes.root}>
@@ -284,6 +322,7 @@ class SearchAppBar extends Component {
                     color="secondary"
                     className="searchBtn"
                     onClick={this.handleSearchValues}
+                    disabled={loading}
                   >
                     Search
                   </Button>
@@ -291,14 +330,22 @@ class SearchAppBar extends Component {
                     <div className={classes.searchIcon}>
                       <SearchIcon />
                     </div>
-                    <InputBase
-                      name="searchTerm"
-                      onChange={this.handleSearchQuery}
-                      classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput
-                      }}
-                    />
+                    <div>
+                      <InputBase
+                        name="searchTerm"
+                        onChange={this.handleSearchQuery}
+                        classes={{
+                          root: classes.inputRoot,
+                          input: classes.inputInput
+                        }}
+                      />
+                      {loading && (
+                        <CircularProgress
+                          size={24}
+                          className={classes.buttonProgress}
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
               </Grid>
@@ -421,7 +468,7 @@ class SearchAppBar extends Component {
                     favorite={this.checkFav(recipe.recipe.uri)}
                     recipeInfo={recipe}
                     handleFavorite={this.handleFavorite}
-                    saveMeal={this.handleMealSave}  
+                    saveMeal={this.handleMealSave}
                     user={this.state.currentUser}
                   />
                 </Grid>
