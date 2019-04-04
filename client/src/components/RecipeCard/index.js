@@ -13,15 +13,15 @@ import ShareIcon from "@material-ui/icons/ViewList";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import ReactCardFlip from "react-card-flip";
+import "./style.css";
 
 const styles = theme => ({
   card: {
@@ -75,6 +75,16 @@ const styles = theme => ({
     fontSize: "20px",
     borderRadius: "5px",
     textAlign: "center"
+  },
+  cardFlipIcon: {
+    position: "absolute",
+    right: "3%"
+  },
+  nutritionBtn: {
+    margin: theme.spacing.unit,
+    position: "absolute",
+    bottom: "7px",
+    color: "rgb(150,150,150)"
   }
 });
 
@@ -98,9 +108,9 @@ class RecipeReviewCard extends Component {
   state = {
     open: false,
     day: "",
-    meal: ""
+    meal: "",
+    isFlipped: false
   };
-
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -114,38 +124,203 @@ class RecipeReviewCard extends Component {
     this.setState({ open: false });
   };
 
+  handleCardFlip = e => {
+    e.preventDefault();
+    this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
+  };
+
+  getNutritionValue = (nutritionValue, totalServings) => {
+    // console.log(object);
+    // console.log(nutritionValue);
+    if (nutritionValue !== undefined) {
+      const valuePerServing =
+        parseFloat(nutritionValue.quantity) / parseInt(totalServings);
+      return parseFloat(valuePerServing.toFixed(1));
+    } else {
+      return "0";
+    }
+  };
+
   render() {
     const { classes } = this.props;
+    const nutritionValue = this.props.recipeInfo.recipe.totalNutrients;
+    const totalServings = this.props.recipeInfo.recipe.yield;
 
     return (
-      <Card className={classes.card}>
-        <CardHeader
-          className={classes.header}
-          avatar={
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              R
-            </Avatar>
-          }
-          title={
-            <h1 className={classes.recipeTitle}>
-              {this.props.recipeInfo.recipe.label}
-            </h1>
-          }
-        />
-        <CardMedia
-          className={classes.media}
-          image={this.props.recipeInfo.recipe.image}
-          title={this.props.recipeInfo.recipe.label}
-          alt={this.props.recipeInfo.recipe.label}
-          onClick={() =>
-            this.props.history.push(
-              "recipe/" + this.props.recipeInfo.recipe.uri.split("_")[1]
-            )
-          }
-        />
+      <Card className={classes.card} key="back">
+        <ReactCardFlip
+          isFlipped={this.state.isFlipped}
+          flipSpeedBackToFront={0.8}
+          flipSpeedFrontToBack={0.8}
+          flipDirection="horizontal"
+        >
+          <div key="front" className="frontFlipCard">
+            <CardHeader
+              className={classes.header}
+              avatar={
+                <Avatar aria-label="Recipe" className={classes.avatar}>
+                  R
+                </Avatar>
+              }
+              title={
+                <h1 className={classes.recipeTitle}>
+                  {this.props.recipeInfo.recipe.label}
+                </h1>
+              }
+            />
+            <CardMedia
+              className={classes.media}
+              image={this.props.recipeInfo.recipe.image}
+              title={this.props.recipeInfo.recipe.label}
+              alt={this.props.recipeInfo.recipe.label}
+              onClick={() =>
+                this.props.history.push(
+                  "recipe/" + this.props.recipeInfo.recipe.uri.split("_")[1]
+                )
+              }
+            />
+          </div>
+
+          <div key="back">
+            {/* NUTRITION LABEL STARTS HERE */}
+            <section className="performance-facts">
+              <header className="performance-facts__header">
+                <h1 className="performance-facts__title">Nutrition Facts</h1>
+                <p className="nutritionParaStyling">
+                  Servings Per Recipe {totalServings}
+                </p>
+              </header>
+              <table className="performance-facts__table">
+                <thead>
+                  <tr>
+                    <th colspan="3" className="small-info">
+                      Amount Per Serving
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th colspan="2" className="calorieStyling">
+                      <b>Calories</b>
+                      &nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.ENERC_KCAL,
+                        totalServings
+                      )}
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan="2">
+                      <b>Total Fat</b>
+                      &nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.FAT,
+                        totalServings
+                      )}
+                      g
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className="blank-cell" />
+                    <th>
+                      Saturated Fat&nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.FASAT,
+                        totalServings
+                      )}
+                      g
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className="blank-cell" />
+                    <th>
+                      Trans Fat&nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.FATRN,
+                        totalServings
+                      )}
+                      g
+                    </th>
+                    <td />
+                  </tr>
+                  <tr>
+                    <th colspan="2">
+                      <b>Cholesterol</b>
+                      &nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.CHOLE,
+                        totalServings
+                      )}
+                      mg
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan="2">
+                      <b>Sodium</b>
+                      &nbsp;
+                      {this.getNutritionValue(nutritionValue.NA, totalServings)}
+                      mg
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colspan="2">
+                      <b>Total Carbohydrate</b>
+                      &nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.CHOCDF,
+                        totalServings
+                      )}
+                      g
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className="blank-cell" />
+                    <th>
+                      Dietary Fiber &nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.FIBTG,
+                        totalServings
+                      )}
+                      g
+                    </th>
+                  </tr>
+                  <tr>
+                    <td className="blank-cell" />
+                    <th>
+                      Sugars &nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.SUGAR,
+                        totalServings
+                      )}
+                      g
+                    </th>
+                    <td />
+                  </tr>
+                  <tr>
+                    <th colspan="2">
+                      <b>Protein</b>
+                      &nbsp;
+                      {this.getNutritionValue(
+                        nutritionValue.PROCNT,
+                        totalServings
+                      )}
+                      g
+                    </th>
+                    <td />
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+            {/* NUTRITION LABEL ENDS HERE */}
+          </div>
+        </ReactCardFlip>
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton
-            style={ (this.props.favorite === true) ? {color:'red'} : {color:'black'} }
+            style={
+              this.props.favorite === true
+                ? { color: "indianred" }
+                : { color: "rgb(150,150,150)" }
+            }
             aria-label="Add to favorites"
             className={classes.recipeIcons}
             onClick={() =>
@@ -155,8 +330,7 @@ class RecipeReviewCard extends Component {
               )
             }
           >
-    
-            <FavoriteIcon  />
+            <FavoriteIcon />
           </IconButton>
           <>
             <IconButton
@@ -169,6 +343,14 @@ class RecipeReviewCard extends Component {
             >
               <ShareIcon />
             </IconButton>
+            <Button
+              variant="outlined"
+              color="default"
+              onClick={this.handleCardFlip}
+              className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
+            >
+              Nutrition Facts
+            </Button>
             <Dialog
               disableBackdropClick
               disableEscapeKeyDown
@@ -244,3 +426,5 @@ RecipeReviewCard.propTypes = {
 };
 
 export default withRouter(withStyles(styles)(RecipeReviewCard));
+
+// THIS IS A TEST
