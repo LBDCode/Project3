@@ -70,11 +70,6 @@ class CarouselTwo extends Component {
             slidesToShow: 4,
             slidesToScroll: 4,
             swipeToSlide: true,
-            afterChange: function(index) {
-              console.log(
-                `Slider Changed to: ${index + 1}, background: #222; color: #bada55`
-              );
-            },
             initialSlide: 0,
             responsive: [
               {
@@ -107,13 +102,14 @@ class CarouselTwo extends Component {
 
 		return connectDropTarget(
 			<div style={{...style, backgroundColor}}>
-                <Slider {...settings}>
+        <Slider {...settings}>
 				{cards.map((card, i) => {
+					console.log(card);
 					return (
 						<Card 
 							key={card.id}
               index={i}
-              image={card.image}
+              image={card.image ? card.image : ""}
 							listId={this.props.id}
 							saveMeal={this.props.saveMeal}
 							card={card}														
@@ -121,7 +117,7 @@ class CarouselTwo extends Component {
 							moveCard={this.moveCard.bind(this)} />
 					);
                 })}
-                </Slider>
+        </Slider>
 			</div>
 
 

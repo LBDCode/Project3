@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import { withRouter } from "react-router-dom";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from "@material-ui/core/CardActions";
@@ -93,7 +92,7 @@ class RecipeReviewCard extends Component {
       ingredients: [String],
       image: String
     };
-    console.log(newFav);
+    // console.log(newFav);
   };
 
   state = {
@@ -101,6 +100,7 @@ class RecipeReviewCard extends Component {
     day: "",
     meal: ""
   };
+
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -145,6 +145,7 @@ class RecipeReviewCard extends Component {
         />
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton
+            style={ (this.props.favorite === true) ? {color:'red'} : {color:'black'} }
             aria-label="Add to favorites"
             className={classes.recipeIcons}
             onClick={() =>
@@ -154,7 +155,8 @@ class RecipeReviewCard extends Component {
               )
             }
           >
-            <FavoriteIcon />
+    
+            <FavoriteIcon  />
           </IconButton>
           <>
             <IconButton
