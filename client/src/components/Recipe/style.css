@@ -48,7 +48,7 @@
   font-size: 20px;
   text-decoration: none;
 }
-.body-card {
+.card {
   font-family: "Dosis", sans-serif;
   background-color: white;
   height: 100%;
@@ -56,14 +56,14 @@
   flex-wrap: wrap;
   padding: 0 20px;
 }
-.body-card > div {
+.card > div {
   width: 33%;
   margin: 0 1px;
-  color: rgb(62, 65, 64);
+  color: black;
   font-size: 20px;
   text-align: left;
 }
-h3 > i {
+h5 > i {
   color: black;
 }
 .link {
@@ -74,6 +74,9 @@ h5 {
 }
 li {
   font-weight: bold;
+}
+span {
+  color: white;
 }
 i {
   color: black;
@@ -103,7 +106,7 @@ ul {
   .recipePage {
     width: 90%;
   }
-  .body-card > div {
+  .card > div {
     width: 60%;
     margin: 0 auto;
   }

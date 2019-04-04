@@ -23,7 +23,7 @@ function Recipe(props) {
                 </a>
               </h1>
             </div>
-            <div className="body-card">
+            <div className="card">
               <div>
                 <h5>
                   <i class="fas fa-utensils" />
