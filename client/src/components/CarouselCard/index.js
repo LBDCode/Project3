@@ -8,7 +8,7 @@ import "./style.css";
 const style = {
   // width: '75px',
   // height: '75px',
-	border: '1px dashed gray',
+	// border: '1px dashed gray',
 	padding: '0.5rem 1rem',
 	margin: '.5rem',
 	backgroundColor: 'white',
@@ -24,12 +24,18 @@ class CarouselCard extends Component {
 		return connectDragSource(connectDropTarget(
 			<div data-obj={card} style={{ ...style, opacity }}>
 				<div className="img-container">
+				{card.image ? 
+					<>
 					<img
 						className="image-recepie"
 						alt="recepie"
 						src={card.image} 		
-					/>
-				<p className="lable">{card.label}</p>
+					/> 
+					<p className="lable">{card.label}</p>
+					</>
+					: 
+					<></>
+				}
 				</div>
 			</div>
 

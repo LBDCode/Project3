@@ -59,13 +59,7 @@ class Quickplanner extends React.Component {
     open: false,
     favorites: [],
     menu: {},
-    // monday: {},
-    // tuesday: {},
-    // wednesday: {},
-    // thursday: {},
-    // friday: {},
-    // saturday: {},
-    // sunday: {},
+    newMenu: [],
     currentUser: "",
     expanded: null
   };
@@ -83,31 +77,8 @@ class Quickplanner extends React.Component {
       expanded: expanded ? panel : false
     });
   };
+ 
 
-  mapFavs() {
-    let newFavs = [...this.state.favorites];
-    newFavs.map((value, index) => {
-      value.id = index + 1;
-    });
-    console.log(newFavs);
-    return newFavs;
-  };
-
-  //list id
-  //meal id
-  //recipe for each meal
-
-  mapMenu() {
-    const curMenu = this.state.menu;
-    let newMenu = {
-      monday: {
-        breakfast: curMenu.monday.breakfast || {},
-        lunch: curMenu.monday.lunch || {},
-        dinner: curMenu.monday.dinner || {}
-      },
-    }
-    console.log(newMenu);
-  }
 
   getAll(user) {
     API.getDBRecipes(user)
@@ -115,15 +86,44 @@ class Quickplanner extends React.Component {
         this.setState({
           favorites: res.data.favorites,
           menu: res.data.weeklymenu,
-          mondayBreakfast: res.data.weeklymenu.monday.breakfast,
-          mondayLunch: res.data.weeklymenu.monday.lunch,
-          mondayDinner: res.data.weeklymenu.monday.dinner
+          newMenu: this.mapMenu()
         });
-        this.mapMenu();
-        console.log(this.state.favorites, this.state.weeklymenu);
       })
       .catch(err => console.log(err));
-  }
+  };
+
+  mapMenu() {
+    let menu = this.state.menu;
+    let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    let meals = ["breakfast", "lunch", "dinner"];
+    
+    for (let i = 0; i < days.length; i++) {
+      let day = menu[days[i]];
+
+      if (!day) {
+          menu[days[i]] = {};
+          day = menu[days[i]];
+      }
+
+      for (let j = 0; j < meals.length; j++) {
+        if (!day[meals[j]]) {
+          day[meals[j]] = {};
+        }
+        day[meals[j]].id = days[i] + "-" + meals[j];
+      }
+    }
+    // this.setState({ newMenu: menu });
+    return menu;
+};
+  mapFavs() {
+    let newFavs = [...this.state.favorites];
+    newFavs.map((value, index) => {
+      value.id = index + 1;
+    });
+    // console.log(newFavs);
+    return newFavs;
+  };
+
 
   saveMeal(user, day, meal, recipe) {
     // const mealString = day + meal;
@@ -135,7 +135,7 @@ class Quickplanner extends React.Component {
 
     //   })
     // })
-  }
+  };
 
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(user => {
@@ -159,19 +159,12 @@ class Quickplanner extends React.Component {
     };
 
     const listOne = [];
-
     const listTwo = [];
-
+  
+    let meals = this.mapMenu();
     const favorites = this.mapFavs();
+   
 
-    const listFour = [
-      { id: 7, text: "Test1" },
-      { id: 8, text: "Test2" },
-      { id: 9, text: "Test3" },
-      { id: 9, text: "Test4" },
-      { id: 9, text: "Test5" },
-      { id: 9, text: "Test6" }
-    ];
 
     return (
       <div>
@@ -207,55 +200,55 @@ class Quickplanner extends React.Component {
                 <div style={{ ...style }}>
                   <Container
                     id="MondayBreakfast"
-                    list={listOne}
+                    list={[meals.monday.breakfast]}
                     saveMeal={this.saveMeal}
                   />
                 </div>
                 <div style={{ ...style }}>
                   <Container
                     id="MondayLunch"
-                    list={listTwo}
+                    list={[meals.monday.lunch]}
                     saveMeal={this.saveMeal}
                   />
                 </div>
                 <div style={{ ...style }}>
                   <Container
                     id="MondayDinner"
-                    list={listOne}
+                    list={[meals.monday.dinner]}
                     saveMeal={this.saveMeal}
                   />
                 </div>
               </ExpansionPanelDetails>
             </ExpansionPanel>
-            {/* <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
+            <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Tuesday</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div style={{...style}}>
-                <Container id="TuesdayBreakfast" list={listOne} />
+                <Container id="TuesdayBreakfast" list={[meals.tuesday.breakfast]} />
               </div>
               <div style={{...style}}>
-                <Container id="TuesdayLunch" list={listTwo} />
+                <Container id="TuesdayLunch" list={[meals.tuesday.lunch]} />
               </div>
               <div style={{...style}}>
-                <Container id="TuesdayDinner" list={listOne} />
+                <Container id="TuesdayDinner" list={[meals.tuesday.dinner]} />
               </div>
             </ExpansionPanelDetails>
-          </ExpansionPanel>
+          </ExpansionPanel> 
         <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Wednesday</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div style={{...style}}>
-              <Container id="WednesdayBreakfast" list={listOne} />
+              <Container id="WednesdayBreakfast" list={[meals.wednesday.breakfast]} />
             </div>
             <div style={{...style}}>
-              <Container id="WednesdayLunch" list={listTwo} />
+              <Container id="WednesdayLunch" list={[meals.wednesday.lunch]} />
             </div>
             <div style={{...style}}>
-              <Container id="WednesdayDinner" list={listOne} />
+              <Container id="WednesdayDinner" list={[meals.wednesday.dinner]} />
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -265,13 +258,13 @@ class Quickplanner extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div style={{...style}}>
-              <Container id="ThursdayBreakfast" list={listOne} />
+              <Container id="ThursdayBreakfast" list={[meals.thursday.breakfast]} />
             </div>
             <div style={{...style}}>
-              <Container id="ThursdayLunch" list={listTwo} />
+              <Container id="ThursdayLunch" list={[meals.thursday.lunch]} />
             </div>
             <div style={{...style}}>
-              <Container id="ThursdayDinner" list={listOne} />
+              <Container id="ThursdayDinner" list={[meals.thursday.dinner]} />
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -281,13 +274,13 @@ class Quickplanner extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div style={{...style}}>
-              <Container id="FridayBreakfast" list={listOne} />
+              <Container id="FridayBreakfast" list={[meals.friday.breakfast]} />
             </div>
             <div style={{...style}}>
-              <Container id="FridayLunch" list={listTwo} />
+              <Container id="FridayLunch" list={[meals.friday.lunch]} />
             </div>
             <div style={{...style}}>
-              <Container id="FridayDinner" list={listOne} />
+              <Container id="FridayDinner" list={[meals.friday.dinner]} />
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -297,13 +290,13 @@ class Quickplanner extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div style={{...style}}>
-              <Container id="SaturdayBreakfast" list={listOne} />
+              <Container id="SaturdayBreakfast" list={[meals.saturday.breakfast]} />
             </div>
             <div style={{...style}}>
-              <Container id="SaturdayLunch" list={listTwo} />
+              <Container id="SaturdayLunch" list={[meals.saturday.lunch]} />
             </div>
             <div style={{...style}}>
-              <Container id="SaturdayDinner" list={listOne} />
+              <Container id="SaturdayDinner" list={[meals.saturday.dinner]} />
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -313,17 +306,17 @@ class Quickplanner extends React.Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <div style={{...style}}>
-              <Container id="SundayBreakfast" list={listOne} />
+              <Container id="SundayBreakfast" list={[meals.sunday.breakfast]} />
             </div>
             <div style={{...style}}>
-              <Container id="SundayLunch" list={listTwo} />
+              <Container id="SundayLunch" list={[meals.sunday.lunch]} />
             </div>
             <div style={{...style}}>
-              <Container id="SundayDinner" list={listOne} />
+              <Container id="SundayDinner" list={[meals.sunday.dinner]} />
             </div>
           </ExpansionPanelDetails>
-        </ExpansionPanel>
- */}
+        </ExpansionPanel> 
+
           </div>
         </Modal>
       </div>
