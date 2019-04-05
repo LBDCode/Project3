@@ -3,18 +3,16 @@
 }
 
 .performance-facts {
-  border: 1px solid black;
   border-top-left-radius: 4px;
   margin: auto;
   border-top-right-radius: 4px;
   float: left;
-  width: 93.8%;
+  width: 95%;
   padding: 0.5rem;
   font-size: small;
   line-height: 1.4;
   height: 358px;
   background: rgb(240, 240, 240);
-  margin-left: -0.3px;
 }
 
 .performance-facts table {
