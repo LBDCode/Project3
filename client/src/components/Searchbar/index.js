@@ -213,9 +213,15 @@ class SearchAppBar extends Component {
 
   checkFav = uri => {
     return this.state.favURIs.includes(uri)? true : false ;
+
+
   };
 
   handleFavorite = (fav, recipeName) => {
+
+    //get search result URI -- check against curFavs list
+    //if included in curFav list, remove from curFav list, set state, API.updateFavs (to remove from favs)
+    //else if not included in curFavs run code below (to add to favs)
     let newFav = this.formatRecipe(fav);
     API.updateFavs(this.state.currentUser, newFav)
       .then(() => {

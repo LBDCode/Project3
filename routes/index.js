@@ -11,3 +11,5 @@ router.use(function(req, res) {
 });
 
 module.exports = router;
+
+//from react deployment documentation - should we use this instead?
