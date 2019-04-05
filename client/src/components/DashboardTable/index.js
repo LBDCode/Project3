@@ -56,7 +56,7 @@ class DashboardTable extends Component {
             <TableHead>
               <TableRow>
                 <TableCell className="meal">
-                  <p id="clearWeek" onClick={() => this.clearDashboardMeal()}>
+                  <p id="clearWeek" onClick={e => this.clearDashboardMeal(e)}>
                     Clear the week
                   </p>
                 </TableCell>
@@ -106,31 +106,39 @@ class DashboardTable extends Component {
                     >
                       {this.props[day] && this.props[day][meal] ? (
                         <div className="cell">
-                          <div
-                            onClick={() =>
-                              this.props[day] && this.props[day][meal]
-                                ? this.props.clickedMeal(this.props[day][meal])
-                                : ""
-                            }
-                            className="img-container"
-                          >
-                            <img
-                              className="image-recepe"
-                              alt="recepe"
-                              src={this.props[day][meal].image}
-                            />
-                            <p className="lableImg">
-                              {this.props[day][meal].label}
-                            </p>
-                          </div>
-                          <button
-                            data-day={day}
-                            data-meal={meal}
-                            className="removeOneMeal"
-                            onClick={e => this.clearDashboardMeal(e)}
-                          >
-                            X
-                          </button>
+                          {this.props[day][meal].label ? (
+                            <>
+                              <div
+                                onClick={() =>
+                                  this.props[day] && this.props[day][meal].label
+                                    ? this.props.clickedMeal(
+                                        this.props[day][meal]
+                                      )
+                                    : ""
+                                }
+                                className="img-container"
+                              >
+                                <img
+                                  className="image-recepe"
+                                  alt="recepe"
+                                  src={this.props[day][meal].image}
+                                />
+                                <p className="lableImg">
+                                  {this.props[day][meal].label}
+                                </p>
+                              </div>
+                              <button
+                                data-day={day}
+                                data-meal={meal}
+                                className="removeOneMeal"
+                                onClick={e => this.clearDashboardMeal(e)}
+                              >
+                                X
+                              </button>
+                            </>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       ) : (
                         ""

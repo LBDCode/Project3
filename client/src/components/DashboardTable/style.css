@@ -72,7 +72,7 @@
 .removeOneMeal {
   position: absolute;
   top: 18px;
-  right: 0;
+  right: 18px;
   border-radius: 5px;
   font-size: 15px;
   background-color: rgba(250, 250, 250, 0.582);

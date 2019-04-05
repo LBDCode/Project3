@@ -166,7 +166,8 @@ class Dashboard extends Component {
     email: "",
     notes: "",
     type: true,
-    scrollTo: false
+    scrollTo: false,
+    db: false
   };
   constructor(props) {
     super(props);
@@ -247,7 +248,8 @@ class Dashboard extends Component {
           sunday: res.data.weeklymenu.sunday,
           time: this.getTime(res.data.weeklymenu),
           meals: this.getMeals(res.data.weeklymenu),
-          ingredients: this.getIngredients(res.data.weeklymenu)
+          ingredients: this.getIngredients(res.data.weeklymenu),
+          db: true
         });
       })
       .catch(err => console.log(err));
@@ -350,18 +352,23 @@ class Dashboard extends Component {
       <>
         <Navbar />
         <h1 style={styles().header}>Prep info for a week</h1>
-        <DashboardTable
-          monday={this.state.monday}
-          tuesday={this.state.tuesday}
-          wednesday={this.state.wednesday}
-          thursday={this.state.thursday}
-          friday={this.state.friday}
-          saturday={this.state.saturday}
-          sunday={this.state.sunday}
-          clickedMeal={this.clicked.bind(this)}
-          currentUser={this.state.currentUser}
-          mealRemoved={() => this.getAll(this.state.currentUser)}
-        />
+        {this.state.db ? (
+          <DashboardTable
+            monday={this.state.monday}
+            tuesday={this.state.tuesday}
+            wednesday={this.state.wednesday}
+            thursday={this.state.thursday}
+            friday={this.state.friday}
+            saturday={this.state.saturday}
+            sunday={this.state.sunday}
+            clickedMeal={this.clicked.bind(this)}
+            currentUser={this.state.currentUser}
+            mealRemoved={() => this.getAll(this.state.currentUser)}
+          />
+        ) : (
+          ""
+        )}
+
         <div style={styles().wrapper}>
           <div style={styles().smallCardsWr}>
             <Paper style={styles().card}>
@@ -371,7 +378,7 @@ class Dashboard extends Component {
                   <span>
                     <i style={styles().i} class="fas fa-clock" />
                   </span>
-                  {this.state.time}
+                  {this.state.time ? this.state.time : "0 hr 0 min"}
                 </p>
               </h5>
             </Paper>
@@ -382,7 +389,7 @@ class Dashboard extends Component {
                   <span>
                     <i style={styles().i} class="fas fa-hamburger" />
                   </span>
-                  {this.state.meals}
+                  {this.state.meals ? this.state.meals : "0"}
                 </p>
               </h5>
             </Paper>
