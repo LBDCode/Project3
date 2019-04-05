@@ -249,7 +249,11 @@ class SearchAppBar extends Component {
   };
 
   checkFav = uri => {
-    return this.state.favURIs.includes(uri) ? true : false;
+    if (!this.state.favURIs) {
+      return false;
+    } else {
+      return this.state.favURIs.includes(uri) ? true : false;
+    }
   };
 
   handleFavorite = (fav, recipeName) => {
