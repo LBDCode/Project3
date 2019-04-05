@@ -47,8 +47,9 @@ class Container extends Component {
 		const { canDrop, isOver, connectDropTarget } = this.props;
 		const isActive = canDrop && isOver;
 		const style = {
-			width: "200px",
-			height: "404px",
+			width: "90%",
+			// height: "180px",
+			textAlign: 'center',
 			border: '1px dashed gray'
 		};
 
@@ -56,7 +57,7 @@ class Container extends Component {
 
 		return connectDropTarget(
 			<div style={{...style, backgroundColor}}>
-              <h3>{this.props.id}</h3>
+              <h5 style={{margin:'5px'}}>{this.props.id.split('y')[1]}</h5>
 				{cards.map((card, i) => {
 					console.log(card);
 					return (
