@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Modal from "@material-ui/core/Modal";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -18,7 +18,7 @@ import QuickPlannerIcon from "@material-ui/icons/Dashboard";
 import API from "../../utils/API";
 import Firebase from "../../config/Firebase";
 import Container from "../Droptarget";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 import CarouselTwo from "../CarouselTwo";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
@@ -45,7 +45,7 @@ const styles = theme => ({
     width: "90%",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    textAlign: 'center',
+    textAlign: "center",
     padding: theme.spacing.unit * 4
   },
   styledModal: {
@@ -81,7 +81,7 @@ class Quickplanner extends React.Component {
     window.onresize = function() {
       this.forceUpdate();
     }.bind(this);
-  };
+  }
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -98,7 +98,7 @@ class Quickplanner extends React.Component {
       expanded: expanded ? panel : false
     });
   };
- 
+
   getAll(user) {
     API.getDBRecipes(user)
       .then(res => {
@@ -109,24 +109,32 @@ class Quickplanner extends React.Component {
         });
       })
       .catch(err => console.log(err));
-  };
+  }
 
   mapMenu() {
     let menu = this.state.menu;
-    let days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    let days = [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday"
+    ];
     let meals = ["breakfast", "lunch", "dinner"];
 
-    if(!menu) {
+    if (!menu) {
       let menu = {};
       for (let i = 0; i < days.length; i++) {
-          menu[days[i]] = {};
-          let day = menu[days[i]];
-        
+        menu[days[i]] = {};
+        let day = menu[days[i]];
+
         for (let j = 0; j < meals.length; j++) {
-            day[meals[j]] = {};
-            day[meals[j]].id = days[i] + "-" + meals[j];
+          day[meals[j]] = {};
+          day[meals[j]].id = days[i] + "-" + meals[j];
         }
-      }    
+      }
       console.log(menu);
       return menu;
     } else {
@@ -134,8 +142,8 @@ class Quickplanner extends React.Component {
         let day = menu[days[i]];
 
         if (!day) {
-            menu[days[i]] = {};
-            day = menu[days[i]];
+          menu[days[i]] = {};
+          day = menu[days[i]];
         }
 
         for (let j = 0; j < meals.length; j++) {
@@ -149,7 +157,7 @@ class Quickplanner extends React.Component {
     console.log(menu);
     // this.setState({ newMenu: menu });
     return menu;
-};
+  }
   mapFavs() {
     let newFavs = [...this.state.favorites];
     newFavs.map((value, index) => {
@@ -157,8 +165,7 @@ class Quickplanner extends React.Component {
     });
     // console.log(newFavs);
     return newFavs;
-  };
-
+  }
 
   saveMeal(user, day, meal, recipe) {
     // const mealString = day + meal;
@@ -170,8 +177,7 @@ class Quickplanner extends React.Component {
 
     //   })
     // })
-  };
-
+  }
 
   render() {
     const { classes } = this.props;
@@ -185,11 +191,9 @@ class Quickplanner extends React.Component {
 
     const listOne = [];
     const listTwo = [];
-  
+
     let meals = this.mapMenu();
     const favorites = this.mapFavs();
-   
-
 
     return (
       <div>
@@ -205,26 +209,26 @@ class Quickplanner extends React.Component {
           onClose={this.handleClose}
         >
           {/* <div style={getModalStyle()} className={classes.paper}> */}
-            <DialogTitle
-              className={this.props.classes.styledHeader}
-              align="center"
-              variant="title"
-              id="modal-title"
+          <DialogTitle
+            className={this.props.classes.styledHeader}
+            align="center"
+            variant="title"
+            id="modal-title"
+          >
+            plan your menu
+          </DialogTitle>
+          <DialogContent>
+            <CarouselTwo id="favorites" list={favorites} />
+            <ExpansionPanel
+              expanded={expanded === "panel1"}
+              onChange={this.handleChange("panel1")}
             >
-              plan your menu
-            </DialogTitle>
-            <DialogContent>
-              <CarouselTwo id="favorites" list={favorites} />
-              <ExpansionPanel
-                expanded={expanded === "panel1"}
-                onChange={this.handleChange("panel1")}
-              >
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Monday</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Monday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
                 <Grid style={{ ...style }} container spacing={24}>
-                    <Grid item xs={12} sm={12} med={4}>
+                  <Grid item xs={12} sm={12} med={4}>
                     <div style={{ ...style }}>
                       <Container
                         id="MondayBreakfast"
@@ -233,7 +237,7 @@ class Quickplanner extends React.Component {
                       />
                     </div>
                   </Grid>
-                    <Grid item xs={12} sm={12} med={4}>
+                  <Grid item xs={12} sm={12} med={4}>
                     <div style={{ ...style }}>
                       <Container
                         id="MondayLunch"
@@ -242,7 +246,7 @@ class Quickplanner extends React.Component {
                       />
                     </div>
                   </Grid>
-                    <Grid item xs={12} sm={12} med={4}>
+                  <Grid item xs={12} sm={12} med={4}>
                     <div style={{ ...style }}>
                       <Container
                         id="MondayDinner"
@@ -250,108 +254,156 @@ class Quickplanner extends React.Component {
                         saveMeal={this.saveMeal}
                       />
                     </div>
-                    </Grid>
+                  </Grid>
                 </Grid>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel expanded={expanded === 'panel2'} onChange={this.handleChange('panel2')}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Tuesday</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <div style={{...style}}>
-                    <Container id="TuesdayBreakfast" list={[meals.tuesday.breakfast]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="TuesdayLunch" list={[meals.tuesday.lunch]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="TuesdayDinner" list={[meals.tuesday.dinner]} />
-                  </div>
-                </ExpansionPanelDetails>
-              </ExpansionPanel> 
-              <ExpansionPanel expanded={expanded === 'panel3'} onChange={this.handleChange('panel3')}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Wednesday</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <div style={{...style}}>
-                    <Container id="WednesdayBreakfast" list={[meals.wednesday.breakfast]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="WednesdayLunch" list={[meals.wednesday.lunch]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="WednesdayDinner" list={[meals.wednesday.dinner]} />
-                  </div>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel expanded={expanded === 'panel4'} onChange={this.handleChange('panel4')}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Thursday</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <div style={{...style}}>
-                    <Container id="ThursdayBreakfast" list={[meals.thursday.breakfast]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="ThursdayLunch" list={[meals.thursday.lunch]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="ThursdayDinner" list={[meals.thursday.dinner]} />
-                  </div>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel expanded={expanded === 'panel5'} onChange={this.handleChange('panel5')}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Friday</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <div style={{...style}}>
-                    <Container id="FridayBreakfast" list={[meals.friday.breakfast]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="FridayLunch" list={[meals.friday.lunch]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="FridayDinner" list={[meals.friday.dinner]} />
-                  </div>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel expanded={expanded === 'panel6'} onChange={this.handleChange('panel6')}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Saturday</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <div style={{...style}}>
-                    <Container id="SaturdayBreakfast" list={[meals.saturday.breakfast]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="SaturdayLunch" list={[meals.saturday.lunch]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="SaturdayDinner" list={[meals.saturday.dinner]} />
-                  </div>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel expanded={expanded === 'panel7'} onChange={this.handleChange('panel7')}>
-                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography className={classes.heading}>Sunday</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <div style={{...style}}>
-                    <Container id="SundayBreakfast" list={[meals.sunday.breakfast]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="SundayLunch" list={[meals.sunday.lunch]} />
-                  </div>
-                  <div style={{...style}}>
-                    <Container id="SundayDinner" list={[meals.sunday.dinner]} />
-                  </div>
-                </ExpansionPanelDetails>
-              </ExpansionPanel> 
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === "panel2"}
+              onChange={this.handleChange("panel2")}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Tuesday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div style={{ ...style }}>
+                  <Container
+                    id="TuesdayBreakfast"
+                    list={[meals.tuesday.breakfast]}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="TuesdayLunch" list={[meals.tuesday.lunch]} />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="TuesdayDinner" list={[meals.tuesday.dinner]} />
+                </div>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === "panel3"}
+              onChange={this.handleChange("panel3")}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Wednesday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div style={{ ...style }}>
+                  <Container
+                    id="WednesdayBreakfast"
+                    list={[meals.wednesday.breakfast]}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container
+                    id="WednesdayLunch"
+                    list={[meals.wednesday.lunch]}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container
+                    id="WednesdayDinner"
+                    list={[meals.wednesday.dinner]}
+                  />
+                </div>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === "panel4"}
+              onChange={this.handleChange("panel4")}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Thursday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div style={{ ...style }}>
+                  <Container
+                    id="ThursdayBreakfast"
+                    list={[meals.thursday.breakfast]}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="ThursdayLunch" list={[meals.thursday.lunch]} />
+                </div>
+                <div style={{ ...style }}>
+                  <Container
+                    id="ThursdayDinner"
+                    list={[meals.thursday.dinner]}
+                  />
+                </div>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === "panel5"}
+              onChange={this.handleChange("panel5")}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Friday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div style={{ ...style }}>
+                  <Container
+                    id="FridayBreakfast"
+                    list={[meals.friday.breakfast]}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="FridayLunch" list={[meals.friday.lunch]} />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="FridayDinner" list={[meals.friday.dinner]} />
+                </div>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === "panel6"}
+              onChange={this.handleChange("panel6")}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Saturday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div style={{ ...style }}>
+                  <Container
+                    id="SaturdayBreakfast"
+                    list={[meals.saturday.breakfast]}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="SaturdayLunch" list={[meals.saturday.lunch]} />
+                </div>
+                <div style={{ ...style }}>
+                  <Container
+                    id="SaturdayDinner"
+                    list={[meals.saturday.dinner]}
+                  />
+                </div>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === "panel7"}
+              onChange={this.handleChange("panel7")}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Sunday</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <div style={{ ...style }}>
+                  <Container
+                    id="SundayBreakfast"
+                    list={[meals.sunday.breakfast]}
+                  />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="SundayLunch" list={[meals.sunday.lunch]} />
+                </div>
+                <div style={{ ...style }}>
+                  <Container id="SundayDinner" list={[meals.sunday.dinner]} />
+                </div>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
 
-          {/* </div> */}
+            {/* </div> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
