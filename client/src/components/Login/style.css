@@ -38,6 +38,8 @@
 
 .popUpPrompt {
   padding: 20px !important;
+  background: white;
+  outline: none;
 }
 
 .formLabelText {
