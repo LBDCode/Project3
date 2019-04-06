@@ -35,7 +35,11 @@ let midStyles = {
   },
   cardList: {
     width: "93%",
-    margin: "30px 30px"
+    margin: "30px 30px",
+    overflow: "scroll",
+    height: "400px",
+    display: "flex",
+    flexDirection: "column-reverse"
   },
   card: {
     width: "50%",
@@ -71,7 +75,7 @@ let midStyles = {
     width: "90%",
     color: "grey",
     textAlign: "center",
-    borderTop: "1px solid #8080801f",
+    borderBottom: "1px solid #8080801f",
     padding: "20px"
   },
   list: {
@@ -375,7 +379,7 @@ class Dashboard extends Component {
           <div style={styles().smallCardsWr}>
             <Paper style={styles().card}>
               <h5>
-                Exprected total prep time for the week:
+                Expected total prep time for the week:
                 <p>
                   <span>
                     <i style={styles().i} class="fas fa-clock" />

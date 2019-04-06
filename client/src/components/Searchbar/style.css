@@ -1,10 +1,10 @@
 .optionLabels {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   color: white !important;
   font-family: Roboto !important;
   font-weight: 400;
   font-size: 20px !important;
-  letter-spacing: 3px;
+  letter-spacing: 0.05em;
 }
 
 .dietOptions {
@@ -49,7 +49,7 @@
 }
 
 .searchBtn {
-  height: 48px !important;
+  height: 34px !important;
   margin-left: 15px !important;
   background: rgb(100, 100, 100) !important;
 }
@@ -63,6 +63,9 @@
   filter: contrast(0.8);
   background-size: cover;
 }
+header {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
 
 .noResultsFound {
   text-align: center;
@@ -72,10 +75,12 @@
 .formatDietOptions > span,
 .formatAllergyOptions > span {
   color: rgb(100, 100, 100) !important;
+  padding: 5px;
 }
 
 .searchbarMarginFix {
-  margin-top: 20px;
+  margin-top: 10px;
+  letter-spacing: 0.05em;
 }
 
 .searchbarFlexFix {
