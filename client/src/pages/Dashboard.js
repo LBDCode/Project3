@@ -9,6 +9,8 @@ import API from "../utils/API";
 import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 import Firebase from "../config/Firebase";
 import Swal from "sweetalert2";
 
@@ -71,6 +73,9 @@ let midStyles = {
     textAlign: "center",
     borderTop: "1px solid #8080801f",
     padding: "20px"
+  },
+  list: {
+    display: "flex"
   }
 };
 
@@ -83,7 +88,7 @@ let maxStyles = {
     display: "inline"
   },
   textfield: {
-    marginRight: "10px"
+    margin: "5px 10px 20px 0"
   },
   SubmitForm: {
     display: "flex",
@@ -137,7 +142,8 @@ let maxStyles = {
     paddingLeft: "20px"
   },
   list: {
-    width: "350px"
+    width: "350px",
+    display: "flex"
   }
 };
 
@@ -157,8 +163,26 @@ class Dashboard extends Component {
     clicked: "",
     currentUser: "",
     phone: "",
-    notes: ""
+    email: "",
+    notes: "",
+    type: true,
+    scrollTo: false,
+    db: false
   };
+  constructor(props) {
+    super(props);
+    this.mealRef = React.createRef();
+  }
+  componentDidUpdate() {
+    if (this.state.scrollTo) {
+      window.scrollTo({
+        left: 0,
+        top: this.mealRef.current.offsetTop,
+        behavior: "smooth"
+      });
+      this.setState({ scrollTo: false });
+    }
+  }
 
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(user => {
@@ -224,14 +248,16 @@ class Dashboard extends Component {
           sunday: res.data.weeklymenu.sunday,
           time: this.getTime(res.data.weeklymenu),
           meals: this.getMeals(res.data.weeklymenu),
-          ingredients: this.getIngredients(res.data.weeklymenu)
+          ingredients: this.getIngredients(res.data.weeklymenu),
+          db: true
         });
       })
       .catch(err => console.log(err));
   }
   clicked(meal) {
     this.setState({
-      clicked: meal
+      clicked: meal,
+      scrollTo: true
     });
   }
   ingredientChecked(item) {
@@ -259,52 +285,90 @@ class Dashboard extends Component {
         [name]: value
       });
     }
+    if (name === "email") {
+      this.setState({
+        [name]: value
+      });
+    }
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.phone.length !== 10) {
-      Swal.fire({
-        type: "error",
-        title: "Oops...",
-        text: "Check your phone number"
-      });
-    } else {
-      let listArr = Object.keys(this.state.ingredients).filter(item => {
+    var emailReg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let listArr = Object.keys(this.state.ingredients)
+      .sort()
+      .filter(item => {
         if (!this.state.ingredients[item]) {
           return item;
         }
       });
-      let text =
-        "This is your shopping list: \n" +
-        listArr.join("\n") +
-        "\n" +
-        this.state.notes;
-      API.sendSMS(this.state.phone, text).then(res => {
-        if (res.data) {
-          Swal.fire({
-            type: "success",
-            title: "Your message has been sent!"
-          });
-        }
-      });
+    let text =
+      "This is your shopping list: \n- " +
+      listArr.join("\n- ") +
+      "\n" +
+      "Additional notes:\n" +
+      this.state.notes;
+    if (this.state.type) {
+      if (this.state.phone.length !== 10) {
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: "Check your phone number"
+        });
+      } else {
+        API.sendSMS(this.state.phone, text).then(res => {
+          if (res.data) {
+            Swal.fire({
+              type: "success",
+              title: "Your message has been sent!"
+            });
+          }
+        });
+      }
+    } else {
+      if (emailReg.test(this.state.email)) {
+        API.sendEmail(this.state.email, text).then(res => {
+          if (res.data) {
+            Swal.fire({
+              type: "success",
+              title: "Your email message has been sent!"
+            });
+          }
+        });
+      } else {
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: "Check your email"
+        });
+      }
     }
+  };
+  handleSwitch = event => {
+    this.setState({ type: event.target.checked });
   };
   render() {
     return (
       <>
         <Navbar />
         <h1 style={styles().header}>Prep info for a week</h1>
-        <DashboardTable
-          monday={this.state.monday}
-          tuesday={this.state.tuesday}
-          wednesday={this.state.wednesday}
-          thursday={this.state.thursday}
-          friday={this.state.friday}
-          saturday={this.state.saturday}
-          sunday={this.state.sunday}
-          clickedMeal={this.clicked.bind(this)}
-        />
+        {this.state.db ? (
+          <DashboardTable
+            monday={this.state.monday}
+            tuesday={this.state.tuesday}
+            wednesday={this.state.wednesday}
+            thursday={this.state.thursday}
+            friday={this.state.friday}
+            saturday={this.state.saturday}
+            sunday={this.state.sunday}
+            clickedMeal={this.clicked.bind(this)}
+            currentUser={this.state.currentUser}
+            mealRemoved={() => this.getAll(this.state.currentUser)}
+          />
+        ) : (
+          ""
+        )}
+
         <div style={styles().wrapper}>
           <div style={styles().smallCardsWr}>
             <Paper style={styles().card}>
@@ -314,7 +378,7 @@ class Dashboard extends Component {
                   <span>
                     <i style={styles().i} class="fas fa-clock" />
                   </span>
-                  {this.state.time}
+                  {this.state.time ? this.state.time : "0 hr 0 min"}
                 </p>
               </h5>
             </Paper>
@@ -325,35 +389,37 @@ class Dashboard extends Component {
                   <span>
                     <i style={styles().i} class="fas fa-hamburger" />
                   </span>
-                  {this.state.meals}
+                  {this.state.meals ? this.state.meals : "0"}
                 </p>
               </h5>
             </Paper>
           </div>
           <Paper style={styles().cardList}>
             <ul>
-              {Object.keys(this.state.ingredients).map(item => {
-                return (
-                  <TableRow>
-                    <TableCell style={styles().list} padding="checkbox">
-                      <Checkbox
-                        key={item}
-                        checked={this.state.ingredients[item]}
-                        onChange={() => this.ingredientChecked(item)}
-                      />
-                      <p
-                        style={
-                          this.state.ingredients[item]
-                            ? styles().crossout
-                            : styles().none
-                        }
-                      >
-                        {item}
-                      </p>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {Object.keys(this.state.ingredients)
+                .sort()
+                .map(item => {
+                  return (
+                    <TableRow>
+                      <TableCell style={styles().list} padding="checkbox">
+                        <Checkbox
+                          key={item}
+                          checked={this.state.ingredients[item]}
+                          onChange={() => this.ingredientChecked(item)}
+                        />
+                        <p
+                          style={
+                            this.state.ingredients[item]
+                              ? styles().crossout
+                              : styles().none
+                          }
+                        >
+                          {item}
+                        </p>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
             </ul>
             <div style={styles().textWr}>
               <h4 style={styles().header}>Ingredient list for all the meals</h4>
@@ -365,19 +431,43 @@ class Dashboard extends Component {
           </Paper>
           <Paper style={styles().SubmitForm}>
             <h4 style={styles().header}>
-              Share your shopping list with others
+              Share your shopping list with others via phone or email
             </h4>
-            <TextField
-              style={styles().textfield}
-              id="outlined-uncontrolled"
-              label="Phone Number"
-              placeholder="(000)-000-00-00"
-              margin="normal"
-              variant="outlined"
-              name="phone"
-              value={this.state.phone}
-              onChange={this.handleInputChange}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.type}
+                  onChange={this.handleSwitch}
+                  value="type"
+                />
+              }
+              label={this.state.type ? "Phone" : "Email"}
             />
+            {this.state.type ? (
+              <TextField
+                style={styles().textfield}
+                id="outlined-uncontrolled"
+                label="Phone"
+                placeholder="(000)-000-00-00"
+                margin="normal"
+                variant="outlined"
+                name="phone"
+                value={this.state.phone}
+                onChange={this.handleInputChange}
+              />
+            ) : (
+              <TextField
+                style={styles().textfield}
+                id="outlined-uncontrolled"
+                label="Email"
+                placeholder="example@example.com"
+                margin="normal"
+                variant="outlined"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleInputChange}
+              />
+            )}
             <TextField
               style={styles().textfield}
               id="outlined-multiline-flexible"
@@ -395,6 +485,7 @@ class Dashboard extends Component {
             </Button>
           </Paper>
         </div>
+        <div ref={this.mealRef} />
         {this.state.clicked ? <SingleRecipe meal={this.state.clicked} /> : ""}
       </>
     );

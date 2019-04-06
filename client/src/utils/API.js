@@ -30,7 +30,11 @@ export default {
     return axios.post("api/menu/" + user, { weeklyMenu: newMenu });
   },
   updateMeal: function(user, day, meal, recipe) {
-    return axios.put("api/meal/" + user, {dayUpdate: day, mealUpdate: meal, recUpdate: recipe});
+    return axios.put("api/meal/" + user, {
+      dayUpdate: day,
+      mealUpdate: meal,
+      recUpdate: recipe
+    });
   },
   saveUser: function(user) {
     return axios.post("api/user", { email: user });
@@ -46,5 +50,11 @@ export default {
   },
   sendSMS: function(phone, text) {
     return axios.post("api/sms", { phone: phone, text: text });
+  },
+  sendEmail: function(email, text) {
+    return axios.post("api/email", { email: email, text: text });
+  },
+  removeMeal: function(user, day, meal) {
+    return axios.put("api/remove_meal/" + user, { day: day, meal: meal });
   }
 };

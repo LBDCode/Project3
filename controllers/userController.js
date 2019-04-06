@@ -3,6 +3,7 @@ const axios = require("axios");
 const config = require("../config");
 let preferences;
 const client = require("twilio")(config.accountSid, config.authToken);
+const nodemailer = require("nodemailer");
 
 // Defining methods for the booksController
 module.exports = {
@@ -115,6 +116,63 @@ module.exports = {
         to: req.body.phone
       })
       .then(message => res.json(message.sid));
+  },
+  sendEmail: function(req, res) {
+    let email = req.body.email.trim();
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: config.email,
+        pass: config.password
+      }
+    });
+    let mailOptions = {
+      from: "recipedia.service@gmail.com",
+      to: email,
+      subject: "Your shopping list from Recipedia",
+      text: req.body.text.trim()
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+        res.json(info.response);
+      }
+    });
+  },
+  removeMeal: function(req, res) {
+    let day = req.body.day;
+    let meal = req.body.meal;
+    if (day && meal) {
+      db.User.findOneAndUpdate(
+        { email: req.params.user },
+        { $set: { weeklymenu: { [day]: { [meal]: {} } } } },
+        (err, dbRemoved) => {
+          if (err) {
+            res.json(err);
+          } else {
+            res.json("removed");
+          }
+        }
+      );
+    } else {
+      db.User.findOneAndUpdate(
+        { email: req.params.user },
+        { $set: { weeklymenu: "" } },
+        { new: true },
+        (err, dbRemoved) => {
+          if (err) {
+            res.json(err);
+          } else {
+            res.json("removed");
+          }
+        }
+      );
+    }
   }
 
   // updateWeekMealsFavorites: function(req, res) {

@@ -28,6 +28,7 @@
     "if-env": "^1.0.4",
     "immutability-helper": "^3.0.0",
     "mongoose": "^5.4.19",
+    "nodemailer": "^6.0.0",
     "twilio": "^3.30.0"
   }
 }

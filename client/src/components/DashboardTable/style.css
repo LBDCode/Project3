@@ -11,8 +11,10 @@
 }
 .lableImg {
   background-color: rgba(248, 248, 248, 0.87);
+  font-family: Dosis;
   text-align: center;
   padding: 5px 0;
+  font-size: 15px;
   margin-top: 5px;
   max-width: 120px;
   margin-bottom: 0;
@@ -44,4 +46,42 @@
 }
 .th {
   text-align: center;
+}
+.cell {
+  height: 148px;
+}
+.meal > p {
+  color: black;
+  font-family: "Amatic SC", cursive;
+  font-weight: bold;
+  font-size: 22px;
+  text-align: center;
+}
+#clearWeek {
+  border: 1px solid rgba(128, 128, 128, 0.493);
+  color: grey;
+  padding: 5px;
+  width: 100%;
+  margin-left: 10px;
+}
+#clearWeek:hover {
+  border: 1px solid black;
+  color: black;
+  cursor: pointer;
+}
+.removeOneMeal {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border-radius: 5px;
+  font-size: 15px;
+  background-color: rgba(250, 250, 250, 0.582);
+}
+.removeOneMeal:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+}
+.cell {
+  position: relative;
 }

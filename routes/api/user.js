@@ -23,5 +23,7 @@ router.put("/settings/:user", userController.updateSettings);
 router.post("/preferences", userController.createPreferences);
 
 router.post("/sms", userController.sendSMS);
+router.post("/email", userController.sendEmail);
+router.put("/remove_meal/:user", userController.removeMeal);
 
 module.exports = router;
