@@ -66,7 +66,11 @@ module.exports = {
     axios
       .get(apiURL + query + apiID + apiKey + searchRange + diet + allergy)
       .then(response => {
-        res.json(response.data);
+        if (response.data.hits.length !== 0) {
+          res.json(response.data);
+        } else {
+          res.send("Error");
+        }
       });
   },
   updateFavorites: function(req, res) {

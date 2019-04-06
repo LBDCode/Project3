@@ -19,7 +19,6 @@ import Firebase from "../../config/Firebase";
 import Swal from "sweetalert2";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./style.css";
-import { constants } from "zlib";
 
 const styles = theme => ({
   root: {
@@ -188,7 +187,23 @@ class SearchAppBar extends Component {
         };
 
         API.postRecipediaValues(values)
-          .then(response => this.setState({ recipes: response.data.hits }))
+          .then(response => {
+            if (response.data !== "Error") {
+              this.setState({ recipes: response.data.hits });
+            } else {
+              Swal.fire({
+                position: "center",
+                type: "error",
+                text: "No recipes were found.",
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: {
+                  header: this.props.classes.recipeModalTitle,
+                  content: this.props.classes.recipeModalText
+                }
+              });
+            }
+          })
           .catch(err => console.log(err));
       }
     );
@@ -237,11 +252,25 @@ class SearchAppBar extends Component {
 
         API.postRecipediaValues(values)
           .then(response => {
-            let recipes = this.state.recipes;
-            response.data.hits.forEach(recipe => {
-              recipes.push(recipe);
-            });
-            this.setState({ recipes });
+            if (response.data !== "Error") {
+              let recipes = this.state.recipes;
+              response.data.hits.forEach(recipe => {
+                recipes.push(recipe);
+              });
+              this.setState({ recipes });
+            } else {
+              Swal.fire({
+                position: "center",
+                type: "error",
+                text: "No recipes were found.",
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: {
+                  header: this.props.classes.recipeModalTitle,
+                  content: this.props.classes.recipeModalText
+                }
+              });
+            }
           })
           .catch(err => console.log(err));
       }
