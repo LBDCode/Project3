@@ -34,7 +34,7 @@ const styles = theme => ({
     },
     marginLeft: "0!important",
     width: "100%",
-    height: "48px",
+    height: "35px",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing.unit,
       width: "auto"
@@ -55,13 +55,13 @@ const styles = theme => ({
     position: "relative"
   },
   inputInput: {
-    paddingTop: theme.spacing.unit,
+    paddingTop: "1px",
     paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
+    paddingBottom: "1px",
     paddingLeft: theme.spacing.unit * 10,
     transition: theme.transitions.create("width"),
     width: "100%",
-    height: "35px",
+    height: "30px",
     [theme.breakpoints.up("sm")]: {
       width: 120,
       "&:focus": {
