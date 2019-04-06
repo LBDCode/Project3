@@ -6,7 +6,8 @@ import "./style.css";
 
 
 const style = {
-  // width: '75px',
+	width: '90%',
+	alignContent: 'center',
   // height: '75px',
 	// border: '1px dashed gray',
 	padding: '0.5rem 1rem',
