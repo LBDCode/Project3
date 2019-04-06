@@ -120,7 +120,7 @@ module.exports = {
   sendEmail: function(req, res) {
     let email = req.body.email.trim();
     const transporter = nodemailer.createTransport({
-      host: "smtp.rambler.ru",
+      host: "smtp.gmail.com",
       port: 465,
       secure: true,
       auth: {
@@ -129,7 +129,7 @@ module.exports = {
       }
     });
     let mailOptions = {
-      from: config.email,
+      from: "recipedia.service@gmail.com",
       to: email,
       subject: "Your shopping list from Recipedia",
       text: req.body.text.trim()
