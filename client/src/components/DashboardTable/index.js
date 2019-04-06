@@ -32,7 +32,13 @@ class DashboardTable extends Component {
       event.target.getAttribute("data-day"),
       event.target.getAttribute("data-meal")
     ).then(res => {
-      if (res.data === "removed") {
+      if (res.data === "one removed") {
+        Swal.fire({
+          type: "success",
+          title: "You removed one meal from the current week!"
+        });
+        this.props.mealRemoved();
+      } else if (res.data === "all removed") {
         Swal.fire({
           type: "success",
           title: "You removed all the meals from the current week!"

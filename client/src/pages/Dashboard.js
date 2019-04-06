@@ -201,7 +201,9 @@ class Dashboard extends Component {
     let time = 0;
     for (let day in data) {
       for (let meal in data[day]) {
-        time += parseInt(data[day][meal].time);
+        if (data[day][meal].time) {
+          time += parseInt(data[day][meal].time);
+        }
       }
     }
     let hours = Math.floor(time / 60);
@@ -213,7 +215,7 @@ class Dashboard extends Component {
     let count = 0;
     for (let day in data) {
       for (let meal in data[day]) {
-        if (data[day][meal]) {
+        if (data[day][meal].label) {
           count++;
         }
       }

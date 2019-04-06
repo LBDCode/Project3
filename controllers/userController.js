@@ -149,15 +149,16 @@ module.exports = {
   removeMeal: function(req, res) {
     let day = req.body.day;
     let meal = req.body.meal;
+    let mealPath = "weeklymenu." + day + "." + meal;
     if (day && meal) {
       db.User.findOneAndUpdate(
         { email: req.params.user },
-        { $set: { weeklymenu: { [day]: { [meal]: {} } } } },
+        { $set: { [mealPath]: {} } },
         (err, dbRemoved) => {
           if (err) {
             res.json(err);
           } else {
-            res.json("removed");
+            res.json("one removed");
           }
         }
       );
@@ -170,7 +171,7 @@ module.exports = {
           if (err) {
             res.json(err);
           } else {
-            res.json("removed");
+            res.json("all removed");
           }
         }
       );
