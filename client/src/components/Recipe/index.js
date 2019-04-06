@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Paper from "@material-ui/core/Paper";
 import "./style.css";
 
@@ -18,7 +18,7 @@ function Recipe(props) {
               />
               <h1>
                 <a href={props.meal.url} target="_blank" className="link">
-                  <i class="fas fa-external-link-alt" />
+                  <i className="fas fa-external-link-alt" />
                   Meal: <span>{props.meal.label}</span>
                 </a>
               </h1>
@@ -26,7 +26,7 @@ function Recipe(props) {
             <div className="card">
               <div>
                 <h5>
-                  <i class="fas fa-utensils" />
+                  <i className="fas fa-utensils" />
                   Calories:
                   <p className="circle">
                     {parseFloat(props.meal.calories).toFixed(0)} cal
@@ -36,7 +36,7 @@ function Recipe(props) {
               <div>
                 <h5>
                   {" "}
-                  <i class="fas fa-info-circle" />
+                  <i className="fas fa-info-circle" />
                   Nutrition information:
                 </h5>
                 <ul>
@@ -62,7 +62,7 @@ function Recipe(props) {
               </div>
               <div>
                 <h5>
-                  <i class="far fa-clock" />
+                  <i className="far fa-clock" />
                   Prep time: <br />
                   <br />
                   <span>{props.meal.totalTime}min</span>
@@ -70,14 +70,14 @@ function Recipe(props) {
               </div>
               <div className="ingred">
                 <h5>
-                  <i class="far fa-list-alt" />
+                  <i className="far fa-list-alt" />
                   Ingredients:
                 </h5>
                 <ul>
                   {props.meal.ingredients.map((item, i) => {
                     return (
                       <li key={i}>
-                        <i class="fas fa-chevron-right" />
+                        <i className="fas fa-chevron-right" />
                         {item.text}
                       </li>
                     );
