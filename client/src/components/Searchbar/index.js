@@ -17,10 +17,7 @@ import API from "../../utils/API";
 import RecipeCard from "../RecipeCard/index";
 import Firebase from "../../config/Firebase";
 import Swal from "sweetalert2";
-import classNames from "classnames";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import green from "@material-ui/core/colors/green";
-
 import "./style.css";
 import { constants } from "zlib";
 
@@ -85,6 +82,14 @@ const styles = theme => ({
     right: "10%",
     marginTop: -12,
     marginLeft: -12
+  },
+  buttonProgressAlt: {
+    color: "rgb(100,100,100)",
+    position: "absolute",
+    top: "50%",
+    right: "-25%",
+    marginTop: -12,
+    marginLeft: -12
   }
 });
 
@@ -101,7 +106,9 @@ class SearchAppBar extends Component {
     currentUser: "",
     menu: {},
     loading: false,
-    success: false
+    success: false,
+    fromNumber: 0,
+    toNumber: 48
   };
 
   // Checking Auth state and getting current user and info
@@ -141,16 +148,6 @@ class SearchAppBar extends Component {
 
   handleSearchValues = event => {
     event.preventDefault();
-    const values = {
-      vegan: this.state.vegan,
-      vegetarian: this.state.vegetarian,
-      sugar_conscious: this.state.sugar_conscious,
-      peanut_free: this.state.peanut_free,
-      tree_nut_free: this.state.tree_nut_free,
-      alcohol_free: this.state.alcohol_free,
-      dietType: this.state.dietType,
-      searchQuery: this.state.searchQuery
-    };
 
     if (!this.state.loading) {
       this.setState(
@@ -169,9 +166,86 @@ class SearchAppBar extends Component {
       );
     }
 
-    API.postRecipediaValues(values)
-      .then(response => this.setState({ recipes: response.data.hits }))
-      .catch(err => console.log(err));
+    this.setState(
+      () => {
+        return {
+          fromNumber: 0,
+          toNumber: 48
+        };
+      },
+      () => {
+        const values = {
+          vegan: this.state.vegan,
+          vegetarian: this.state.vegetarian,
+          sugar_conscious: this.state.sugar_conscious,
+          peanut_free: this.state.peanut_free,
+          tree_nut_free: this.state.tree_nut_free,
+          alcohol_free: this.state.alcohol_free,
+          dietType: this.state.dietType,
+          searchQuery: this.state.searchQuery,
+          fromNumber: this.state.fromNumber,
+          toNumber: this.state.toNumber
+        };
+
+        API.postRecipediaValues(values)
+          .then(response => this.setState({ recipes: response.data.hits }))
+          .catch(err => console.log(err));
+      }
+    );
+  };
+
+  handleMoreResults = event => {
+    event.preventDefault();
+
+    if (!this.state.loading) {
+      this.setState(
+        {
+          success: false,
+          loading: true
+        },
+        () => {
+          this.timer = setTimeout(() => {
+            this.setState({
+              loading: false,
+              success: true
+            });
+          }, 2000);
+        }
+      );
+    }
+
+    this.setState(
+      () => {
+        return {
+          fromNumber: this.state.toNumber + 1,
+          toNumber: this.state.toNumber + 48
+        };
+      },
+      () => {
+        const values = {
+          vegan: this.state.vegan,
+          vegetarian: this.state.vegetarian,
+          sugar_conscious: this.state.sugar_conscious,
+          peanut_free: this.state.peanut_free,
+          tree_nut_free: this.state.tree_nut_free,
+          alcohol_free: this.state.alcohol_free,
+          dietType: this.state.dietType,
+          searchQuery: this.state.searchQuery,
+          fromNumber: this.state.fromNumber,
+          toNumber: this.state.toNumber
+        };
+
+        API.postRecipediaValues(values)
+          .then(response => {
+            let recipes = this.state.recipes;
+            response.data.hits.forEach(recipe => {
+              recipes.push(recipe);
+            });
+            this.setState({ recipes });
+          })
+          .catch(err => console.log(err));
+      }
+    );
   };
 
   //this is the code to add recipes to favorites
@@ -482,6 +556,25 @@ class SearchAppBar extends Component {
             <h1 className="noResultsFound">No Recipes To Display</h1>
           )}
         </Grid>
+        {this.state.recipes && this.state.recipes.length !== 0 ? (
+          <Button
+            variant="outlined"
+            color="default"
+            onClick={this.handleMoreResults}
+            className="moreResultsBtn"
+            disabled={loading}
+          >
+            Find More Results
+            {loading && (
+              <CircularProgress
+                size={24}
+                className={classes.buttonProgressAlt}
+              />
+            )}
+          </Button>
+        ) : (
+          false
+        )}
       </div>
     );
   }

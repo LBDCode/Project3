@@ -58,11 +58,13 @@ module.exports = {
     const apiURL = "https://api.edamam.com/search?";
     const apiKey = "&app_key=f6179a854d5788d08869b56fcda3ecc2";
     const apiID = "&app_id=726e9cff";
-    let to = "&to=48";
+    let searchRange =
+      "&from=" + req.body.fromNumber + "&to=" + req.body.toNumber;
     let query = "q=" + req.body.searchQuery;
+    console.log(apiURL + query + apiID + apiKey + searchRange + diet + allergy);
 
     axios
-      .get(apiURL + query + apiID + apiKey + to + diet + allergy)
+      .get(apiURL + query + apiID + apiKey + searchRange + diet + allergy)
       .then(response => {
         res.json(response.data);
       });
