@@ -301,6 +301,9 @@ class SimpleMenu extends Component {
             className="menuList"
           >
             <MenuItem onClick={this.closeDropdown} className="menuItemLi">
+              <span>
+                <i class="fas fa-sign-in-alt" />
+              </span>{" "}
               Log In
             </MenuItem>
           </Button>
@@ -311,6 +314,9 @@ class SimpleMenu extends Component {
             className="menuList"
           >
             <MenuItem onClick={this.closeDropdown} className="menuItemLi">
+              <span>
+                <i class="fas fa-user-plus" />
+              </span>
               Sign Up
             </MenuItem>
           </Button>

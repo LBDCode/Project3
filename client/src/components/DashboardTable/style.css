@@ -2,6 +2,7 @@
   overflow-x: auto;
   width: "100%";
   margin: 10px 30px;
+  max-width: 1300px;
 }
 .table {
   min-width: 700px;
@@ -84,4 +85,5 @@
 }
 .cell {
   position: relative;
+  max-width: 126px;
 }

@@ -4,6 +4,7 @@
   margin: 0 !important;
   border: none !important;
   width: 100%;
+  padding-left: 15px;
 }
 
 .innerHoverRemovedAlt {
@@ -17,7 +18,7 @@
 .menuItemLi {
   color: rgb(55, 55, 55) !important;
   font-weight: 400 !important;
-  font-size: 18px !important;
+  font-size: 15px !important;
   text-align: left;
 }
 
@@ -59,6 +60,11 @@
 .allergyFlexing {
   display: flex;
   flex-direction: column;
+}
+.fa-sign-in-alt,
+.fa-user-plus {
+  color: grey;
+  font-size: 20px;
 }
 
 @media (max-width: 483px) {

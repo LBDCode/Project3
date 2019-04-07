@@ -5,18 +5,20 @@
 .nav-icon {
   height: 72px;
   box-sizing: border-box;
-  color: #c7c7c8;
-  display: flex;
+  color: #c7c7c8 !important;
   flex-flow: column;
   align-items: center;
   padding-top: 12px;
   max-width: 264px;
-  min-width: 160px;
+  width: 160px;
+  padding: 8px 0 0 0 !important;
+  font-size: 0.8125rem !important;
 }
-.nav-icon > button {
-  color: #c7c7c8;
-  font-size: 0.8125rem;
+.nav-icon > span {
+  display: flex;
+  flex-flow: column;
 }
+
 .nav-icon > button:hover {
   background-color: none;
 }
