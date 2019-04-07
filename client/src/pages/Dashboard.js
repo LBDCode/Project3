@@ -128,7 +128,8 @@ let maxStyles = {
   wrapper: {
     display: "flex",
     width: "100%",
-    fontFamily: "Dosis"
+    fontFamily: "Dosis",
+    maxWidth: "1360px"
   },
   smallCardsWr: {
     width: "30%"

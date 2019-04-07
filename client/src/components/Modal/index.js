@@ -197,10 +197,11 @@ class Quickplanner extends React.Component {
 
     return (
       <div>
-        <div className="nav-icon">
+        <Button className="nav-icon" onClick={this.handleOpen}>
           <QuickPlannerIcon />
-          <Button onClick={this.handleOpen}>Manage Meals</Button>
-        </div>
+          Manage Meals
+        </Button>
+
         <Dialog
           // className={this.props.classes.styledModal}
           aria-labelledby="simple-modal-title"
