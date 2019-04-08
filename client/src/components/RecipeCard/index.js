@@ -102,7 +102,6 @@ class RecipeReviewCard extends Component {
       ingredients: [String],
       image: String
     };
-    // console.log(newFav);
   };
 
   state = {
