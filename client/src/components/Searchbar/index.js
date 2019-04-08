@@ -306,7 +306,6 @@ class SearchAppBar extends Component {
           // ingredients: this.getIngredients(res.data.weeklymenu)
         });
         this.formatFavURIs();
-        // console.log(this.state);
       })
       .catch(err => console.log(err));
   }
@@ -361,23 +360,39 @@ class SearchAppBar extends Component {
 
   handleFavorite = (fav, recipeName) => {
     let newFav = this.formatRecipe(fav);
+
     API.updateFavs(this.state.currentUser, newFav)
       .then(() => {
         this.getAll(this.state.currentUser);
       })
       .then(() => {
-        Swal.fire({
-          position: "center",
-          type: "success",
-          title: recipeName.toUpperCase(),
-          text: "This recipe has been added to your favorites.",
-          showConfirmButton: false,
-          timer: 4000,
-          customClass: {
-            header: this.props.classes.recipeModalTitle,
-            content: this.props.classes.recipeModalText
-          }
-        });
+        if (this.state.favURIs.includes(newFav.uri)) {
+          Swal.fire({
+            position: "center",
+            type: "success",
+            title: recipeName.toUpperCase(),
+            text: "This recipe has been removed from your favorites.",
+            showConfirmButton: false,
+            timer: 4000,
+            customClass: {
+              header: this.props.classes.recipeModalTitle,
+              content: this.props.classes.recipeModalText
+            }
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            type: "success",
+            title: recipeName.toUpperCase(),
+            text: "This recipe has been added to your favorites.",
+            showConfirmButton: false,
+            timer: 4000,
+            customClass: {
+              header: this.props.classes.recipeModalTitle,
+              content: this.props.classes.recipeModalText
+            }
+          });
+        }
       })
       .catch(err => console.log(err));
   };
