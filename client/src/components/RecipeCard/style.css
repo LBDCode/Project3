@@ -77,3 +77,23 @@
 .frontFlipCard {
   margin: -1px;
 }
+.addTo {
+  background: linear-gradient(to right, rgb(100, 100, 100), #232526);
+}
+
+.addTo > h2 {
+  color: white;
+  font-family: Norican, cursive;
+  font-weight: 900;
+  font-size: 25px;
+}
+
+.btn-title {
+  color: rgb(107, 107, 107) !important;
+  font-family: "Amatic SC", cursive !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+}
+.MuiDialog-paperWidthSm-127 {
+  border: 2px solid rgba(0, 0, 0, -0.77);
+}

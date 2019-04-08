@@ -357,27 +357,30 @@ class RecipeReviewCard extends Component {
               open={this.state.open}
               onClose={this.handleClose}
             >
-              <DialogTitle>Add this meal to your weekly menu</DialogTitle>
-              <DialogContent>
+              <DialogTitle className="addTo">Add To Weekly Menu:</DialogTitle>
+              <DialogContent className="main">
                 <form className={classes.container}>
                   <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="day-native-simple">Day</InputLabel>
-                    <Select
-                      native
-                      value={this.state.day}
-                      onChange={this.handleChange("day")}
-                      input={<Input id="day-native-simple" />}
-                    >
-                      <option value="" />
-                      <option value="monday">Monday</option>
-                      <option value="tuesday">Tuesday</option>
-                      <option value="wednesday">Wednesday</option>
-                      <option value="thursday">Thursday</option>
-                      <option value="friday">Friday</option>
-                      <option value="saturday">Saturday</option>
-                      <option value="sunday">Sunday</option>
-                    </Select>
-                  </FormControl>
+                    <div>
+                      <InputLabel htmlFor="day-native-simple">Day</InputLabel>
+                      <Select
+                        native
+                        value={this.state.day}
+                        onChange={this.handleChange("day")}
+                        input={<Input id="day-native-simple" />}
+                      >
+                        <option value="" />
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                        <option value="saturday">Saturday</option>
+                        <option value="sunday">Sunday</option>
+                      </Select>
+                    </div>
+                  </FormControl>{" "}
+                  <br />
                   <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="meal-simple">Meal</InputLabel>
                     <Select
@@ -385,9 +388,6 @@ class RecipeReviewCard extends Component {
                       onChange={this.handleChange("meal")}
                       input={<Input id="meal-simple" />}
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
                       <MenuItem value="breakfast">Breakfast</MenuItem>
                       <MenuItem value="lunch">Lunch</MenuItem>
                       <MenuItem value="dinner">Dinner</MenuItem>
@@ -396,7 +396,7 @@ class RecipeReviewCard extends Component {
                 </form>
               </DialogContent>
               <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
+                <Button onClick={this.handleClose} className="btn-title">
                   Cancel
                 </Button>
                 <Button
@@ -408,7 +408,7 @@ class RecipeReviewCard extends Component {
                     );
                     this.handleClose();
                   }}
-                  color="primary"
+                  className="btn-title"
                 >
                   Ok
                 </Button>
