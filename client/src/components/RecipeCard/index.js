@@ -21,6 +21,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import ReactCardFlip from "react-card-flip";
+import Firebase from "../../config/Firebase";
 import "./style.css";
 
 const styles = theme => ({
@@ -108,8 +109,19 @@ class RecipeReviewCard extends Component {
     open: false,
     day: "",
     meal: "",
-    isFlipped: false
+    isFlipped: false,
+    isAnonymous: false
   };
+
+  componentWillMount() {
+    this.authListener();
+  }
+
+  authListener() {
+    Firebase.auth().onIdTokenChanged(user => {
+      this.setState({ isAnonymous: user.isAnonymous });
+    });
+  }
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -314,24 +326,30 @@ class RecipeReviewCard extends Component {
           </div>
         </ReactCardFlip>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton
+          <div
             style={
-              this.props.favorite === true
-                ? { color: "indianred" }
-                : { color: "rgb(150,150,150)" }
-            }
-            aria-label="Add to favorites"
-            className={classes.recipeIcons}
-            onClick={() =>
-              this.props.handleFavorite(
-                this.props.recipeInfo,
-                this.props.recipeInfo.recipe.label
-              )
+              this.state.isAnonymous
+                ? { visibility: "hidden" }
+                : { visibility: "visible" }
             }
           >
-            <FavoriteIcon />
-          </IconButton>
-          <>
+            <IconButton
+              style={
+                this.props.favorite === true
+                  ? { color: "indianred" }
+                  : { color: "rgb(150,150,150)" }
+              }
+              aria-label="Add to favorites"
+              className={classes.recipeIcons}
+              onClick={() =>
+                this.props.handleFavorite(
+                  this.props.recipeInfo,
+                  this.props.recipeInfo.recipe.label
+                )
+              }
+            >
+              <FavoriteIcon />
+            </IconButton>
             <IconButton
               aria-label="Share"
               className={classes.recipeIcons}
@@ -342,78 +360,79 @@ class RecipeReviewCard extends Component {
             >
               <ShareIcon />
             </IconButton>
-            <Button
-              variant="outlined"
-              color="default"
-              onClick={this.handleCardFlip}
-              className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
-            >
-              Nutrition Facts
-            </Button>
-            <Dialog
-              disableBackdropClick
-              disableEscapeKeyDown
-              open={this.state.open}
-              onClose={this.handleClose}
-            >
-              <DialogTitle>Add this meal to your weekly menu</DialogTitle>
-              <DialogContent>
-                <form className={classes.container}>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="day-native-simple">Day</InputLabel>
-                    <Select
-                      native
-                      value={this.state.day}
-                      onChange={this.handleChange("day")}
-                      input={<Input id="day-native-simple" />}
-                    >
-                      <option value="" />
-                      <option value="monday">Monday</option>
-                      <option value="tuesday">Tuesday</option>
-                      <option value="wednesday">Wednesday</option>
-                      <option value="thursday">Thursday</option>
-                      <option value="friday">Friday</option>
-                      <option value="saturday">Saturday</option>
-                      <option value="sunday">Sunday</option>
-                    </Select>
-                  </FormControl>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="meal-simple">Meal</InputLabel>
-                    <Select
-                      value={this.state.meal}
-                      onChange={this.handleChange("meal")}
-                      input={<Input id="meal-simple" />}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value="breakfast">Breakfast</MenuItem>
-                      <MenuItem value="lunch">Lunch</MenuItem>
-                      <MenuItem value="dinner">Dinner</MenuItem>
-                    </Select>
-                  </FormControl>
-                </form>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Cancel
-                </Button>
-                <Button
-                  onClick={() => {
-                    this.props.saveMeal(
-                      this.state.day,
-                      this.state.meal,
-                      this.props.recipeInfo
-                    );
-                    this.handleClose();
-                  }}
-                  color="primary"
-                >
-                  Ok
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </>
+          </div>
+          <Button
+            variant="outlined"
+            color="default"
+            onClick={this.handleCardFlip}
+            className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
+            style={this.state.isAnonymous ? { right: "20.5%" } : { right: 0 }}
+          >
+            Nutrition Facts
+          </Button>
+          <Dialog
+            disableBackdropClick
+            disableEscapeKeyDown
+            open={this.state.open}
+            onClose={this.handleClose}
+          >
+            <DialogTitle>Add this meal to your weekly menu</DialogTitle>
+            <DialogContent>
+              <form className={classes.container}>
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="day-native-simple">Day</InputLabel>
+                  <Select
+                    native
+                    value={this.state.day}
+                    onChange={this.handleChange("day")}
+                    input={<Input id="day-native-simple" />}
+                  >
+                    <option value="" />
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                  </Select>
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="meal-simple">Meal</InputLabel>
+                  <Select
+                    value={this.state.meal}
+                    onChange={this.handleChange("meal")}
+                    input={<Input id="meal-simple" />}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value="breakfast">Breakfast</MenuItem>
+                    <MenuItem value="lunch">Lunch</MenuItem>
+                    <MenuItem value="dinner">Dinner</MenuItem>
+                  </Select>
+                </FormControl>
+              </form>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  this.props.saveMeal(
+                    this.state.day,
+                    this.state.meal,
+                    this.props.recipeInfo
+                  );
+                  this.handleClose();
+                }}
+                color="primary"
+              >
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
         </CardActions>
       </Card>
     );

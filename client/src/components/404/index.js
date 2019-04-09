@@ -14,7 +14,11 @@ const styles = theme => ({
     fontSize: "18px",
     alignSelf: "center",
     marginTop: "13px",
-    boxShadow: "0 14px 28px rgba(0,0,0,0.4), 0 10px 10px rgba(0,0,0,0.37)"
+    boxShadow: "0 14px 28px rgba(0,0,0,0.4), 0 10px 10px rgba(0,0,0,0.37)",
+    background: "indianred",
+    "&:hover": {
+      background: "rgb(120, 53, 53)"
+    }
   },
   input: {
     display: "none"

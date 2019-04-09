@@ -31,6 +31,8 @@ import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
 import API from "../../utils/API";
+import Swal from "sweetalert2";
+import RegisterPhoto from "../../images/registrationBenefits.jpg";
 import "./style.css";
 import "../Login/style.css";
 
@@ -154,7 +156,8 @@ class ButtonAppBar extends Component {
     alcohol_free: false,
     signUpError: "We'll never share your email with anyone else.",
     open: false,
-    isAnonymous: false
+    isAnonymous: false,
+    promptUser: false
   };
 
   componentWillMount() {
@@ -163,7 +166,29 @@ class ButtonAppBar extends Component {
 
   authListener() {
     Firebase.auth().onIdTokenChanged(user => {
-      this.setState({ isAnonymous: user.isAnonymous });
+      this.setState({ isAnonymous: user.isAnonymous }, () => {
+        if (this.state.isAnonymous && !sessionStorage.getItem("userAlerted")) {
+          sessionStorage.setItem("userAlerted", true);
+          Swal.fire({
+            html:
+              "<ul> Registering with your email provides a multitude of benefits that include:" +
+              "<br><hr><li>Ability to add recipes to your personal favorites</li><br><li>A weekly meal planner to manage breakfast, lunch, and dinner</li><br>" +
+              "<li>Ability to send automated grocery lists to your phone and/or email</li></ul>",
+            width: 600,
+            padding: "3em",
+            background: "url(" + RegisterPhoto + ")",
+            backdrop: "rgb(0,0,0,.6)",
+            confirmButtonText: "I UNDERSTAND",
+            customClass: {
+              container: "guestRegisterInfo",
+              content: "guestRegisterContent",
+              title: "guestRegisterTitle",
+              confirmButton: "guestRegisterConfirm",
+              header: "guestRegisterHeader"
+            }
+          });
+        }
+      });
     });
   }
 
