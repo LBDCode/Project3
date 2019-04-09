@@ -7,7 +7,7 @@ class Modal extends React.Component {
 
     return (
       <div>
-          <QuickplannerWrapped></QuickplannerWrapped>
+          {/* <QuickplannerWrapped></QuickplannerWrapped> */}
       </div>
     );
   }

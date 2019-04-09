@@ -3,16 +3,21 @@
 }
 
 .slick-slider {
-    margin: 30px;
+    margin: 30px 10px 20px 10px;
+    max-width: '90%';
+    padding: 10px;
 }
 
 .slick-track {
     max-height: 120px;
 }
+.slick-slide img{
+    display: inline;
+}
 .slick-slide>div {
-    padding: 0 5px;
+    /* padding: 0 5px; */
     max-height: 280px;
-    max-width: 280px;
+    max-width: 100px;
 }
 
 .slick-prev:before, .slick-next:before{
