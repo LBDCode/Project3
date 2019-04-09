@@ -47,8 +47,10 @@ export default class Carousel extends Component {
 
     const style = {
       border: '1px dashed gray',
-      padding: '0.5rem',
-      margin: '0.5rem',
+      // padding: '0.5rem',
+      // margin: '0.5rem',
+      height: 100,
+      width: 100
     };
 
 
@@ -57,7 +59,7 @@ export default class Carousel extends Component {
         <div
           {...props}
           >
-        <img src={props.image} data-obj={props.dataObj} alt="recipe"/>
+        <img style={style} src={props.image} data-obj={props.dataObj} alt="recipe"/>
         </ div>
       )
     };

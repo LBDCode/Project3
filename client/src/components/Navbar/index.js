@@ -299,7 +299,7 @@ class ButtonAppBar extends Component {
                     />
                   </Link>
 
-                  <QuickplannerWrapped className="navText dashboardTab" />
+                  {/* <QuickplannerWrapped className="navText dashboardTab" /> */}
 
                   <UserOptions
                     navtext="navText"

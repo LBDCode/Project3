@@ -6,18 +6,18 @@ import { withStyles } from '@material-ui/core/styles';
 // import Checkbox from "@material-ui/core/Checkbox";
 // import TextField from "@material-ui/core/TextField";
 import Grid from '@material-ui/core/Grid';
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import API from "../utils/API";
+// import Paper from "@material-ui/core/Paper";
+// import Button from "@material-ui/core/Button";
+// import API from "../../utils/API";
 // import DashboardTable from "../components/DashboardTable";
 // import SingleRecipe from "../components/SingleRecipe";
-import Navbar from "../components/Navbar/index";
+// import Navbar from "../Navbar";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 // import Switch from "@material-ui/core/Switch";
-import Firebase from "../config/Firebase";
+// import Firebase from "../../config/Firebase";
 // import Swal from "sweetalert2";
-import Carousel from "../components/CarouselTwo";
-import Container from "../components/DropTargetTwo";
+// import Carousel from "../components/Carousel";
+import Container from "../DropTargetTwo";
 // import MealGrid from "../components/MealGrid";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
@@ -36,11 +36,6 @@ const largeStyles = theme => ({
   },
   demo: {
     direction:"row",
-  },
-  header: {
-    textAlign: "center",
-    color: "rgb(62, 65, 64)",
-    fontFamily: "Dosis"
   },
   paper: {
     width: 90,
@@ -77,17 +72,13 @@ const tabletStyles = theme => ({
   demo: {
     direction:"row",
   },
-  header: {
-    textAlign: "center",
-    color: "rgb(62, 65, 64)",
-    fontFamily: "Dosis"
-  },
   paper: {
     width: 70,
     height: 70,
     color: theme.palette.text.secondary,
     margin: 5,
     justify: 'center',
+    margin: 'auto',
     alignItems: 'space-around'
   },
   control: {
@@ -114,11 +105,6 @@ const mobileStyles = theme => ({
   },
   demo: {
     direction:"row",
-  },
-  header: {
-    textAlign: "center",
-    color: "rgb(62, 65, 64)",
-    fontFamily: "Dosis"
   },
   paper: {
     width: 70,
@@ -156,48 +142,52 @@ const styleCheck = function() {
 
 class ManageMeals extends Component {
 
-  
-  state = {
-    favorites: [],
-    menu: {},
+//   constructor(props) {
+//     super(props);
+
+//   }
+
+ state = {
+    favorites: this.props.favorites,
+    menu: this.props.curMenu,
+    // newMenu: this.mapMeals(),
     currentUser: "",
     direction: '',
     style: styleCheck(),
   };
 
 
-  componentWillMount() {
-    Firebase.auth().onAuthStateChanged(user => {
-      if (user && !Firebase.auth().currentUser.isAnonymous) {
-        this.setState({
-          currentUser: user.email
-        });
-        this.getAll(user.email);
-        this.directionCheck();
-        styleCheck();
-      }
-    });
-    window.onresize = function() {
-      this.forceUpdate();
-    }.bind(this);
-  };
+
+//   componentDidMount() {
+//     Firebase.auth().onAuthStateChanged(user => {
+//       if (user && !Firebase.auth().currentUser.isAnonymous) {
+//         this.setState({
+//           currentUser: user.email
+//         });
+//         this.getAll(user.email);
+//         this.directionCheck();
+//         styleCheck();
+//       }
+//     });
+//     window.onresize = function() {
+//       this.forceUpdate();
+//     }.bind(this);
+//   };
 
 
-  getAll(user) {
-    API.getDBRecipes(user)
-      .then(res => {
-        this.setState({
-          favorites: res.data.favorites,
-          menu: res.data.weeklymenu,
-        });
-        this.mapMeals();
-        this.mapFavs();
-      })
-      .catch(err => console.log(err));
-  };
+//   getAll(user) {
+//     API.getDBRecipes(user)
+//       .then(res => {
+//         this.setState({
+//           favorites: res.data.favorites,
+//           menu: res.data.weeklymenu,
+//           newMenu: this.state.mapMeals()
+//         });
+//       })
+//       .catch(err => console.log(err));
+//   }
 
   mapMeals() {
-    console.log(this.state.menu);
     let menu = this.state.menu;
     console.log(menu);
     let days = [
@@ -222,7 +212,7 @@ class ManageMeals extends Component {
           day[meals[j]].id = days[i] + "-" + meals[j];
         }
       }
-      console.log(menu);
+      // console.log(menu);
       return menu;
     } else {
       for (let i = 0; i < days.length; i++) {
@@ -241,9 +231,9 @@ class ManageMeals extends Component {
         }
       }
     }
-    console.log(menu);
-    this.setState({ newMenu: menu });
-
+    // console.log(menu);
+    // this.setState({ newMenu: menu });
+    return menu;
   };
 
   mapFavs() {
@@ -252,7 +242,7 @@ class ManageMeals extends Component {
       value.id = index + 1;
     });
     // console.log(newFavs);
-    this.setState({ mappedFavs: newFavs });
+    return newFavs;
   };
 
   directionCheck = function() {
@@ -275,6 +265,7 @@ class ManageMeals extends Component {
   render() {
     const { classes } = this.props;
     const { direction } = this.state;
+    // const { newMenu };
 
     const days = [
       "monday",
@@ -286,45 +277,42 @@ class ManageMeals extends Component {
       "sunday"
     ];
     const meals = ["breakfast", "lunch", "dinner"];
+    const mealList = this.mapMeals();
+    console.log(mealList);
 
     return (
         <>
-        <Navbar />
-        <h1 className={classes.header}>Plan your Menu</h1>
-        { this.state && this.state.mappedFavs &&
-          <Carousel id="favorites" list={this.state.mappedFavs}/>
-        }
-        
-        { this.state && this.state.newMenu &&
-          <Grid container className={classes.root}>
-          {days.map( day => {
-            return(
-              <Grid item className={classes.row} >
-                <Grid
-                  container
-                  spacing={2}
-                  className={classes.demo}
-                  // if screen is large or tablet, this should be column, if small should be row
-                  direction={direction}
-                >
-                {["breakfast", "lunch", "dinner"].map(value => (                
-                    <Grid key={`${day}${value}`} item spacing={8}>
-                      <Container
-                        className={classes.paper}
-                        id={`${day}${value}`}
-                        list={[this.state.newMenu[day][value]]}
-                        user={this.state.currentUser}
-                        // saveMeal={this.saveMeal}
-                      >
-                      </Container>
-                    </Grid>
-                  ))}
-                </Grid>
+        {/* <Carousel favorites={this.state.favorites}/> */}
+        {/* <MealGrid /> */}
+
+        <Grid container className={classes.root}>
+        {days.map( day => {
+          return(
+            <Grid item className={classes.row} >
+              <Grid
+                container
+                spacing={2}
+                className={classes.demo}
+                // if screen is large or tablet, this should be column, if small should be row
+                direction={direction}
+              >
+                {meals.map(value => (
+                  <Grid key={value} item spacing={8}>
+                    {/* <Container
+                      className={classes.paper}
+                      id={`${day}${value}`}
+                      list={[mealList[0]]}
+                      // saveMeal={this.saveMeal}
+                    >
+                      {day} {value}
+                    </Container> */}
+                  </Grid>
+                ))}
               </Grid>
-            )
-          })}
-        </Grid>
-        }
+            </Grid>
+          )
+        })}
+      </Grid>
 
         </>
     );
@@ -338,4 +326,3 @@ ManageMeals.propTypes = {
 const ManageMealsWrapped = withStyles(styleCheck())(ManageMeals);
 
 export default DragDropContext(HTML5Backend)(ManageMealsWrapped);
-
