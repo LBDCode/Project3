@@ -67,3 +67,52 @@
     #232526
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+.guestRegisterInfo > div {
+  background-size: cover !important;
+}
+
+.guestRegisterInfo .swal2-popup .swal2-actions .swal2-confirm {
+  background: rgb(150, 150, 150);
+}
+
+.guestRegisterInfo .swal2-popup .swal2-actions .swal2-confirm:hover {
+  background: rgb(80, 80, 80);
+}
+
+.guestRegisterContent,
+.guestRegisterTitle {
+  color: white !important;
+}
+
+.guestRegisterContent {
+  font-style: italic;
+}
+
+.guestRegisterContent ul li {
+  font-weight: 100;
+  text-align: left;
+  font-style: italic;
+}
+
+.guestRegisterContent ul {
+  font-weight: 500;
+  font-style: normal;
+  text-align: left;
+  list-style-type: disc;
+}
+
+.guestRegisterTitle {
+  font-family: "Roboto";
+  font-weight: 900;
+}
+
+.guestRegisterConfirm {
+  font-family: "Roboto" !important;
+  font-weight: 200 !important;
+  box-shadow: none !important;
+}
+
+.guestRegisterHeader {
+  display: none !important;
+}

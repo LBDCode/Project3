@@ -302,8 +302,8 @@ class SimpleMenu extends Component {
           >
             <MenuItem onClick={this.closeDropdown} className="menuItemLi">
               <span>
-                <i class="fas fa-sign-in-alt" />
-              </span>{" "}
+                <i class="fas fa-sign-in-alt signInIconAlt" />
+              </span>
               Log In
             </MenuItem>
           </Button>
