@@ -158,7 +158,7 @@ class RecipeReviewCard extends Component {
     const totalServings = this.props.recipeInfo.recipe.yield;
 
     return (
-      <Card className={classes.card} key="back">
+      <Card className={[classes.card, "wholeRecipeCard"].join(" ")} key="back">
         <ReactCardFlip
           isFlipped={this.state.isFlipped}
           flipSpeedBackToFront={0.8}
@@ -180,7 +180,7 @@ class RecipeReviewCard extends Component {
               }
             />
             <CardMedia
-              className={classes.media}
+              className={[classes.media, "recipeCardImage"].join(" ")}
               image={this.props.recipeInfo.recipe.image}
               title={this.props.recipeInfo.recipe.label}
               alt={this.props.recipeInfo.recipe.label}

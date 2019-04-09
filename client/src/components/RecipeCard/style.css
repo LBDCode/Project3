@@ -77,3 +77,8 @@
 .frontFlipCard {
   margin: -1px;
 }
+
+.wholeRecipeCard .frontFlipCard:hover .recipeCardImage {
+  cursor: pointer;
+  filter: contrast(1);
+}
