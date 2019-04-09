@@ -31,9 +31,9 @@ export default {
   },
   updateMeal: function(user, day, meal, recipe) {
     return axios.put("api/meal/" + user, {
-      dayUpdate: day,
-      mealUpdate: meal,
-      recUpdate: recipe
+      day: day,
+      meal: meal,
+      recipe: recipe
     });
   },
   saveUser: function(user) {

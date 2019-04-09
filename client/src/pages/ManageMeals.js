@@ -197,9 +197,7 @@ class ManageMeals extends Component {
   };
 
   mapMeals() {
-    console.log(this.state.menu);
     let menu = this.state.menu;
-    console.log(menu);
     let days = [
       "monday",
       "tuesday",
@@ -222,7 +220,6 @@ class ManageMeals extends Component {
           day[meals[j]].id = days[i] + "-" + meals[j];
         }
       }
-      console.log(menu);
       return menu;
     } else {
       for (let i = 0; i < days.length; i++) {
@@ -241,7 +238,6 @@ class ManageMeals extends Component {
         }
       }
     }
-    console.log(menu);
     this.setState({ newMenu: menu });
 
   };
@@ -292,7 +288,7 @@ class ManageMeals extends Component {
         <Navbar />
         <h1 className={classes.header}>Plan your Menu</h1>
         { this.state && this.state.mappedFavs &&
-          <Carousel id="favorites" list={this.state.mappedFavs}/>
+          <Carousel id="favorites" user={this.state.currentUser} list={this.state.mappedFavs}/>
         }
         
         { this.state && this.state.newMenu &&

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import update from 'immutability-helper';
 import Card from '../CarouselCard';
 import { DropTarget } from 'react-dnd';
+import API from "../../utils/API";
+
 
 class Container extends Component {
 
@@ -29,7 +31,10 @@ class Container extends Component {
 	}
 
 	saveMeal(day, meal, obj, user) {
-		console.log(`Saving: ${day} ${meal} ${obj} for ${user}`)
+		API.updateMeal(user, day, meal, obj)
+		.then(res => console.log("saved")
+		)
+		.catch(err => console.log(err));
 	};
 
 	moveCard(dragIndex, hoverIndex) {

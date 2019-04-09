@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { DropTarget } from 'react-dnd';
 import "./style.css";
 import Card from '../CarouselCard';
-// import API from "../../utils/API";
+import API from "../../utils/API";
 // import Firebase from "../../config/Firebase";
 // import { DragSource } from 'react-dnd'
 
@@ -37,8 +37,12 @@ class CarouselTwo extends Component {
 		}));
 	}
 
+
 	saveMeal(day, meal, obj, user) {
-		console.log(`Saving: ${day} ${meal} ${obj} for ${user}`);
+		API.updateMeal(user, day, meal, obj)
+		.then(res => console.log("saved")
+		)
+		.catch(err => console.log(err));
 	};
 
 	moveCard(dragIndex, hoverIndex) {

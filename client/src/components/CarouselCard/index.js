@@ -69,10 +69,9 @@ const cardSource = {
 			if(item.listId !== 'favorites') {
 				props.removeCard(item.index);
 				props.saveMeal(newDay, newMeal, item.card, item.user);
-				// console.log(newDay, newMeal, oldDay, oldMeal, item.card, item.user);
+				props.saveMeal(oldDay, oldMeal, {}, item.user);
 			} else {
 				props.saveMeal(newDay, newMeal, item.card, item.user);
-
 			}
 		}
 	}

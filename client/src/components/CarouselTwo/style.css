@@ -1,5 +1,6 @@
 .slick-list {
     margin: 0 5px;
+    max-height: 90px;
 }
 
 .slick-slider {
