@@ -10,8 +10,8 @@ const style = {
 	alignContent: 'center',
   // height: '75px',
 	// border: '1px dashed gray',
-	padding: '0.5rem 1rem',
-	margin: '.5rem',
+	// padding: '0.5rem 1rem',
+	// margin: '.5rem',
 	backgroundColor: 'white',
 	cursor: 'move'
 };
@@ -50,7 +50,8 @@ const cardSource = {
 		return {			
 			index: props.index,
 			listId: props.listId,
-			card: props.card
+			card: props.card,
+			user: props.user
 		};
 	},
 
@@ -58,8 +59,20 @@ const cardSource = {
 		const item = monitor.getItem();
 		const dropResult = monitor.getDropResult();	
 
-		if ( dropResult && dropResult.listId !== item.listId ) {
-			props.removeCard(item.index);
+		if ( dropResult && dropResult.listId !== item.listId && dropResult.listId !== 'favorites') {
+			let parseNew = dropResult.listId.split('y');
+			let parseOld = item.listId.split('y');
+			let newDay = parseNew[0] + 'y';
+			let newMeal = parseNew[1];
+			let oldDay = parseOld[0] + 'y';
+			let oldMeal = parseOld[1];
+			if(item.listId !== 'favorites') {
+				props.removeCard(item.index);
+				props.saveMeal(newDay, newMeal, item.card, item.user);
+				props.saveMeal(oldDay, oldMeal, {}, item.user);
+			} else {
+				props.saveMeal(newDay, newMeal, item.card, item.user);
+			}
 		}
 	}
 };

@@ -9,8 +9,8 @@ import { DropTarget } from 'react-dnd';
 import "./style.css";
 import Card from '../CarouselCard';
 import API from "../../utils/API";
-import Firebase from "../../config/Firebase";
-import { DragSource } from 'react-dnd'
+// import Firebase from "../../config/Firebase";
+// import { DragSource } from 'react-dnd'
 
 
 class CarouselTwo extends Component {
@@ -37,6 +37,14 @@ class CarouselTwo extends Component {
 		}));
 	}
 
+
+	saveMeal(day, meal, obj, user) {
+		API.updateMeal(user, day, meal, obj)
+		.then(res => console.log("saved")
+		)
+		.catch(err => console.log(err));
+	};
+
 	moveCard(dragIndex, hoverIndex) {
 		const { cards } = this.state;		
 		const dragCard = cards[dragIndex];
@@ -54,28 +62,38 @@ class CarouselTwo extends Component {
 	render() {
 		const { cards } = this.state;
 		const { canDrop, isOver, connectDropTarget } = this.props;
-		const isActive = canDrop && isOver;
+		// const isActive = canDrop && isOver;
 		const style = {
-			// width: "200px",
-			// height: "404px",
-			// border: '1px dashed gray'
+			width: "90%",
+			maxWidth: 1000,
+			margin: "0 auto",
+			// alignContent:'center'
 		};
 
-        const backgroundColor = isActive ? 'lightgreen' : '#FFF';
+        // const backgroundColor = isActive ? 'lightgreen' : '#FFF';
         
         var settings = {
             dots: true,
             infinite: false,
             speed: 500,
-            slidesToShow: 4,
-            slidesToScroll: 4,
+            slidesToShow: 6,
+            slidesToScroll: 2,
             swipeToSlide: true,
             initialSlide: 0,
             responsive: [
               {
                 breakpoint: 1024,
                 settings: {
-                  slidesToShow: 3,
+                  slidesToShow: 5,
+                  slidesToScroll: 3,
+                  infinite: true,
+                  dots: true
+                }
+							},
+							{
+                breakpoint: 800,
+                settings: {
+                  slidesToShow: 4,
                   slidesToScroll: 3,
                   infinite: true,
                   dots: true
@@ -86,7 +104,6 @@ class CarouselTwo extends Component {
                 settings: {
                   slidesToShow: 3,
                   slidesToScroll: 3,
-                  initialSlide: 3
                 }
               },
               {
@@ -101,17 +118,17 @@ class CarouselTwo extends Component {
           };
 
 		return connectDropTarget(
-			<div style={{...style, backgroundColor}}>
+			<div style={{...style}}>
         <Slider {...settings}>
 				{cards.map((card, i) => {
-					console.log(card);
 					return (
 						<Card 
 							key={card.id}
               index={i}
               image={card.image ? card.image : ""}
 							listId={this.props.id}
-							saveMeal={this.props.saveMeal}
+							saveMeal={this.saveMeal}
+							user = {this.props.user}
 							card={card}														
 							removeCard={this.removeCard.bind(this)}
 							moveCard={this.moveCard.bind(this)} />

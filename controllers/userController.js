@@ -61,7 +61,7 @@ module.exports = {
     let searchRange =
       "&from=" + req.body.fromNumber + "&to=" + req.body.toNumber;
     let query = "q=" + req.body.searchQuery;
-    console.log(apiURL + query + apiID + apiKey + searchRange + diet + allergy);
+    // console.log(apiURL + query + apiID + apiKey + searchRange + diet + allergy);
 
     axios
       .get(apiURL + query + apiID + apiKey + searchRange + diet + allergy)
@@ -98,16 +98,23 @@ module.exports = {
     });
   },
   updateMeal: function(req, res) {
-    let day = req.body.dayUpdate;
-    let meal = req.body.mealUpdate;
-    db.User.findOneAndUpdate(
-      { email: req.params.user }
-      // { $Set: { weeklymenu.day.meal: req.body.fav } }
-      //TODO add update code
-      //console.log(req.body)
-    )
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+
+    let day = req.body.day;
+    let meal = req.body.meal;
+    let recipe = req.body.recipe;
+    let mealPath = "weeklymenu." + day + "." + meal;
+    // console.log(req.body);
+      db.User.findOneAndUpdate(
+        { email: req.params.user },
+        { $set: { [mealPath]: recipe } },
+        (err, dbMeal) => {
+          if (err) {
+            res.json(err);
+          } else {
+            res.json("meal changed");
+          }
+        }
+      );
   },
   updateMenu: function(req, res) {
     //console.log(req.body.weeklyMenu);
@@ -128,7 +135,7 @@ module.exports = {
   },
   createPreferences: function(req, res) {
     preferences = req.body.preferences;
-    console.log("Forumalated Obj: ", preferences);
+    // console.log("Forumalated Obj: ", preferences);
   },
   sendSMS: function(req, res) {
     client.messages

@@ -8,6 +8,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import RecipeSearchIcon from "@material-ui/icons/ImageSearch";
 import DashboardIcon from "@material-ui/icons/TableChart";
+import QuickPlannerIcon from "@material-ui/icons/Dashboard"
 import SignUpIcon from "@material-ui/icons/PersonAdd";
 import { Link } from "react-router-dom";
 import UserOptions from "./Sidebar/UserOptions";
@@ -298,8 +299,14 @@ class ButtonAppBar extends Component {
                       icon={<DashboardIcon className="navcons" />}
                     />
                   </Link>
+                  <Link to={"/manage"} className="navText dashboardTab">
+                    <Tab
+                      label="Quickplanner"
+                      icon={<QuickPlannerIcon className="navcons" />}
+                    />
+                  </Link>
 
-                  <QuickplannerWrapped className="navText dashboardTab" />
+                  {/* <QuickplannerWrapped className="navText dashboardTab" /> */}
 
                   <UserOptions
                     navtext="navText"
