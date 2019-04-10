@@ -7,7 +7,6 @@ import NoMatch from "./pages/NoMatch";
 import TitlePage from "./pages/Title";
 import RecipePage from "./pages/RecipePage";
 import Recipedia from "./pages/Recipedia";
-// import Modal from "./pages/Modal";
 import Manage from "./pages/ManageMeals";
 
 class App extends Component {
@@ -71,7 +70,6 @@ class App extends Component {
                   <Route exact path="/search" component={Recipedia} />
                   <Route exact path="/dashboard" component={Dashboard} />
                   <Route exact path="/recipe/:id" component={RecipePage} />
-                  {/* <Route exact path="/modal" component={Modal} /> */}
                   <Route exact path="/title" component={TitlePage} />
                   <Route exact path="/manage" component={Manage} />
                   <Route component={NoMatch} />

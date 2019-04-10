@@ -73,7 +73,7 @@ const largeStyles = theme => ({
     padding: theme.spacing.unit * 2,
   },
   row: {
-    margin:5,
+    // margin:5,
     // padding:10,
     justify:'center',
     alignItems:'center',
@@ -108,11 +108,18 @@ const tabletStyles = theme => ({
     justify: 'center',
     alignItems: 'space-around'
   },
+  subheader: {
+    textAlign: "left",
+    margin: "20px 10px",
+    color: "rgb(62, 65, 64)",
+    fontFamily: "Dosis",
+    fontSize: 16,
+  },
   control: {
     padding: theme.spacing.unit * 2,
   },
   row: {
-    margin:5,
+    // margin:5,
     // padding:10,
     justify:'center',
     alignItems:'center',
@@ -128,7 +135,7 @@ const mobileStyles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     textAlign:'center',
-    margin: 10,
+    // margin: 10,
   },
   demo: {
     direction:"row",
@@ -139,19 +146,26 @@ const mobileStyles = theme => ({
     fontFamily: "Dosis"
   },
   paper: {
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     color: theme.palette.text.secondary,
     // margin: 10,
     justify: 'center',
     margin: 'auto',
     alignItems: 'space-around'
+  },  
+  subheader: {
+    textAlign: "left",
+    margin: "20px 10px",
+    color: "rgb(62, 65, 64)",
+    fontFamily: "Dosis",
+    fontSize: 16,
   },
   control: {
     padding: theme.spacing.unit * 2,
   },
   row: {
-    margin:5,
+    // margin:5,
     // padding:10,
     justify:'center',
     alignItems:'center',
@@ -208,6 +222,7 @@ class ManageMeals extends Component {
           favorites: res.data.favorites,
           menu: res.data.weeklymenu,
         });
+        console.log(this.state.menu);
         this.mapMeals();
         this.mapFavs();
       })
@@ -216,6 +231,7 @@ class ManageMeals extends Component {
 
   mapMeals() {
     let menu = this.state.menu;
+    console.log(menu);
     let days = [
       "monday",
       "tuesday",
@@ -227,7 +243,7 @@ class ManageMeals extends Component {
     ];
     let meals = ["breakfast", "lunch", "dinner"];
 
-    if (!menu) {
+    if (!menu || menu === undefined) {
       let menu = {};
       for (let i = 0; i < days.length; i++) {
         menu[days[i]] = {};
@@ -238,7 +254,7 @@ class ManageMeals extends Component {
           day[meals[j]].id = days[i] + "-" + meals[j];
         }
       }
-      return menu;
+      this.setState({ newMenu: menu });
     } else {
       for (let i = 0; i < days.length; i++) {
         let day = menu[days[i]];
@@ -255,9 +271,8 @@ class ManageMeals extends Component {
           day[meals[j]].id = days[i] + "-" + meals[j];
         }
       }
+      this.setState({ newMenu: menu });
     }
-    this.setState({ newMenu: menu });
-
   };
 
   mapFavs() {
@@ -284,8 +299,6 @@ class ManageMeals extends Component {
   
 
 
-
-
   render() {
     const { classes } = this.props;
     const { direction } = this.state;
@@ -306,44 +319,42 @@ class ManageMeals extends Component {
         <>
         <Navbar />
         <Title title="Recipedia Quickplanner"> Recipedia Quickplanner</Title>
-        {/* <h1 className={classes.header}>Recipedia Quickplanner</h1> */}
+        
         <h2 className={classes.subheader}>Choose recipes from your favorites and add them to your weekly menu!</h2>
-        { this.state && this.state.mappedFavs &&
+        
+        { (this.state && this.state.mappedFavs) &&
           <Carousel id="favorites" user={this.state.currentUser} list={this.state.mappedFavs}/>
         }
-        {/* <h2 className={classes.subheader}>...and add them to your weekly menu!</h2> */}
 
         { this.state && this.state.newMenu &&
           <Grid container className={classes.root}>
-          {days.map( day => {
-            return(
-              <Grid item className={classes.row} >
-                <Grid
-                  container
-                  spacing={2}
-                  className={classes.demo}
-                  // if screen is large or tablet, this should be column, if small should be row
-                  direction={direction}
-                >
-                {[day, "breakfast", "lunch", "dinner"].map(value => (                
-                    <Grid key={`${day}${value}`} item spacing={8}>
-                      <Container
-                        className={(day !== "" && (value === "breakfast" || value === "lunch" || value === "dinner")) ? classes.paper: classes.heading}
-                        id={`${day}${value}`}
-                        list={(day !== "" && (value === "breakfast" || value === "lunch" || value === "dinner")) ? [this.state.newMenu[day][value]] : [{id:"header", day:{day}, meal:{value}}]}
-                        user={this.state.currentUser}
-                        // saveMeal={this.saveMeal}
-                      >
-                      </Container>
-                    </Grid>
-                  ))}
+            {days.map( day => {
+              return(
+                <Grid item className={classes.row} >
+                  <Grid
+                    container
+                    className={classes.demo}
+                    // if screen is large or tablet, this should be column, if small should be row
+                    direction={direction}
+                  >
+                  {[day, "breakfast", "lunch", "dinner"].map(value => (                
+                      <Grid key={`${day}${value}`} item spacing={0}>
+                        <Container
+                          className={(day !== "" && (value === "breakfast" || value === "lunch" || value === "dinner")) ? classes.paper: classes.heading}
+                          id={(day !== "" && (value === "breakfast" || value === "lunch" || value === "dinner")) ? `${day}${value}` : `header-${day}-${value}`}
+                          list={(day !== "" && (value === "breakfast" || value === "lunch" || value === "dinner")) ? [this.state.newMenu[day][value]] : [{id:"header", day:{day}, meal:{value}}]}
+                          user={this.state.currentUser}
+                          // saveMeal={this.saveMeal}
+                        >
+                        </Container>
+                      </Grid>
+                    ))}
+                  </Grid>
                 </Grid>
-              </Grid>
-            )
-          })}
-        </Grid>
-        }
-
+                )
+              })}
+            </Grid>
+          }
         </>
     );
   }

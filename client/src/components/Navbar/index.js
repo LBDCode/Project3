@@ -13,7 +13,6 @@ import SignUpIcon from "@material-ui/icons/PersonAdd";
 import { Link } from "react-router-dom";
 import UserOptions from "./Sidebar/UserOptions";
 import Firebase from "../../config/Firebase";
-import QuickplannerWrapped from "../Modal";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import blue from "@material-ui/core/colors/blue";
 import Button from "@material-ui/core/Button";
@@ -293,20 +292,18 @@ class ButtonAppBar extends Component {
                       icon={<RecipeSearchIcon className="navcons" />}
                     />
                   </Link>
-                  <Link to={"/dashboard"} className="navText dashboardTab">
-                    <Tab
-                      label="Dashboard"
-                      icon={<DashboardIcon className="navcons" />}
-                    />
-                  </Link>
                   <Link to={"/manage"} className="navText dashboardTab">
                     <Tab
                       label="Quickplanner"
                       icon={<QuickPlannerIcon className="navcons" />}
                     />
                   </Link>
-
-                  {/* <QuickplannerWrapped className="navText dashboardTab" /> */}
+                  <Link to={"/dashboard"} className="navText dashboardTab">
+                    <Tab
+                      label="Dashboard"
+                      icon={<DashboardIcon className="navcons" />}
+                    />
+                  </Link>
 
                   <UserOptions
                     navtext="navText"

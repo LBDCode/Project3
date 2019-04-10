@@ -40,8 +40,8 @@ class CarouselTwo extends Component {
 
 	saveMeal(day, meal, obj, user) {
 		API.updateMeal(user, day, meal, obj)
-		.then(res => console.log("saved")
-		)
+		// .then(res => console.log("saved")
+		// )
 		.catch(err => console.log(err));
 	};
 
@@ -57,7 +57,8 @@ class CarouselTwo extends Component {
 				]
 			}
 		}));
-	}
+	};
+
 
 	render() {
 		const { cards } = this.state;
@@ -65,67 +66,69 @@ class CarouselTwo extends Component {
 		// const isActive = canDrop && isOver;
 		const style = {
 			width: "90%",
-			maxWidth: 1000,
+			maxWidth: 900,
 			margin: "0 auto",
-			// alignContent:'center'
 		};
 
-        // const backgroundColor = isActive ? 'lightgreen' : '#FFF';
-        
-        var settings = {
-            dots: true,
-            infinite: false,
-            speed: 500,
-            slidesToShow: 6,
-            slidesToScroll: 2,
-            swipeToSlide: true,
-            initialSlide: 0,
-            responsive: [
-              {
-                breakpoint: 1024,
-                settings: {
-                  slidesToShow: 5,
-                  slidesToScroll: 3,
-                  infinite: true,
-                  dots: true
-                }
-							},
-							{
-                breakpoint: 800,
-                settings: {
-                  slidesToShow: 4,
-                  slidesToScroll: 3,
-                  infinite: true,
-                  dots: true
-                }
-              },
-              {
-                breakpoint: 600,
-                settings: {
-                  slidesToShow: 3,
-                  slidesToScroll: 3,
-                }
-              },
-              {
-                breakpoint: 480,
-                settings: {
-                  slidesToShow: 2,
-                  slidesToScroll: 2,
-                  initialSlide: 2
-                }
-              }
-            ]
-          };
+		// const backgroundColor = isActive ? 'lightgreen' : '#FFF';
+		
+		var settings = {
+				dots: true,
+				infinite: false,
+				speed: 500,
+				slidesToShow: 6,
+				slidesToScroll: 2,
+				swipeToSlide: true,
+				initialSlide: 0,
+				responsive: [
+					{
+						breakpoint: 1024,
+						settings: {
+							slidesToShow: 5,
+							slidesToScroll: 3,
+							infinite: true,
+							dots: true
+						}
+					},
+					{
+						breakpoint: 800,
+						settings: {
+							slidesToShow: 4,
+							slidesToScroll: 3,
+							infinite: true,
+							dots: true
+						}
+					},
+					{
+						breakpoint: 600,
+						settings: {
+							slidesToShow: 3,
+							slidesToScroll: 3,
+						}
+					},
+					{
+						breakpoint: 480,
+						settings: {
+							slidesToShow: 2,
+							slidesToScroll: 2,
+							initialSlide: 2
+						}
+					}
+				]
+			};
 
-		return connectDropTarget(
+	
+		return connectDropTarget ( 
 			<div style={{...style}}>
-        <Slider {...settings}>
+			{cards.length === 0 ? <h1>Add some favorites to get started.</h1>
+				:
+				<Slider {...settings}>
 				{cards.map((card, i) => {
 					return (
 						<Card 
 							key={card.id}
-              index={i}
-              image={card.image ? card.image : ""}
+							index={i}
+							image={card.image ? card.image : ""}
 							listId={this.props.id}
 							saveMeal={this.saveMeal}
 							user = {this.props.user}
@@ -133,8 +136,10 @@ class CarouselTwo extends Component {
 							removeCard={this.removeCard.bind(this)}
 							moveCard={this.moveCard.bind(this)} />
 					);
-                })}
-        </Slider>
+					})}
+				</Slider>
+
+			}
 			</div>
 
 
