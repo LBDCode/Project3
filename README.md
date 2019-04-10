@@ -1,11 +1,8 @@
 # Recipedia | Recipe Finder & Meal Prep Manager
 
-**(Project Duration: 3wks)**
-
----
 
 Recipedia is a full-stack collaboration project that aims to make the process of
-finding recipes, planning meals, and grocery shopping easier.
+finding recipes, planning meals, and grocery shopping lists easier.
 
 A user signs up, searches for their favorite recipe, assigns it for dinner on
 Wednesday, and then sends themselves an automated list of the recipe's ingredients
@@ -38,9 +35,13 @@ Slick-Carousel Pkg
 ### Team Challenges
 
 Drag & Drop Functionality
+
 Material-UI
+
 Optimizing conditional components based on user state - Registered/Guest
+
 Sending Data from Child to Parent Components
+
 DRY Code
 
 ### Team Contributions
@@ -73,4 +74,4 @@ Front-end Folder Structuring, Edamam API
 
 ---
 
-#### created by David Padilla, Sara Austin, Ksenia Malysheva, Libby Duggan
+created by _David Padilla, Sara Austin, Ksenia Malysheva, Libby Duggan_
