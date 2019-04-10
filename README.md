@@ -41,8 +41,6 @@ Optimizing conditional components based on user state - Registered/Guest
 
 Sending Data from Child to Parent Components
 
-DRY Code
-
 ### Team Contributions
 
 **David Padilla**
