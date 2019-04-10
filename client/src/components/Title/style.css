@@ -1,0 +1,112 @@
+.title{
+  margin-bottom: 5px;
+  color: white !important;
+  font-family: Roboto !important;
+  font-weight: 400;
+  font-size: 25px !important;
+  letter-spacing: 0.05em;
+  text-align: center !important;
+}
+
+/* .dietOptions {
+  flex-direction: row !important;
+  display: flex !important;
+  overflow: auto;
+  border-radius: 5px;
+  padding: 0px 15px;
+  background: rgba(255, 255, 255, 0.85);
+  flex-wrap: wrap !important;
+  letter-spacing: 2px;
+}
+
+.gridFormatting {
+  width: 100% !important;
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  padding: 20px 0;
+}
+
+.gridCard {
+  display: flex;
+  justify-content: center;
+} */
+
+/* .searchbarPlacing {
+  display: flex;
+  flex-direction: column;
+}
+
+.allergyOptions {
+  flex-direction: row !important;
+  display: flex !important;
+  overflow: auto;
+  border-radius: 5px;
+  padding: 0px 15px;
+  background: rgba(255, 255, 255, 0.85);
+  flex-wrap: wrap !important;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+} */
+
+/* .searchBtn {
+  height: 34px !important;
+  margin-left: 15px !important;
+  background: rgb(100, 100, 100) !important;
+}
+
+.searchBtn:hover {
+  background: rgb(80, 80, 80) !important;
+} */
+
+.searchMenuBg {
+  background-image: url("../../images/recipediaPage.jpg");
+  filter: contrast(0.8);
+  background-size: cover
+}
+header {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+/* .noResultsFound {
+  text-align: center;
+  color: rgb(205, 205, 205);
+} */
+
+.formatDietOptions > span,
+.formatAllergyOptions > span {
+  color: rgb(100, 100, 100) !important;
+  padding: 5px;
+}
+
+.searchbarMarginFix {
+  margin-top: 10px;
+  letter-spacing: 0.05em;
+}
+
+/* .searchbarFlexFix {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.allergyMarginFix {
+  padding-top: 0 !important;
+} */
+
+/* @media (max-width: 959px) {
+  .dietOptionsMarginFix {
+    margin-top: 0;
+  }
+} */
+
+/* .moreResultsBtn {
+  display: block !important;
+  margin: auto !important;
+  font-size: 25px !important;
+  color: rgb(100, 100, 100) !important;
+  font-weight: 100 !important;
+  font-variant: all-petite-caps !important;
+  margin-bottom: 20px !important;
+} */

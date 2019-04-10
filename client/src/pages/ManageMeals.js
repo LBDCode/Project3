@@ -12,6 +12,7 @@ import API from "../utils/API";
 // import DashboardTable from "../components/DashboardTable";
 // import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
+import Title from "../components/Title";
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
 // import Switch from "@material-ui/core/Switch";
 import Firebase from "../config/Firebase";
@@ -42,9 +43,26 @@ const largeStyles = theme => ({
     color: "rgb(62, 65, 64)",
     fontFamily: "Dosis"
   },
+  subheader: {
+    textAlign: "left",
+    margin: "20px 10px",
+    color: "rgb(62, 65, 64)",
+    fontFamily: "Dosis",
+    fontSize: 16,
+  },
   paper: {
     width: 90,
     height: 90,
+    color: theme.palette.text.secondary,
+    // margin: 10,
+    justify: 'center',
+    margin: 'auto',
+    alignItems: 'space-around'
+  },
+  heading: {
+    width: 90,
+    height: 90,
+    backgroundColor: 'lightgray',
     color: theme.palette.text.secondary,
     // margin: 10,
     justify: 'center',
@@ -273,6 +291,7 @@ class ManageMeals extends Component {
     const { direction } = this.state;
 
     const days = [
+      "",
       "monday",
       "tuesday",
       "wednesday",
@@ -286,11 +305,14 @@ class ManageMeals extends Component {
     return (
         <>
         <Navbar />
-        <h1 className={classes.header}>Plan your Menu</h1>
+        <Title title="Recipedia Quickplanner"> Recipedia Quickplanner</Title>
+        {/* <h1 className={classes.header}>Recipedia Quickplanner</h1> */}
+        <h2 className={classes.subheader}>Choose recipes from your favorites and add them to your weekly menu!</h2>
         { this.state && this.state.mappedFavs &&
           <Carousel id="favorites" user={this.state.currentUser} list={this.state.mappedFavs}/>
         }
-        
+        {/* <h2 className={classes.subheader}>...and add them to your weekly menu!</h2> */}
+
         { this.state && this.state.newMenu &&
           <Grid container className={classes.root}>
           {days.map( day => {
@@ -303,12 +325,12 @@ class ManageMeals extends Component {
                   // if screen is large or tablet, this should be column, if small should be row
                   direction={direction}
                 >
-                {["breakfast", "lunch", "dinner"].map(value => (                
+                {[day, "breakfast", "lunch", "dinner"].map(value => (                
                     <Grid key={`${day}${value}`} item spacing={8}>
                       <Container
-                        className={classes.paper}
+                        className={(day !== "" && (value === "breakfast" || value === "lunch" || value === "dinner")) ? classes.paper: classes.heading}
                         id={`${day}${value}`}
-                        list={[this.state.newMenu[day][value]]}
+                        list={(day !== "" && (value === "breakfast" || value === "lunch" || value === "dinner")) ? [this.state.newMenu[day][value]] : [{id:"header", day:{day}, meal:{value}}]}
                         user={this.state.currentUser}
                         // saveMeal={this.saveMeal}
                       >

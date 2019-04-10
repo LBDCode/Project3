@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import API from "../utils/API";
 import DashboardTable from "../components/DashboardTable";
 import SingleRecipe from "../components/SingleRecipe";
+import Title from "../components/Title";
 import Navbar from "../components/Navbar/index";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
@@ -358,7 +359,9 @@ class Dashboard extends Component {
     return (
       <>
         <Navbar />
-        <h1 style={styles().header}>Prep info for a week</h1>
+        <Title title="Recipedia Dashboard"> Recipedia Dashboard</Title>
+
+        {/* <h1 style={styles().header}>Recipedia Dashboard</h1> */}
         {this.state.db ? (
           <DashboardTable
             monday={this.state.monday}
