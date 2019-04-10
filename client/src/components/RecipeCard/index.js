@@ -15,11 +15,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+// import InputLabel from "@material-ui/core/InputLabel";
+// import Input from "@material-ui/core/Input";
+// import MenuItem from "@material-ui/core/MenuItem";
+// import FormControl from "@material-ui/core/FormControl";
+// import Select from "@material-ui/core/Select";
 import ReactCardFlip from "react-card-flip";
 import Firebase from "../../config/Firebase";
 import "./style.css";
@@ -107,7 +107,7 @@ class RecipeReviewCard extends Component {
 
   state = {
     open: false,
-    day: "",
+    day: "M",
     meal: "",
     isFlipped: false,
     isAnonymous: false
@@ -152,6 +152,91 @@ class RecipeReviewCard extends Component {
     }
   };
 
+  convertDay(original) {
+    var newDay;
+    switch (original) {
+      case "M":
+        newDay = "monday";
+        break;
+      case "T":
+        newDay = "tuesday";
+        break;
+      case "W":
+        newDay = "wednesday";
+        break;
+      case "TH":
+        newDay = "thursday";
+        break;
+      case "F":
+        newDay = "friday";
+        break;
+      case "S":
+        newDay = "saturday";
+        break;
+      case "SU":
+        newDay = "sunday";
+        break;
+    }
+    console.log(newDay);
+    return newDay;
+  }
+
+  handleDayPick = day => {
+    let newDay = this.convertDay(day);
+    console.log(newDay);
+    this.setState({ day: newDay });
+    console.log("meal" + this.state.day);
+  };
+
+  handleMealPick = meal => {
+    this.setState({ meal });
+  };
+
+  renderDayFunction = () => {
+    const days = ["M", "T", "W", "TH", "F", "S", "SU"];
+    const fullDays = [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday"
+    ];
+    return days.map((day, i) => {
+      const color =
+        this.state.day === fullDays[i] ? "#4a4848" : "rgb(192, 187, 187)";
+      return (
+        <Avatar
+          style={{ backgroundColor: color }}
+          key={day}
+          onClick={() => {
+            console.log("hello");
+            this.handleDayPick(day);
+          }}
+        >
+          {day}
+        </Avatar>
+      );
+    });
+  };
+
+  renderMealFunction = () => {
+    const meals = ["breakfast", "lunch", "dinner"];
+    return meals.map(meal => {
+      const color = this.state.meal === meal ? "#4a4848" : "rgb(192, 187, 187)";
+      return (
+        <Button
+          style={{ backgroundColor: color }}
+          key={meal}
+          onClick={() => this.handleMealPick(meal)}
+        >
+          {meal.toUpperCase()}
+        </Button>
+      );
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const nutritionValue = this.props.recipeInfo.recipe.totalNutrients;
@@ -169,7 +254,7 @@ class RecipeReviewCard extends Component {
             <CardHeader
               className={classes.header}
               avatar={
-                <Avatar aria-label="Recipe" className={classes.avatar}>
+                <Avatar aria-label="Recipe" className="days">
                   R
                 </Avatar>
               }
@@ -360,79 +445,47 @@ class RecipeReviewCard extends Component {
             >
               <ShareIcon />
             </IconButton>
+            <Button
+              variant="outlined"
+              color="default"
+              onClick={this.handleCardFlip}
+              className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
+            >
+              Nutrition Facts
+            </Button>
+            <Dialog
+              disableBackdropClick
+              disableEscapeKeyDown
+              open={this.state.open}
+              onClose={this.handleClose}
+            >
+              <DialogTitle className="addTo">Add To Weekly Menu:</DialogTitle>
+              <DialogContent className="main">
+                <div className="pickContainer">
+                  <div className="pickCenter">{this.renderDayFunction()}</div>
+                  <div className="pickCenter">{this.renderMealFunction()}</div>
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} className="btn-title">
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    this.props.saveMeal(
+                      this.state.day,
+                      this.state.meal,
+                      this.props.recipeInfo
+                    );
+                    this.handleClose();
+                  }}
+                  className="btn-title"
+                >
+                  Ok
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
-          <Button
-            variant="outlined"
-            color="default"
-            onClick={this.handleCardFlip}
-            className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
-            style={this.state.isAnonymous ? { right: "20.5%" } : { right: 0 }}
-          >
-            Nutrition Facts
-          </Button>
-          <Dialog
-            disableBackdropClick
-            disableEscapeKeyDown
-            open={this.state.open}
-            onClose={this.handleClose}
-          >
-            <DialogTitle>Add this meal to your weekly menu</DialogTitle>
-            <DialogContent>
-              <form className={classes.container}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="day-native-simple">Day</InputLabel>
-                  <Select
-                    native
-                    value={this.state.day}
-                    onChange={this.handleChange("day")}
-                    input={<Input id="day-native-simple" />}
-                  >
-                    <option value="" />
-                    <option value="monday">Monday</option>
-                    <option value="tuesday">Tuesday</option>
-                    <option value="wednesday">Wednesday</option>
-                    <option value="thursday">Thursday</option>
-                    <option value="friday">Friday</option>
-                    <option value="saturday">Saturday</option>
-                    <option value="sunday">Sunday</option>
-                  </Select>
-                </FormControl>
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="meal-simple">Meal</InputLabel>
-                  <Select
-                    value={this.state.meal}
-                    onChange={this.handleChange("meal")}
-                    input={<Input id="meal-simple" />}
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value="breakfast">Breakfast</MenuItem>
-                    <MenuItem value="lunch">Lunch</MenuItem>
-                    <MenuItem value="dinner">Dinner</MenuItem>
-                  </Select>
-                </FormControl>
-              </form>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button
-                onClick={() => {
-                  this.props.saveMeal(
-                    this.state.day,
-                    this.state.meal,
-                    this.props.recipeInfo
-                  );
-                  this.handleClose();
-                }}
-                color="primary"
-              >
-                Ok
-              </Button>
-            </DialogActions>
-          </Dialog>
         </CardActions>
       </Card>
     );

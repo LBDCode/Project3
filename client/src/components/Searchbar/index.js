@@ -398,6 +398,8 @@ class SearchAppBar extends Component {
   };
 
   handleMealSave = (day, meal, recipe) => {
+    console.log(day, meal);
+    console.log(recipe);
     this.getAll(this.state.currentUser);
     let newMeal = this.formatRecipe(recipe);
     let curMenu = { ...this.state.menu };
