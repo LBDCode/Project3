@@ -2,7 +2,7 @@
 
 
 Recipedia is a full-stack collaboration project that aims to make the process of
-finding recipes, planning meals, and grocery shopping easier.
+finding recipes, planning meals, and grocery shopping lists easier.
 
 A user signs up, searches for their favorite recipe, assigns it for dinner on
 Wednesday, and then sends themselves an automated list of the recipe's ingredients
@@ -48,21 +48,21 @@ DRY Code
 
 **David Padilla**
 
-- Firebase Authentication (Registration & Anonymous),
+Firebase Authentication (Registration & Anonymous),
 Recipedia Search Page, 404 Page
 
 **Sara Austin**
 
-- Recipedia Recipe Page, Landing Page
+Recipedia Recipe Page, Landing Page
 
 **Ksenia Malysheva**
 
-- Recipedia Dashboard, Twilio, Nodemailer,
+Recipedia Dashboard, Twilio, Nodemailer,
 Back-end Folder Structuring (Controller, Routing, MongoDB Models)
 
 **Libby Duggan**
 
-- Recipedia Quick Planner, Drag & Drop Functionality, AWS Hosting (EC2),
+Recipedia Quick Planner, Drag & Drop Functionality, AWS Hosting (EC2),
 Front-end Folder Structuring, Edamam API
 
 ### Future Features (had more developmental time been given)
