@@ -82,3 +82,19 @@
   cursor: pointer;
   filter: contrast(1);
 }
+.pickCenter {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 20px 0px;
+}
+.main {
+  padding-bottom: 0px !important;
+  width: 300px;
+}
+.pickContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+}
