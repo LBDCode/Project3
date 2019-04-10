@@ -380,7 +380,7 @@ class Dashboard extends Component {
           <div style={styles().smallCardsWr}>
             <Paper style={styles().card}>
               <h5>
-                Expected total prep time for the week:
+                Total Meal Prep Time:
                 <p>
                   <span>
                     <i style={styles().i} class="fas fa-clock" />
@@ -391,7 +391,7 @@ class Dashboard extends Component {
             </Paper>
             <Paper style={styles().card}>
               <h5>
-                Total meals for this week{" "}
+                Total Weekly Meals
                 <p>
                   <span>
                     <i style={styles().i} class="fas fa-hamburger" />
@@ -429,7 +429,7 @@ class Dashboard extends Component {
                 })}
             </ul>
             <div style={styles().textWr}>
-              <h4 style={styles().header}>Ingredient list for all the meals</h4>
+              <h4 style={styles().header}>Ingredient list for all meals</h4>
               <p>
                 Here you can customize your shopping list, check items that you
                 have in your pantry

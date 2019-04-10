@@ -1,6 +1,5 @@
 # Recipedia | Recipe Finder & Meal Prep Manager
 
-
 Recipedia is a full-stack collaboration project that aims to make the process of
 finding recipes, planning meals, and grocery shopping lists easier.
 
@@ -41,8 +40,6 @@ Material-UI
 Optimizing conditional components based on user state - Registered/Guest
 
 Sending Data from Child to Parent Components
-
-DRY Code
 
 ### Team Contributions
 

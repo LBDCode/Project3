@@ -48,6 +48,9 @@ const styles = theme => ({
   },
   drawerFix: {
     outline: "none !important"
+  },
+  allergyCustom: {
+    marginBottom: "7px"
   }
 });
 
@@ -210,7 +213,12 @@ class TemporaryDrawer extends Component {
         <List>
           <div className={classes.root}>
             <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend" className={classes.labelSpacing}>
+              <FormLabel
+                component="legend"
+                className={[classes.labelSpacing, classes.allergyCustom].join(
+                  " "
+                )}
+              >
                 Food Allergies
               </FormLabel>
               <FormGroup>
