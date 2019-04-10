@@ -1,8 +1,5 @@
 # Recipedia | Recipe Finder & Meal Prep Manager
 
-**(Project Duration: 3wks)**
-
----
 
 Recipedia is a full-stack collaboration project that aims to make the process of
 finding recipes, planning meals, and grocery shopping easier.
@@ -38,30 +35,34 @@ Slick-Carousel Pkg
 ### Team Challenges
 
 Drag & Drop Functionality
+
 Material-UI
+
 Optimizing conditional components based on user state - Registered/Guest
+
 Sending Data from Child to Parent Components
+
 DRY Code
 
 ### Team Contributions
 
 **David Padilla**
 
-Firebase Authentication (Registration & Anonymous),
+- Firebase Authentication (Registration & Anonymous),
 Recipedia Search Page, 404 Page
 
 **Sara Austin**
 
-Recipedia Recipe Page, Landing Page
+- Recipedia Recipe Page, Landing Page
 
 **Ksenia Malysheva**
 
-Recipedia Dashboard, Twilio, Nodemailer,
+- Recipedia Dashboard, Twilio, Nodemailer,
 Back-end Folder Structuring (Controller, Routing, MongoDB Models)
 
 **Libby Duggan**
 
-Recipedia Quick Planner, Drag & Drop Functionality, AWS Hosting (EC2),
+- Recipedia Quick Planner, Drag & Drop Functionality, AWS Hosting (EC2),
 Front-end Folder Structuring, Edamam API
 
 ### Future Features (had more developmental time been given)
@@ -73,4 +74,4 @@ Front-end Folder Structuring, Edamam API
 
 ---
 
-#### created by David Padilla, Sara Austin, Ksenia Malysheva, Libby Duggan
+created by _David Padilla, Sara Austin, Ksenia Malysheva, Libby Duggan_
