@@ -1,25 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-// import TableRow from "@material-ui/core/TableRow";
-// import TableCell from "@material-ui/core/TableCell";
-// import Checkbox from "@material-ui/core/Checkbox";
-// import TextField from "@material-ui/core/TextField";
 import Grid from '@material-ui/core/Grid';
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 import API from "../utils/API";
-// import DashboardTable from "../components/DashboardTable";
-// import SingleRecipe from "../components/SingleRecipe";
 import Navbar from "../components/Navbar/index";
 import Title from "../components/Title";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Switch from "@material-ui/core/Switch";
 import Firebase from "../config/Firebase";
-// import Swal from "sweetalert2";
 import Carousel from "../components/CarouselTwo";
 import Container from "../components/DropTargetTwo";
-// import MealGrid from "../components/MealGrid";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";
 

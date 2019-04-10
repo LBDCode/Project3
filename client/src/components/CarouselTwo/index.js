@@ -62,7 +62,7 @@ class CarouselTwo extends Component {
 
 	render() {
 		const { cards } = this.state;
-		const { canDrop, isOver, connectDropTarget } = this.props;
+		const { connectDropTarget } = this.props;
 		// const isActive = canDrop && isOver;
 		const style = {
 			width: "90%",
