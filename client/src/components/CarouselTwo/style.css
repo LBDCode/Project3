@@ -9,6 +9,12 @@
     padding: 10px;
 }
 
+.noFavorites {
+    margin-left: -5px;
+    text-align: center;
+    color: rgb(205, 205, 205);
+  }
+
 .slick-track {
     max-height: 120px;
 }

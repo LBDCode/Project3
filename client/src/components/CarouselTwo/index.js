@@ -120,7 +120,7 @@ class CarouselTwo extends Component {
 	
 		return connectDropTarget ( 
 			<div style={{...style}}>
-			{cards.length === 0 ? <h1>Add some favorites to get started.</h1>
+			{cards.length === 0 ? <h1 className="noFavorites">Add Some Favorites To Get Started</h1>
 				:
 				<Slider {...settings}>
 				{cards.map((card, i) => {

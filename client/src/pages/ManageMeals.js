@@ -313,7 +313,6 @@ class ManageMeals extends Component {
       "saturday",
       "sunday"
     ];
-    const meals = ["breakfast", "lunch", "dinner"];
 
     return (
         <>
