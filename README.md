@@ -5,7 +5,7 @@
 ---
 
 Recipedia is a full-stack collaboration project that aims to make the process of
-finding recipes, planning meals, and grocery shopping easier.
+finding recipes, planning meals, and grocery shopping lists easier.
 
 A user signs up, searches for their favorite recipe, assigns it for dinner on
 Wednesday, and then sends themselves an automated list of the recipe's ingredients
