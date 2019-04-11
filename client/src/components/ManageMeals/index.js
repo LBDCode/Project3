@@ -18,6 +18,7 @@ import Grid from '@material-ui/core/Grid';
 // import Swal from "sweetalert2";
 // import Carousel from "../components/Carousel";
 import Container from "../DropTargetTwo";
+import Title from "../Title";
 // import MealGrid from "../components/MealGrid";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContext } from "react-dnd";

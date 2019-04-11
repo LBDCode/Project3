@@ -3,6 +3,8 @@ import update from 'immutability-helper';
 import Card from '../CarouselCard';
 import { DropTarget } from 'react-dnd';
 import API from "../../utils/API";
+import "./style.css";
+
 
 
 class Container extends Component {
@@ -11,6 +13,8 @@ class Container extends Component {
 		super(props);		
 		this.state = { cards: props.list };
 	}
+
+	// shouldComponentUpdate()
 
 	pushCard(card) {
 		this.setState(update(this.state, {
@@ -32,9 +36,13 @@ class Container extends Component {
 
 	saveMeal(day, meal, obj, user) {
 		API.updateMeal(user, day, meal, obj)
-		.then(res => console.log("saved")
-		)
+		// .then(res => console.log(this.state)
+		// )
 		.catch(err => console.log(err));
+	};
+
+	showOptions() {
+		console.log("hi");
 	};
 
 	moveCard(dragIndex, hoverIndex) {
@@ -54,18 +62,26 @@ class Container extends Component {
 	render() {
 		const { cards } = this.state;
 		const { canDrop, isOver, connectDropTarget } = this.props;
+		const listID  = this.props.id.split("-");
+		const type = listID[0];
+		const lable = listID[2];
 		const isActive = canDrop && isOver;
 		const style = {
-			width: "90px",
-			height: "90px",
+			width: "85px",
+			height: "85px",
 			textAlign: 'center',
 			border: '1px dashed gray'
 		};
 
-		const backgroundColor = isActive ? 'lightgreen' : '#FFF';
+		const backgroundColor = isActive ? 'lightgray' : '#FFF';
 
 		return connectDropTarget(
+			<div>
+			{type === "header" ?
+			<div className="gridHeader" >{lable}</div>
+			:
 			<div style={{...style, backgroundColor}}>
+
 				{cards.map((card, i) => {
 					return (
 						<Card
@@ -74,11 +90,17 @@ class Container extends Component {
 							listId={this.props.id}
 							card={card}	
 							user={this.props.user}
+							showOptions={this.showOptions}
 							saveMeal={this.saveMeal}
 							removeCard={this.removeCard.bind(this)}
 							moveCard={this.moveCard.bind(this)} />
 					)
 				})}
+
+				
+			</div>
+
+			}
 			</div>
 		);
   }
@@ -86,11 +108,12 @@ class Container extends Component {
 
 const cardTarget = {
 	drop(props, monitor, component ) {
-		const { id } = props;
+		const { id, list } = props;
 		const sourceObj = monitor.getItem();		
 		if ( id !== sourceObj.listId ) component.pushCard(sourceObj.card);
 		return {
-			listId: id
+			listId: id,
+			list: list
 		};
 	}
 }

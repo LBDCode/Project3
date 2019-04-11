@@ -1,0 +1,16 @@
+.gridHeader{
+    width: 85px;
+    height: 40px;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    text-align: center;
+    border: 1px solid rgb(62, 65, 64);
+    color: rgba(248, 248, 248, 0.87);
+    background-color: rgb(62, 65, 64);
+    opacity: .6;
+    /* letter-spacing: 0.05em; */
+    font-family: Roboto !important;
+};
+
+
+
