@@ -4,6 +4,7 @@
   padding: 5px;
   margin: 120px auto 20px auto;
   font-family: "Dosis", sans-serif;
+  margin-bottom: 70px;
 }
 .dashboardRecepe > div {
   align-items: center;
@@ -12,7 +13,7 @@
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  border: 6px solid rgb(62, 65, 64);
+  border: 6px solid rgb(137, 176, 163);
   position: absolute;
   top: -250px;
   margin: 0 auto;

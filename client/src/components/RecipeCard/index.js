@@ -227,7 +227,7 @@ class RecipeReviewCard extends Component {
       const color = this.state.meal === meal ? "#4a4848" : "rgb(192, 187, 187)";
       return (
         <Button
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: color, color: "white" }}
           key={meal}
           onClick={() => this.handleMealPick(meal)}
         >
@@ -254,7 +254,7 @@ class RecipeReviewCard extends Component {
             <CardHeader
               className={classes.header}
               avatar={
-                <Avatar aria-label="Recipe" className="days">
+                <Avatar aria-label="Recipe" className={classes.avatar}>
                   R
                 </Avatar>
               }
