@@ -78,8 +78,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   cardFlipIcon: {
-    position: "absolute",
-    right: "3%"
+    position: "absolute"
   },
   nutritionBtn: {
     margin: theme.spacing.unit,
@@ -227,7 +226,7 @@ class RecipeReviewCard extends Component {
       const color = this.state.meal === meal ? "#4a4848" : "rgb(192, 187, 187)";
       return (
         <Button
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: color, color: "white" }}
           key={meal}
           onClick={() => this.handleMealPick(meal)}
         >
@@ -254,7 +253,7 @@ class RecipeReviewCard extends Component {
             <CardHeader
               className={classes.header}
               avatar={
-                <Avatar aria-label="Recipe" className="days">
+                <Avatar aria-label="Recipe" className={classes.avatar}>
                   R
                 </Avatar>
               }
@@ -445,14 +444,6 @@ class RecipeReviewCard extends Component {
             >
               <ShareIcon />
             </IconButton>
-            <Button
-              variant="outlined"
-              color="default"
-              onClick={this.handleCardFlip}
-              className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
-            >
-              Nutrition Facts
-            </Button>
             <Dialog
               disableBackdropClick
               disableEscapeKeyDown
@@ -486,6 +477,17 @@ class RecipeReviewCard extends Component {
               </DialogActions>
             </Dialog>
           </div>
+          <Button
+            variant="outlined"
+            color="default"
+            onClick={this.handleCardFlip}
+            className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
+            style={
+              this.state.isAnonymous ? { right: "20.5%" } : { right: "3%" }
+            }
+          >
+            Nutrition Facts
+          </Button>
         </CardActions>
       </Card>
     );

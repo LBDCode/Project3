@@ -98,3 +98,7 @@
   justify-content: space-evenly;
   height: 100%;
 }
+
+.addTo h2 {
+  font-weight: 100;
+}

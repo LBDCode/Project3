@@ -65,10 +65,16 @@ let midStyles = {
   },
   i: {
     fontSize: "30px",
-    marginRight: "5px"
+    marginRight: "5px",
+    color: "rgb(62, 65, 64)"
   },
   header: {
     textAlign: "center",
+    color: "rgb(62, 65, 64)",
+    fontFamily: "Dosis"
+  },
+  leftAlignFix: {
+    textAlign: "left",
     color: "rgb(62, 65, 64)",
     fontFamily: "Dosis"
   },
@@ -76,6 +82,13 @@ let midStyles = {
     width: "90%",
     color: "grey",
     textAlign: "center",
+    borderBottom: "1px solid #8080801f",
+    padding: "20px"
+  },
+  textWrFix: {
+    width: "90%",
+    color: "grey",
+    textAlign: "left!important",
     borderBottom: "1px solid #8080801f",
     padding: "20px"
   },
@@ -137,13 +150,14 @@ let maxStyles = {
   },
   i: {
     fontSize: "30px",
-    marginRight: "5px"
+    marginRight: "5px",
+    color: "rgb(62, 65, 64)"
   },
-  textWr: {
+  textWrFix: {
     width: "30%",
     color: "grey",
     marginLeft: "80px",
-    textAlign: "center",
+    textAlign: "left",
     borderLeft: "1px solid #8080801f",
     paddingLeft: "20px"
   },
@@ -214,7 +228,7 @@ class Dashboard extends Component {
     }
     let hours = Math.floor(time / 60);
     let minutes = time % 60;
-    let total = hours + " hr" + minutes + " min";
+    let total = hours + " hr " + minutes + " min";
     return total;
   }
   getMeals(data) {
@@ -431,8 +445,8 @@ class Dashboard extends Component {
                   );
                 })}
             </ul>
-            <div style={styles().textWr}>
-              <h4 style={styles().header}>Ingredient list for all meals</h4>
+            <div style={styles().textWrFix}>
+              <h4 style={styles().leftAlignFix}>Total Ingredient List</h4>
               <p>
                 Here you can customize your shopping list, check items that you
                 have in your pantry
