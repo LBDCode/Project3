@@ -48,8 +48,9 @@
   margin-bottom: 20px;
 }
 
-.swal2-container {
-  z-index: 1301;
+.swal2-container,
+.swal2-popup {
+  z-index: 1301 !important;
 }
 
 .navbarBG {

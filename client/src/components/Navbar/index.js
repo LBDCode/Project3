@@ -8,7 +8,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import RecipeSearchIcon from "@material-ui/icons/ImageSearch";
 import DashboardIcon from "@material-ui/icons/TableChart";
-import QuickPlannerIcon from "@material-ui/icons/Dashboard"
+import QuickPlannerIcon from "@material-ui/icons/Dashboard";
 import SignUpIcon from "@material-ui/icons/PersonAdd";
 import { Link } from "react-router-dom";
 import UserOptions from "./Sidebar/UserOptions";
@@ -232,9 +232,7 @@ class ButtonAppBar extends Component {
         console.log("Sign Up Preferences: ", values);
 
         API.postUserPreferences(values)
-          .then(response =>
-            console.log("User Preferences were saved to MongoDB")
-          )
+          .then(response => this.props.triggerPrefUpdate())
           .catch(err => console.log(err));
 
         this.closeSignUpTab();
