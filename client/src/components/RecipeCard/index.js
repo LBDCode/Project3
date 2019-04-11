@@ -78,8 +78,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   cardFlipIcon: {
-    position: "absolute",
-    right: "3%"
+    position: "absolute"
   },
   nutritionBtn: {
     margin: theme.spacing.unit,
@@ -445,14 +444,6 @@ class RecipeReviewCard extends Component {
             >
               <ShareIcon />
             </IconButton>
-            <Button
-              variant="outlined"
-              color="default"
-              onClick={this.handleCardFlip}
-              className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
-            >
-              Nutrition Facts
-            </Button>
             <Dialog
               disableBackdropClick
               disableEscapeKeyDown
@@ -486,6 +477,17 @@ class RecipeReviewCard extends Component {
               </DialogActions>
             </Dialog>
           </div>
+          <Button
+            variant="outlined"
+            color="default"
+            onClick={this.handleCardFlip}
+            className={[classes.nutritionBtn, classes.cardFlipIcon].join(" ")}
+            style={
+              this.state.isAnonymous ? { right: "20.5%" } : { right: "3%" }
+            }
+          >
+            Nutrition Facts
+          </Button>
         </CardActions>
       </Card>
     );
