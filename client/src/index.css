@@ -12,3 +12,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.swal2-container,
+.swal2-popup {
+  z-index: 1301 !important;
+}
+
+.bg-header > h1 {
+  width: 100% !important;
+  padding-bottom: 0 !important;
+}
+
+.card-img {
+  border: 6px solid rgb(62, 65, 64) !important;
+}
