@@ -228,7 +228,7 @@ class Dashboard extends Component {
     }
     let hours = Math.floor(time / 60);
     let minutes = time % 60;
-    let total = hours + " hr" + minutes + " min";
+    let total = hours + " hr " + minutes + " min";
     return total;
   }
   getMeals(data) {
