@@ -43,6 +43,11 @@ Sending Data from Child to Parent Components
 
 ### Team Contributions
 
+**Libby Duggan**
+
+Recipedia Quick Planner, Drag & Drop Functionality, AWS Hosting (EC2) and deployment,
+Front-end Folder Structuring, Edamam API
+
 **David Padilla**
 
 Firebase Authentication (Registration & Anonymous),
@@ -57,10 +62,7 @@ Recipedia Recipe Page, Landing Page
 Recipedia Dashboard, Twilio, Nodemailer,
 Back-end Folder Structuring (Controller, Routing, MongoDB Models)
 
-**Libby Duggan**
 
-Recipedia Quick Planner, Drag & Drop Functionality, AWS Hosting (EC2),
-Front-end Folder Structuring, Edamam API
 
 ### Future Features (had more developmental time been given)
 
