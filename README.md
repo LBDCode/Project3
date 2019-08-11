@@ -28,7 +28,7 @@ HTML5, CSS3, Javascript, Material-UI, React, Google Fonts,
 Font Awesome 5, SweetAlert2, Node.js, Express, MongoDB,
 Mongoose, Twilio, React-DnD, Dotenv, Firebase Authentication,
 Hosting on EC2 on an Ubuntu 16.04 (Xenial Xerus) server using Nginx,
-PM2, Firebase Authentication, Nodemailer, Card-Flip React Pkg,
+PM2, Nodemailer, Card-Flip React Pkg,
 Slick-Carousel Pkg
 
 ### Team Challenges
